@@ -53,5 +53,17 @@ export const _MSTOperations = {
 	MSTStringOperationLines (inputData) {
 		return inputData.split('\n');
 	},
+	
+	MSTStringOperationMatch (param1, param2) {
+		if (typeof param1 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (!(param2 instanceof RegExp)) {
+			throw new Error('MSTErrorInputNotValid');
+		};
+
+		return !!param1.match(param2);
+	},
 
 };

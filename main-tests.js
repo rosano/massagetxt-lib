@@ -98,6 +98,30 @@ describe('MSTStringOperationLines', function testMSTStringOperationLines () {
 
 });
 
+describe('MSTStringOperationMatch', function testMSTStringOperationMatch () {
+	
+	it('throws if param1 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringOperationMatch(null, '');
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not RegExp', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringOperationMatch('', null);
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('returns false if no match', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringOperationMatch('alfa', /bravo/), false);
+	});
+
+	it('returns true if no match', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringOperationMatch('alfa', /alfa/), true);
+	});
+
+});
+
 describe('MSTArrayOperationLast', function testMSTArrayOperationLast () {
 	
 	it('returns undefined if none', function () {
