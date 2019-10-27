@@ -32,9 +32,7 @@ export const MSTMassageOperations = function (inputData) {
 		if (e === 'lines') {
 			return {
 				MSTOperationInputType: 'String',
-				MSTOperationCallback (inputData) {
-					return inputData.split('\n');
-				},
+				MSTOperationCallback: _MSTOperations.MSTStringOperationLines,
 			}
 		};
 
@@ -47,7 +45,13 @@ export const MSTMassageOperations = function (inputData) {
 };
 
 export const _MSTOperations = {
+	
 	MSTArrayOperationLast (inputData) {
 		return inputData.slice(-1).pop();
 	},
+	
+	MSTStringOperationLines (inputData) {
+		return inputData.split('\n');
+	},
+
 }

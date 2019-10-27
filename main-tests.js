@@ -60,12 +60,8 @@ describe('MSTMassageOperations', function testMSTMassageOperations() {
 			deepEqual(item.MSTOperationInputType, 'String');
 		});
 
-		describe('MSTOperationCallback', function () {
-			
-			it('returns array', function () {
-				deepEqual(item.MSTOperationCallback('alfa\nbravo'), ['alfa', 'bravo'])
-			});
-		
+		it('sets MSTOperationCallback', function () {
+			deepEqual(item.MSTOperationCallback, mainModule._MSTOperations.MSTStringOperationLines);
 		});
 	
 	});
@@ -86,6 +82,18 @@ describe('MSTMassageOperations', function testMSTMassageOperations() {
 			deepEqual(item.MSTOperationCallback, mainModule._MSTOperations.MSTArrayOperationLast);
 		});
 	
+	});
+
+});
+
+describe('MSTStringOperationLines', function testMSTStringOperationLines () {
+	
+	it('returns single if none', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringOperationLines(''), [''])
+	});
+
+	it('returns multiple if newline', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringOperationLines('alfa\nbravo'), ['alfa', 'bravo'])
 	});
 
 });
