@@ -25,10 +25,8 @@ export const MSTMassageOperations = function (inputData) {
 		if (e === 'last') {
 			return {
 				MSTOperationInputType: 'Array',
-				MSTOperationCallback (inputData) {
-					return inputData.slice(-1).pop();
-				},
-			}
+				MSTOperationCallback: _MSTOperations.MSTArrayOperationLast,
+			};
 		};
 
 		if (e === 'lines') {
@@ -47,3 +45,9 @@ export const MSTMassageOperations = function (inputData) {
 		};
 	});
 };
+
+export const _MSTOperations = {
+	MSTArrayOperationLast (inputData) {
+		return inputData.slice(-1).pop();
+	},
+}

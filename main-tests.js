@@ -60,7 +60,7 @@ describe('MSTMassageOperations', function testMSTMassageOperations() {
 			deepEqual(item.MSTOperationInputType, 'String');
 		});
 
-		context('MSTOperationCallback', function () {
+		describe('MSTOperationCallback', function () {
 			
 			it('returns array', function () {
 				deepEqual(item.MSTOperationCallback('alfa\nbravo'), ['alfa', 'bravo'])
@@ -82,14 +82,22 @@ describe('MSTMassageOperations', function testMSTMassageOperations() {
 			deepEqual(item.MSTOperationInputType, 'Array');
 		});
 
-		context('MSTOperationCallback', function () {
-			
-			it('returns array', function () {
-				deepEqual(item.MSTOperationCallback(['alfa', 'bravo']), 'bravo')
-			});
-		
+		it('sets MSTOperationCallback', function () {
+			deepEqual(item.MSTOperationCallback, mainModule._MSTOperations.MSTArrayOperationLast);
 		});
 	
+	});
+
+});
+
+describe('MSTArrayOperationLast', function testMSTArrayOperationLast () {
+	
+	it('returns undefined if none', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayOperationLast([]), undefined)
+	});
+	
+	it('returns last item', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayOperationLast(['alfa', 'bravo']), 'bravo')
 	});
 
 });
