@@ -19,7 +19,7 @@ export const MSTMassageOperations = function (inputData) {
 
 	if (!inputData) {
 		return [];
-	};
+	}
 
 	return inputData.split('.').map(function (e) {
 		if (e === 'last') {
@@ -27,14 +27,14 @@ export const MSTMassageOperations = function (inputData) {
 				MSTOperationInputType: 'Array',
 				MSTOperationCallback: _MSTOperations.MSTArrayOperationLast,
 			};
-		};
+		}
 
 		if (e === 'lines') {
 			return {
 				MSTOperationInputType: 'String',
 				MSTOperationCallback: _MSTOperations.MSTStringOperationLines,
-			}
-		};
+			};
+		}
 
 		return {
 			MSTOperationCallback (inputData) {
@@ -54,4 +54,4 @@ export const _MSTOperations = {
 		return inputData.split('\n');
 	},
 
-}
+};

@@ -43,7 +43,7 @@ describe('MSTMassageOperations', function testMSTMassageOperations() {
 		const item = mainModule.MSTMassageOperations('root').shift();
 		
 		it('returns object', function () {
-			deepEqual(typeof item, 'object')
+			deepEqual(typeof item, 'object');
 		});
 	
 	});
@@ -53,7 +53,7 @@ describe('MSTMassageOperations', function testMSTMassageOperations() {
 		const item = mainModule.MSTMassageOperations('lines').shift();
 		
 		it('returns object', function () {
-			deepEqual(typeof item, 'object')
+			deepEqual(typeof item, 'object');
 		});
 
 		it('sets MSTOperationInputType', function () {
@@ -71,7 +71,7 @@ describe('MSTMassageOperations', function testMSTMassageOperations() {
 		const item = mainModule.MSTMassageOperations('last').shift();
 		
 		it('returns object', function () {
-			deepEqual(typeof item, 'object')
+			deepEqual(typeof item, 'object');
 		});
 
 		it('sets MSTOperationInputType', function () {
@@ -89,11 +89,11 @@ describe('MSTMassageOperations', function testMSTMassageOperations() {
 describe('MSTStringOperationLines', function testMSTStringOperationLines () {
 	
 	it('returns single if none', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringOperationLines(''), [''])
+		deepEqual(mainModule._MSTOperations.MSTStringOperationLines(''), ['']);
 	});
 
 	it('returns multiple if newline', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringOperationLines('alfa\nbravo'), ['alfa', 'bravo'])
+		deepEqual(mainModule._MSTOperations.MSTStringOperationLines('alfa\nbravo'), ['alfa', 'bravo']);
 	});
 
 });
@@ -101,11 +101,11 @@ describe('MSTStringOperationLines', function testMSTStringOperationLines () {
 describe('MSTArrayOperationLast', function testMSTArrayOperationLast () {
 	
 	it('returns undefined if none', function () {
-		deepEqual(mainModule._MSTOperations.MSTArrayOperationLast([]), undefined)
+		deepEqual(mainModule._MSTOperations.MSTArrayOperationLast([]), undefined);
 	});
 	
 	it('returns last item', function () {
-		deepEqual(mainModule._MSTOperations.MSTArrayOperationLast(['alfa', 'bravo']), 'bravo')
+		deepEqual(mainModule._MSTOperations.MSTArrayOperationLast(['alfa', 'bravo']), 'bravo');
 	});
 
 });
