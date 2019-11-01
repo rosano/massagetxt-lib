@@ -30,7 +30,7 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 
 	it('returns array', function () {
 		deepEqual(mainModule.__MSTMassageOperations(), [{
-			MSTOperationPattern: /^\$input$/,
+			MSTOperationPattern: /^\$?input$/,
 			MSTOperationCallback: mainModule._MSTOperations._MSTBypass
 		}, {
 			MSTOperationPattern: /^lines$/,

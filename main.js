@@ -54,7 +54,7 @@ export const _MSTMassageOperations = function (inputData) {
 
 export const __MSTMassageOperations = function () {
 	return [{
-		MSTOperationPattern: /^\$input$/,
+		MSTOperationPattern: /^\$?input$/,
 		MSTOperationCallback: _MSTOperations._MSTBypass
 	}, {
 		MSTOperationPattern: /^lines$/,
