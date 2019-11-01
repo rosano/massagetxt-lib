@@ -112,6 +112,10 @@ export const __MSTMassageOperations = function () {
 		MSTOperationPattern: /^unique$/,
 		MSTOperationInputTypes: 'Array',
 		MSTOperationCallback: _MSTOperations.MSTArrayUnique,
+	}, {
+		MSTOperationPattern: /^isMatch\(\/([^]+)\/(\w)?\)$/,
+		MSTOperationInputTypes: 'Array,Regex',
+		MSTOperationCallback: _MSTOperations.MSTArrayIsMatch,
 	}];
 };
 
@@ -245,6 +249,20 @@ export const _MSTOperations = {
 		}
 
 		return Array.from(new Set(inputData));
+	},
+	
+	MSTArrayIsMatch (param1, param2) {
+		if (!Array.isArray(param1)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (!(param2 instanceof RegExp)) {
+			throw new Error('MSTErrorInputNotValid');
+		};
+
+		return param1.filter(function (e) {
+			return e.match(param2);
+		});
 	},
 
 };

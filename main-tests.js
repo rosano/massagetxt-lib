@@ -112,6 +112,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationPattern: /^unique$/,
 			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayUnique,
+		}, {
+			MSTOperationPattern: /^isMatch\(\/([^]+)\/(\w)?\)$/,
+			MSTOperationInputTypes: 'Array,Regex',
+			MSTOperationCallback: mainModule._MSTOperations.MSTArrayIsMatch,
 		}]);
 	});
 
@@ -326,6 +330,34 @@ describe('MSTArrayUnique', function testMSTArrayUnique () {
 	
 	it('removes duplicates', function () {
 		deepEqual(mainModule._MSTOperations.MSTArrayUnique(['alfa', 'alfa']), ['alfa']);
+	});
+
+});
+
+describe('MSTArrayIsMatch', function testMSTArrayIsMatch () {
+
+	it('throws if param1 not array', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayIsMatch(null, /alfa/);
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not RegExp', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayIsMatch([], null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns array', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayIsMatch([], /alfa/), []);
+	});
+	
+	it('excludes if no match', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayIsMatch(['alfa'], /bravo/), []);
+	});
+	
+	it('includes if match', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayIsMatch(['alfa'], /alfa/), ['alfa']);
 	});
 
 });
