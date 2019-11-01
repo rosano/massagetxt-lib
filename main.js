@@ -96,6 +96,34 @@ export const _MSTMassageOperations = function (inputData) {
 	});
 };
 
+export const __MSTMassageOperations = function () {
+	return [{
+		MSTOperationPattern: /lines/,
+		MSTOperationInputType: 'String',
+		MSTOperationCallback: _MSTOperations.MSTStringLines
+	}, {
+		MSTOperationPattern: /isMatch\(\/([^]+)\/(\w)?\)/,
+		MSTOperationInputType: 'String,Regex',
+		MSTOperationCallback: _MSTOperations.MSTStringIsMatch,
+	}, {
+		MSTOperationPattern: /matchArray\(\/([^]+)\/(\w)?\)/,
+		MSTOperationInputType: 'String,Regex',
+		MSTOperationCallback: _MSTOperations.MSTStringMatchArray,
+	}, {
+		MSTOperationPattern: /first/,
+		MSTOperationInputType: 'Array',
+		MSTOperationCallback: _MSTOperations.MSTArrayFirst,
+	}, {
+		MSTOperationPattern: /last/,
+		MSTOperationInputType: 'Array',
+		MSTOperationCallback: _MSTOperations.MSTArrayLast,
+	}, {
+		MSTOperationPattern: /^\[([^]+)\]$/,
+		MSTOperationInputType: 'Array',
+		MSTOperationCallback: _MSTOperations.MSTArrayAccess,
+	}];
+};
+
 export const _MSTMassageTerminate = function (inputData) {
 	return __MSTMassageTerminateFunction(inputData)(inputData);
 };

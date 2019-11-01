@@ -158,6 +158,38 @@ describe('_MSTMassageOperations', function test_MSTMassageOperations() {
 
 });
 
+describe('__MSTMassageOperations', function test__MSTMassageOperations() {
+
+	it('returns array', function () {
+		deepEqual(mainModule.__MSTMassageOperations(), [{
+			MSTOperationPattern: /lines/,
+			MSTOperationInputType: 'String',
+			MSTOperationCallback: mainModule._MSTOperations.MSTStringLines
+		}, {
+			MSTOperationPattern: /isMatch\(\/([^]+)\/(\w)?\)/,
+			MSTOperationInputType: 'String,Regex',
+			MSTOperationCallback: mainModule._MSTOperations.MSTStringIsMatch,
+		}, {
+			MSTOperationPattern: /matchArray\(\/([^]+)\/(\w)?\)/,
+			MSTOperationInputType: 'String,Regex',
+			MSTOperationCallback: mainModule._MSTOperations.MSTStringMatchArray,
+		}, {
+			MSTOperationPattern: /first/,
+			MSTOperationInputType: 'Array',
+			MSTOperationCallback: mainModule._MSTOperations.MSTArrayFirst,
+		}, {
+			MSTOperationPattern: /last/,
+			MSTOperationInputType: 'Array',
+			MSTOperationCallback: mainModule._MSTOperations.MSTArrayLast,
+		}, {
+			MSTOperationPattern: /^\[([^]+)\]$/,
+			MSTOperationInputType: 'Array',
+			MSTOperationCallback: mainModule._MSTOperations.MSTArrayAccess,
+		}]);
+	});
+
+});
+
 describe('_MSTMassageTerminate', function test_MSTMassageTerminate() {
 
 	it('returns string if not string', function () {
