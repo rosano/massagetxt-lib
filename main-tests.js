@@ -30,26 +30,26 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 
 	it('returns array', function () {
 		deepEqual(mainModule.__MSTMassageOperations(), [{
-			MSTOperationPattern: /root/,
+			MSTOperationPattern: /^root$/,
 			MSTOperationCallback: mainModule._MSTOperations._MSTBypass
 		}, {
-			MSTOperationPattern: /lines/,
+			MSTOperationPattern: /^lines$/,
 			MSTOperationInputTypes: 'String',
 			MSTOperationCallback: mainModule._MSTOperations.MSTStringLines
 		}, {
-			MSTOperationPattern: /isMatch\(\/([^]+)\/(\w)?\)/,
+			MSTOperationPattern: /^isMatch\(\/([^]+)\/(\w)?\)$/,
 			MSTOperationInputTypes: 'String,Regex',
 			MSTOperationCallback: mainModule._MSTOperations.MSTStringIsMatch,
 		}, {
-			MSTOperationPattern: /matchArray\(\/([^]+)\/(\w)?\)/,
+			MSTOperationPattern: /^matchArray\(\/([^]+)\/(\w)?\)$/,
 			MSTOperationInputTypes: 'String,Regex',
 			MSTOperationCallback: mainModule._MSTOperations.MSTStringMatchArray,
 		}, {
-			MSTOperationPattern: /first/,
+			MSTOperationPattern: /^first$/,
 			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayFirst,
 		}, {
-			MSTOperationPattern: /last/,
+			MSTOperationPattern: /^last$/,
 			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayLast,
 		}, {

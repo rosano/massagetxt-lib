@@ -54,26 +54,26 @@ export const _MSTMassageOperations = function (inputData) {
 
 export const __MSTMassageOperations = function () {
 	return [{
-		MSTOperationPattern: /root/,
+		MSTOperationPattern: /^root$/,
 		MSTOperationCallback: _MSTOperations._MSTBypass
 	}, {
-		MSTOperationPattern: /lines/,
+		MSTOperationPattern: /^lines$/,
 		MSTOperationInputTypes: 'String',
 		MSTOperationCallback: _MSTOperations.MSTStringLines
 	}, {
-		MSTOperationPattern: /isMatch\(\/([^]+)\/(\w)?\)/,
+		MSTOperationPattern: /^isMatch\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'String,Regex',
 		MSTOperationCallback: _MSTOperations.MSTStringIsMatch,
 	}, {
-		MSTOperationPattern: /matchArray\(\/([^]+)\/(\w)?\)/,
+		MSTOperationPattern: /^matchArray\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'String,Regex',
 		MSTOperationCallback: _MSTOperations.MSTStringMatchArray,
 	}, {
-		MSTOperationPattern: /first/,
+		MSTOperationPattern: /^first$/,
 		MSTOperationInputTypes: 'Array',
 		MSTOperationCallback: _MSTOperations.MSTArrayFirst,
 	}, {
-		MSTOperationPattern: /last/,
+		MSTOperationPattern: /^last$/,
 		MSTOperationInputTypes: 'Array',
 		MSTOperationCallback: _MSTOperations.MSTArrayLast,
 	}, {
