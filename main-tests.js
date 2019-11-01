@@ -112,14 +112,14 @@ describe('_MSTMassageTerminate', function test_MSTMassageTerminate() {
 
 });
 
-describe('_MSTMassageTerminateFunction', function test_MSTMassageTerminateFunction() {
+describe('__MSTMassageTerminateFunction', function test__MSTMassageTerminateFunction() {
 
 	it('returns JSON.stringify if not string', function () {
-		deepEqual(mainModule._MSTMassageTerminateFunction(null), JSON.stringify);
+		deepEqual(mainModule.__MSTMassageTerminateFunction(null), JSON.stringify);
 	});
 
 	it('returns _MSTBypass', function () {
-		deepEqual(mainModule._MSTMassageTerminateFunction(''), mainModule._MSTOperations._MSTBypass);
+		deepEqual(mainModule.__MSTMassageTerminateFunction(''), mainModule._MSTOperations._MSTBypass);
 	});
 
 });

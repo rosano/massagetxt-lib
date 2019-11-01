@@ -59,10 +59,10 @@ export const _MSTMassageOperations = function (inputData) {
 };
 
 export const _MSTMassageTerminate = function (inputData) {
-	return _MSTMassageTerminateFunction(inputData)(inputData);
+	return __MSTMassageTerminateFunction(inputData)(inputData);
 };
 
-export const _MSTMassageTerminateFunction = function (inputData) {
+export const __MSTMassageTerminateFunction = function (inputData) {
 	if (typeof inputData !== 'string') {
 		return JSON.stringify;
 	}
