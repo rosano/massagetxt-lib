@@ -21,10 +21,25 @@ export const _MSTMassageOperations = function (inputData) {
 		return [];
 	}
 
-	return [inputData.split('.')[0]].concat((inputData.match(/\.(\w+)(\([^]*\))?/g) || []).map(function (e) {
-		return e.split('.').slice(1).join('.');
-	})).map(function (e) {
+	return [].concat.apply([], [inputData.split('.')[0]].concat((inputData.match(/\.(\w+)(\([^]+\))?(\[[^]+\])?/g) || []).map(function (e) {
+		const match = e.match(/(\[[^]+\])?$/);
+		return [e.slice(0, match.index).split('.').slice(1).join('.')].concat(match[0] || []);
+	}))).map(function (e) {
 		let match;
+
+		if (match = e.match(/^\[([^]+)\]$/)) {
+			return new function() {
+				const self = this;
+
+				Object.assign(this, {
+					MSTOperationInputType: 'Array',
+					MSTOperationCallbackIndirect (inputData) {
+						return self.MSTOperationCallback(inputData, match[1]);
+					},
+					MSTOperationCallback: _MSTOperations.MSTArrayAccess,
+				});
+			};
+		};
 
 		if (e === 'first') {
 			return {
@@ -171,6 +186,14 @@ export const _MSTOperations = {
 
 			return coll;
 		}, {});
+	},
+	
+	MSTArrayAccess (param1, param2) {
+		if (!Array.isArray(param1)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		return param1[param2];
 	},
 	
 	MSTArrayFirst (inputData) {

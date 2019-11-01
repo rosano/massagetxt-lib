@@ -134,6 +134,28 @@ describe('_MSTMassageOperations', function test_MSTMassageOperations() {
 	
 	});
 
+	context('[…]', function () {
+
+		const item = mainModule._MSTMassageOperations('[0]').shift();
+		
+		it('sets MSTOperationInputType', function () {
+			deepEqual(item.MSTOperationInputType, 'Array');
+		});
+
+		it('sets MSTOperationCallback', function () {
+			deepEqual(item.MSTOperationCallback, mainModule._MSTOperations.MSTArrayAccess);
+		});
+
+		context('MSTOperationCallbackIndirect', function () {
+
+			it('passes inputs', function () {
+				deepEqual(item.MSTOperationCallbackIndirect(['alfa']), 'alfa')
+			});
+		
+		});
+	
+	});
+
 });
 
 describe('_MSTMassageTerminate', function test_MSTMassageTerminate() {
@@ -259,6 +281,20 @@ describe('MSTStringMap', function testMSTStringMap () {
 		deepEqual(mainModule._MSTOperations.MSTStringMap('alfa bravo', /(\w+) \w+/), {
 			1: 'alfa',
 		});
+	});
+
+});
+
+describe('MSTArrayAccess', function testMSTArrayAccess () {
+
+	it('throws if param1 not array', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayAccess(null, 1);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns property access', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayAccess(['alfa', 'bravo'], 0), 'alfa');
 	});
 
 });

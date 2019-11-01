@@ -52,4 +52,8 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		deepEqual(MSTMassage('alfa\nbravo\n', 'root.lines.last'), 'bravo');
 	});
 
+	it('root.lines[1]', function () {
+		deepEqual(MSTMassage('alfa\nbravo\n', 'root.lines[1]'), 'bravo');
+	});
+
 });
