@@ -33,7 +33,7 @@ export const _MSTMassageOperations = function (inputData) {
 		}).filter(function (e) {
 			return e.match;
 		}).slice(0, 1).map(function (e) {
-			if ((e.operation.MSTOperationInputTypes || '').match('Regex')) {
+			if (_MSTMassageInputTypes(e.operation.MSTOperationInputTypes || '').includes('Regex')) {
 				const callback = e.operation.MSTOperationCallback;
 				
 				e.operation.MSTOperationCallback = function (inputData) {
@@ -49,6 +49,18 @@ export const _MSTMassageOperations = function (inputData) {
 
 			return e.operation;
 		}).shift();
+	});
+};
+
+export const _MSTMassageInputTypes = function(inputData) {
+	if (typeof inputData !== 'string') {
+		throw new Error('MSTErrorInputNotValid');
+	}
+
+	return inputData.split(',').map(function (e) {
+		return e.trim();
+	}).filter(function (e) {
+		return !!e;
 	});
 };
 

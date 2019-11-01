@@ -26,6 +26,36 @@ describe('MSTMassage', function testMSTMassage() {
 
 });
 
+describe('_MSTMassageInputTypes', function test_MSTMassageInputTypes() {
+
+	it('throws if not string', function() {
+		throws(function() {
+			mainModule._MSTMassageInputTypes(null);
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('returns array', function() {
+		deepEqual(mainModule._MSTMassageInputTypes(''), []);
+	});
+
+	it('excludes if blank', function() {
+		deepEqual(mainModule._MSTMassageInputTypes(','), []);
+	});
+
+	it('includes if single', function() {
+		deepEqual(mainModule._MSTMassageInputTypes('alfa'), ['alfa']);
+	});
+
+	it('includes if multiple', function() {
+		deepEqual(mainModule._MSTMassageInputTypes('alfa,bravo'), ['alfa', 'bravo']);
+	});
+
+	it('trims whitespace', function() {
+		deepEqual(mainModule._MSTMassageInputTypes('alfa , bravo'), ['alfa', 'bravo']);
+	});
+
+});
+
 describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 
 	it('returns array', function () {
