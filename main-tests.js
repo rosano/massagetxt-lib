@@ -21,7 +21,7 @@ describe('MSTMassage', function testMSTMassage() {
 	});
 
 	it('parses expression', function () {
-		deepEqual(mainModule.MSTMassage('alfa\nbravo', 'root.lines.last'), 'bravo');
+		deepEqual(mainModule.MSTMassage('alfa\nbravo', '$input.lines.last'), 'bravo');
 	});
 
 });
@@ -30,7 +30,7 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 
 	it('returns array', function () {
 		deepEqual(mainModule.__MSTMassageOperations(), [{
-			MSTOperationPattern: /^root$/,
+			MSTOperationPattern: /^\$input$/,
 			MSTOperationCallback: mainModule._MSTOperations._MSTBypass
 		}, {
 			MSTOperationPattern: /^lines$/,
