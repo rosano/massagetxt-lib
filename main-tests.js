@@ -100,6 +100,18 @@ describe('_MSTMassageOperations', function test_MSTMassageOperations() {
 
 });
 
+describe('_MSTMassageTerminateFunction', function test_MSTMassageTerminateFunction() {
+
+	it('returns JSON.stringify if not string', function () {
+		deepEqual(mainModule._MSTMassageTerminateFunction(null), JSON.stringify);
+	});
+
+	it('returns _MSTBypass', function () {
+		deepEqual(mainModule._MSTMassageTerminateFunction(''), mainModule._MSTOperations._MSTBypass);
+	});
+
+});
+
 describe('MSTStringOperationLines', function testMSTStringOperationLines () {
 	
 	it('returns single if none', function () {
@@ -108,6 +120,15 @@ describe('MSTStringOperationLines', function testMSTStringOperationLines () {
 
 	it('returns multiple if newline', function () {
 		deepEqual(mainModule._MSTOperations.MSTStringOperationLines('alfa\nbravo'), ['alfa', 'bravo']);
+	});
+
+});
+
+describe('_MSTBypass', function test_MSTBypass () {
+
+	it('returns input', function () {
+		let item = function () {};
+		deepEqual(mainModule._MSTOperations._MSTBypass(item), item);
 	});
 
 });

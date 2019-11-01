@@ -41,7 +41,7 @@ export const _MSTMassageOperations = function (inputData) {
 		if (match = e.match(/isMatch\(\/(.+)\/(\w)?\)/)) {
 			return new function() {
 				const self = this;
-				
+
 				Object.assign(this, {
 					MSTOperationInputType: 'String,Regex',
 					MSTOperationCallbackIndirect (inputData) {
@@ -53,14 +53,24 @@ export const _MSTMassageOperations = function (inputData) {
 		}
 
 		return {
-			MSTOperationCallback (inputData) {
-				return inputData;
-			},
+			MSTOperationCallback: _MSTOperations._MSTBypass,
 		};
 	});
 };
 
+export const _MSTMassageTerminateFunction = function (inputData) {
+	if (typeof inputData !== 'string') {
+		return JSON.stringify;
+	}
+
+	return _MSTOperations._MSTBypass;
+};
+
 export const _MSTOperations = {
+	
+	_MSTBypass (inputData) {
+		return inputData;
+	},
 	
 	MSTArrayLast (inputData) {
 		if (!Array.isArray(inputData)) {
