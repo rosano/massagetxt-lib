@@ -34,27 +34,27 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationCallback: mainModule._MSTOperations._MSTBypass
 		}, {
 			MSTOperationPattern: /lines/,
-			MSTOperationInputType: 'String',
+			MSTOperationInputTypes: 'String',
 			MSTOperationCallback: mainModule._MSTOperations.MSTStringLines
 		}, {
 			MSTOperationPattern: /isMatch\(\/([^]+)\/(\w)?\)/,
-			MSTOperationInputType: 'String,Regex',
+			MSTOperationInputTypes: 'String,Regex',
 			MSTOperationCallback: mainModule._MSTOperations.MSTStringIsMatch,
 		}, {
 			MSTOperationPattern: /matchArray\(\/([^]+)\/(\w)?\)/,
-			MSTOperationInputType: 'String,Regex',
+			MSTOperationInputTypes: 'String,Regex',
 			MSTOperationCallback: mainModule._MSTOperations.MSTStringMatchArray,
 		}, {
 			MSTOperationPattern: /first/,
-			MSTOperationInputType: 'Array',
+			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayFirst,
 		}, {
 			MSTOperationPattern: /last/,
-			MSTOperationInputType: 'Array',
+			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayLast,
 		}, {
 			MSTOperationPattern: /^\[([^]+)\]$/,
-			MSTOperationInputType: 'Array',
+			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayAccess,
 		}]);
 	});

@@ -33,7 +33,7 @@ export const _MSTMassageOperations = function (inputData) {
 		}).filter(function (e) {
 			return e.match;
 		}).slice(0, 1).map(function (e) {
-			if ((e.operation.MSTOperationInputType || '').match('Regex')) {
+			if ((e.operation.MSTOperationInputTypes || '').match('Regex')) {
 				const callback = e.operation.MSTOperationCallback;
 				
 				e.operation.MSTOperationCallback = function (inputData) {
@@ -58,27 +58,27 @@ export const __MSTMassageOperations = function () {
 		MSTOperationCallback: _MSTOperations._MSTBypass
 	}, {
 		MSTOperationPattern: /lines/,
-		MSTOperationInputType: 'String',
+		MSTOperationInputTypes: 'String',
 		MSTOperationCallback: _MSTOperations.MSTStringLines
 	}, {
 		MSTOperationPattern: /isMatch\(\/([^]+)\/(\w)?\)/,
-		MSTOperationInputType: 'String,Regex',
+		MSTOperationInputTypes: 'String,Regex',
 		MSTOperationCallback: _MSTOperations.MSTStringIsMatch,
 	}, {
 		MSTOperationPattern: /matchArray\(\/([^]+)\/(\w)?\)/,
-		MSTOperationInputType: 'String,Regex',
+		MSTOperationInputTypes: 'String,Regex',
 		MSTOperationCallback: _MSTOperations.MSTStringMatchArray,
 	}, {
 		MSTOperationPattern: /first/,
-		MSTOperationInputType: 'Array',
+		MSTOperationInputTypes: 'Array',
 		MSTOperationCallback: _MSTOperations.MSTArrayFirst,
 	}, {
 		MSTOperationPattern: /last/,
-		MSTOperationInputType: 'Array',
+		MSTOperationInputTypes: 'Array',
 		MSTOperationCallback: _MSTOperations.MSTArrayLast,
 	}, {
 		MSTOperationPattern: /^\[([^]+)\]$/,
-		MSTOperationInputType: 'Array',
+		MSTOperationInputTypes: 'Array',
 		MSTOperationCallback: _MSTOperations.MSTArrayAccess,
 	}];
 };
