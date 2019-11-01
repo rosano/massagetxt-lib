@@ -25,10 +25,16 @@ export const _MSTMassageOperations = function (inputData) {
 		const match = e.match(/(\[[^]+\])?$/);
 		return [e.slice(0, match.index).split('.').slice(1).join('.')].concat(match[0] || []);
 	}))).map(function (operationString) {
+		const operations = __MSTMassageOperations().filter(function (e) {
+			return operationString.match(e.MSTOperationPattern);
+		});
+
+		if (!operations.length) {
+			throw new Error('MSTErrorIdentifierNotValid');
+		};
+		
 		return function (inputData) {
-			return __MSTMassageOperations().filter(function (e) {
-				return operationString.match(e.MSTOperationPattern);
-			}).filter(function (e) {
+			return operations.filter(function (e) {
 				if (!e.MSTOperationInputTypes) {
 					return true;
 				};
