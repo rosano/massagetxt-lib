@@ -56,6 +56,24 @@ describe('_MSTMassageInputTypes', function test_MSTMassageInputTypes() {
 
 });
 
+describe('_MSTMassageTypeForInput', function test_MSTMassageTypeForInput() {
+
+	it('returns String if string', function() {
+		deepEqual(mainModule._MSTMassageTypeForInput(''), 'String');
+	});
+
+	it('returns Array if array', function() {
+		deepEqual(mainModule._MSTMassageTypeForInput([]), 'Array');
+	});
+
+	it('throws', function() {
+		throws(function() {
+			mainModule._MSTMassageTypeForInput(null);
+		}, /MSTErrorInputNotValid/);
+	});
+
+});
+
 describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 
 	it('returns array', function () {

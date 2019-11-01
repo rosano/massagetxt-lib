@@ -64,6 +64,18 @@ export const _MSTMassageInputTypes = function(inputData) {
 	});
 };
 
+export const _MSTMassageTypeForInput = function(inputData) {
+	if (typeof inputData === 'string') {
+		return 'String';
+	}
+
+	if (Array.isArray(inputData)) {
+		return 'Array';
+	};
+
+	throw new Error('MSTErrorInputNotValid');
+};
+
 export const __MSTMassageOperations = function () {
 	return [{
 		MSTOperationPattern: /^\$?input$/,
