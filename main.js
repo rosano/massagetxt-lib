@@ -102,7 +102,7 @@ export const __MSTMassageOperations = function () {
 	}, {
 		MSTOperationPattern: /^match\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'String,Regex',
-		MSTOperationCallback: _MSTOperations.MSTStringmatch,
+		MSTOperationCallback: _MSTOperations.MSTStringMatch,
 	}, {
 		MSTOperationPattern: /^first$/,
 		MSTOperationInputTypes: 'Array',
@@ -166,7 +166,7 @@ export const _MSTOperations = {
 		return !!param1.match(param2);
 	},
 	
-	MSTStringmatch (param1, param2) {
+	MSTStringMatch (param1, param2) {
 		if (typeof param1 !== 'string') {
 			throw new Error('MSTErrorInputNotValid');
 		}

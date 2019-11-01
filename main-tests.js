@@ -97,7 +97,7 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 		}, {
 			MSTOperationPattern: /^match\(\/([^]+)\/(\w)?\)$/,
 			MSTOperationInputTypes: 'String,Regex',
-			MSTOperationCallback: mainModule._MSTOperations.MSTStringmatch,
+			MSTOperationCallback: mainModule._MSTOperations.MSTStringMatch,
 		}, {
 			MSTOperationPattern: /^first$/,
 			MSTOperationInputTypes: 'Array',
@@ -200,30 +200,30 @@ describe('MSTStringIsMatch', function testMSTStringIsMatch () {
 
 });
 
-describe('MSTStringmatch', function testMSTStringmatch () {
+describe('MSTStringMatch', function testMSTStringMatch () {
 
 	it('throws if param1 not string', function() {
 		throws(function() {
-			mainModule._MSTOperations.MSTStringmatch(null, /alfa/);
+			mainModule._MSTOperations.MSTStringMatch(null, /alfa/);
 		}, /MSTErrorInputNotValid/);
 	});
 
 	it('throws if param2 not RegExp', function() {
 		throws(function() {
-			mainModule._MSTOperations.MSTStringmatch('', null);
+			mainModule._MSTOperations.MSTStringMatch('', null);
 		}, /MSTErrorInputNotValid/);
 	});
 	
 	it('returns array', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringmatch('alfa', /bravo/), []);
+		deepEqual(mainModule._MSTOperations.MSTStringMatch('alfa', /bravo/), []);
 	});
 	
 	it('excludes if no capture', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringmatch('alfa', /alfa/), []);
+		deepEqual(mainModule._MSTOperations.MSTStringMatch('alfa', /alfa/), []);
 	});
 	
 	it('includes if capture', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringmatch('alfa', /(alfa)/), [{ 1: 'alfa' }]);
+		deepEqual(mainModule._MSTOperations.MSTStringMatch('alfa', /(alfa)/), [{ 1: 'alfa' }]);
 	});
 
 });
