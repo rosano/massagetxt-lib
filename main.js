@@ -58,7 +58,7 @@ export const _MSTOperations = {
 		return inputData.split('\n');
 	},
 	
-	MSTStringOperationMatch (param1, param2) {
+	MSTStringIsMatch (param1, param2) {
 		if (typeof param1 !== 'string') {
 			throw new Error('MSTErrorInputNotValid');
 		}
@@ -68,6 +68,30 @@ export const _MSTOperations = {
 		};
 
 		return !!param1.match(param2);
+	},
+	
+	MSTStringMap (param1, param2) {
+		if (typeof param1 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (!(param2 instanceof RegExp)) {
+			throw new Error('MSTErrorInputNotValid');
+		};
+
+		const match = param1.match(param2);
+
+		if (!match) {
+			return {};
+		};
+
+		return match.reduce(function (coll, item, index) {
+			if (index) {
+				coll[index] = item;
+			};
+
+			return coll;
+		}, {});
 	},
 
 };

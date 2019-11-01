@@ -98,26 +98,52 @@ describe('MSTStringOperationLines', function testMSTStringOperationLines () {
 
 });
 
-describe('MSTStringOperationMatch', function testMSTStringOperationMatch () {
-	
+describe('MSTStringIsMatch', function testMSTStringIsMatch () {
+
 	it('throws if param1 not string', function() {
 		throws(function() {
-			mainModule._MSTOperations.MSTStringOperationMatch(null, '');
+			mainModule._MSTOperations.MSTStringIsMatch(null, /alfa/);
 		}, /MSTErrorInputNotValid/);
 	});
 
 	it('throws if param2 not RegExp', function() {
 		throws(function() {
-			mainModule._MSTOperations.MSTStringOperationMatch('', null);
+			mainModule._MSTOperations.MSTStringIsMatch('', null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns object', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringIsMatch('alfa', /bravo/), false);
+	});
+	
+	it('sets index', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringIsMatch('alfa', /alfa/), true);
+	});
+
+});
+
+describe('MSTStringMap', function testMSTStringMap () {
+
+	it('throws if param1 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringMap(null, /alfa/);
 		}, /MSTErrorInputNotValid/);
 	});
 
-	it('returns false if no match', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringOperationMatch('alfa', /bravo/), false);
+	it('throws if param2 not RegExp', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringMap('', null);
+		}, /MSTErrorInputNotValid/);
 	});
-
-	it('returns true if no match', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringOperationMatch('alfa', /alfa/), true);
+	
+	it('returns object', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringMap('alfa', /(bravo|charlie)/), {});
+	});
+	
+	it('sets index', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringMap('alfa bravo', /(\w+) \w+/), {
+			1: 'alfa',
+		});
 	});
 
 });
