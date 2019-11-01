@@ -65,6 +65,10 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		it('index', function () {
 			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines[1]'), 'bravo');
 		});
+
+		it('match bool', function () {
+			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.isMatch(/alfa/)'), JSON.stringify(['alfa']));
+		});
 	
 	});
 

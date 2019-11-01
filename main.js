@@ -8,7 +8,7 @@ export const MSTMassage = function (param1, param2) {
 	}
 
 	return _MSTMassageTerminate(_MSTMassageOperations(param2).reduce(function (coll, item) {
-		return item.MSTOperationCallback(coll);
+		return item(coll);
 	}, param1));
 };
 
@@ -25,30 +25,35 @@ export const _MSTMassageOperations = function (inputData) {
 		const match = e.match(/(\[[^]+\])?$/);
 		return [e.slice(0, match.index).split('.').slice(1).join('.')].concat(match[0] || []);
 	}))).map(function (operationString) {
-		return __MSTMassageOperations().map(function (e) {
-			return {
-				match: operationString.match(e.MSTOperationPattern),
-				operation: e,
-			};
-		}).filter(function (e) {
-			return e.match;
-		}).slice(0, 1).map(function (e) {
-			if (_MSTMassageInputTypes(e.operation.MSTOperationInputTypes || '').pop() === 'Regex') {
-				const callback = e.operation.MSTOperationCallback;
-				
-				e.operation.MSTOperationCallback = function (inputData) {
-					return callback(inputData, new RegExp(e.match[1], e.match[2]));
+		return function (inputData) {
+			return __MSTMassageOperations().filter(function (e) {
+				return operationString.match(e.MSTOperationPattern);
+			}).filter(function (e) {
+				if (!e.MSTOperationInputTypes) {
+					return true;
 				};
-			} else if (typeof e.match.index !== 'undefined') {
-				const callback = e.operation.MSTOperationCallback;
-				
-				e.operation.MSTOperationCallback = function (inputData) {
-					return callback(inputData, e.match[1]);
-				};
-			};
 
-			return e.operation;
-		}).shift();
+				return _MSTMassageInputTypes(e.MSTOperationInputTypes).shift() === _MSTMassageTypeForInput(inputData);
+			}).slice(0, 1).map(function (e) {
+				const match = operationString.match(e.MSTOperationPattern);
+
+				if (_MSTMassageInputTypes(e.MSTOperationInputTypes || '').pop() === 'Regex') {
+					const callback = e.MSTOperationCallback;
+
+					e.MSTOperationCallback = function (inputData) {
+						return callback(inputData, new RegExp(match[1], match[2]));
+					};
+				} else if (typeof match.index !== 'undefined') {
+					const callback = e.MSTOperationCallback;
+					
+					e.MSTOperationCallback = function (inputData) {
+						return callback(inputData, match[1]);
+					};
+				};
+
+				return e.MSTOperationCallback(inputData);
+			}).shift();
+		};
 	});
 };
 
