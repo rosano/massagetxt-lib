@@ -54,6 +54,10 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.last'), 'bravo');
 		});
 
+		it('reverse', function () {
+			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.reverse'), JSON.stringify(['bravo', 'alfa']));
+		});
+
 		it('unique', function () {
 			deepEqual(MSTMassage('alfa\nalfa\n', '$input.lines.unique'), JSON.stringify(['alfa']));
 		});

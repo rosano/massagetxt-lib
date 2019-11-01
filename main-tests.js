@@ -53,6 +53,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayLast,
 		}, {
+			MSTOperationPattern: /^reverse$/,
+			MSTOperationInputTypes: 'Array',
+			MSTOperationCallback: mainModule._MSTOperations.MSTArrayReverse,
+		}, {
 			MSTOperationPattern: /^unique$/,
 			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayUnique,
@@ -238,6 +242,24 @@ describe('MSTArrayLast', function testMSTArrayLast () {
 	
 	it('returns last item', function () {
 		deepEqual(mainModule._MSTOperations.MSTArrayLast(['alfa', 'bravo']), 'bravo');
+	});
+
+});
+
+describe('MSTArrayReverse', function testMSTArrayReverse () {
+
+	it('throws if not array', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayReverse(null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('reutrns input', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayReverse([]), []);
+	});
+	
+	it('reverses input', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayReverse(['alfa', 'bravo']), ['bravo', 'alfa']);
 	});
 
 });
