@@ -33,7 +33,7 @@ export const _MSTMassageOperations = function (inputData) {
 		}).filter(function (e) {
 			return e.match;
 		}).slice(0, 1).map(function (e) {
-			if (_MSTMassageInputTypes(e.operation.MSTOperationInputTypes || '').includes('Regex')) {
+			if (_MSTMassageInputTypes(e.operation.MSTOperationInputTypes || '').pop() === 'Regex') {
 				const callback = e.operation.MSTOperationCallback;
 				
 				e.operation.MSTOperationCallback = function (inputData) {
