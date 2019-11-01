@@ -76,6 +76,28 @@ describe('_MSTMassageOperations', function test_MSTMassageOperations() {
 	
 	});
 
+	context('isMatch(…)', function () {
+
+		const item = mainModule._MSTMassageOperations('isMatch(/alfa/)').shift();
+		
+		it('sets MSTOperationInputType', function () {
+			deepEqual(item.MSTOperationInputType, 'String,Regex');
+		});
+
+		it('sets MSTOperationCallback', function () {
+			deepEqual(item.MSTOperationCallback, mainModule._MSTOperations.MSTStringIsMatch);
+		});
+
+		context('MSTOperationCallbackIndirect', function () {
+
+			it('passes inputs', function () {
+				deepEqual(item.MSTOperationCallbackIndirect('alfa'), true)
+			});
+		
+		});
+	
+	});
+
 });
 
 describe('MSTStringOperationLines', function testMSTStringOperationLines () {

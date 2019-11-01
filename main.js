@@ -8,7 +8,7 @@ export const MSTMassage = function (param1, param2) {
 	}
 
 	return _MSTMassageOperations(param2).reduce(function (coll, item) {
-		return item.MSTOperationCallback(coll);
+		return (item.MSTOperationCallbackIndirect || item.MSTOperationCallback)(coll);
 	}, param1);
 };
 
@@ -22,6 +22,8 @@ export const _MSTMassageOperations = function (inputData) {
 	}
 
 	return inputData.split('.').map(function (e) {
+		let match;
+
 		if (e === 'last') {
 			return {
 				MSTOperationInputType: 'Array',
@@ -33,6 +35,20 @@ export const _MSTMassageOperations = function (inputData) {
 			return {
 				MSTOperationInputType: 'String',
 				MSTOperationCallback: _MSTOperations.MSTStringOperationLines,
+			};
+		}
+
+		if (match = e.match(/isMatch\(\/(.+)\/(\w)?\)/)) {
+			return new function() {
+				const self = this;
+				
+				Object.assign(this, {
+					MSTOperationInputType: 'String,Regex',
+					MSTOperationCallbackIndirect (inputData) {
+						return self.MSTOperationCallback(inputData, new RegExp(match[1], match[2]));
+					},
+					MSTOperationCallback: _MSTOperations.MSTStringIsMatch,
+				});
 			};
 		}
 
