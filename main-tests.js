@@ -53,6 +53,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayLast,
 		}, {
+			MSTOperationPattern: /^unique$/,
+			MSTOperationInputTypes: 'Array',
+			MSTOperationCallback: mainModule._MSTOperations.MSTArrayUnique,
+		}, {
 			MSTOperationPattern: /^\[([^]+)\]$/,
 			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayAccess,
@@ -234,6 +238,24 @@ describe('MSTArrayLast', function testMSTArrayLast () {
 	
 	it('returns last item', function () {
 		deepEqual(mainModule._MSTOperations.MSTArrayLast(['alfa', 'bravo']), 'bravo');
+	});
+
+});
+
+describe('MSTArrayUnique', function testMSTArrayUnique () {
+
+	it('throws if not array', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayUnique(null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('reutrns input', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayUnique([]), []);
+	});
+	
+	it('removes duplicates', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayUnique(['alfa', 'alfa']), ['alfa']);
 	});
 
 });

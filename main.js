@@ -77,6 +77,10 @@ export const __MSTMassageOperations = function () {
 		MSTOperationInputTypes: 'Array',
 		MSTOperationCallback: _MSTOperations.MSTArrayLast,
 	}, {
+		MSTOperationPattern: /^unique$/,
+		MSTOperationInputTypes: 'Array',
+		MSTOperationCallback: _MSTOperations.MSTArrayUnique,
+	}, {
 		MSTOperationPattern: /^\[([^]+)\]$/,
 		MSTOperationInputTypes: 'Array',
 		MSTOperationCallback: _MSTOperations.MSTArrayAccess,
@@ -197,6 +201,14 @@ export const _MSTOperations = {
 		}
 
 		return inputData.slice(-1).pop();
+	},
+	
+	MSTArrayUnique (inputData) {
+		if (!Array.isArray(inputData)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		return Array.from(new Set(inputData));
 	},
 
 };
