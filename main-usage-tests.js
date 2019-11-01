@@ -26,16 +26,16 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 			deepEqual(MSTMassage('alfa', '$input.isMatch(/alfa/)'), 'true');
 		});
 
-		it('match array with no capture', function () {
-			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.matchArray(/- .*\n/)'), '[]');
+		it('match with no capture', function () {
+			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.match(/- .*\n/)'), '[]');
 		});
 
-		it('match array with capture with no global', function () {
-			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.matchArray(/- (.*)\n/)'), JSON.stringify([{ 1: 'alfa' }]));
+		it('match with capture with no global', function () {
+			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.match(/- (.*)\n/)'), JSON.stringify([{ 1: 'alfa' }]));
 		});
 
-		it('match array with capture with global', function () {
-			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.matchArray(/- (.*)\n/g)'), JSON.stringify([{ 1: 'alfa' }, { 1: 'bravo' }]));
+		it('match with capture with global', function () {
+			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.match(/- (.*)\n/g)'), JSON.stringify([{ 1: 'alfa' }, { 1: 'bravo' }]));
 		});
 
 		it('lines', function () {
