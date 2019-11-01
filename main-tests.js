@@ -286,7 +286,7 @@ describe('MSTArrayReverse', function testMSTArrayReverse () {
 		}, /MSTErrorInputNotValid/);
 	});
 	
-	it('reutrns input', function () {
+	it('returns input', function () {
 		deepEqual(mainModule._MSTOperations.MSTArrayReverse([]), []);
 	});
 	
@@ -304,7 +304,7 @@ describe('MSTArrayUnique', function testMSTArrayUnique () {
 		}, /MSTErrorInputNotValid/);
 	});
 	
-	it('reutrns input', function () {
+	it('returns input', function () {
 		deepEqual(mainModule._MSTOperations.MSTArrayUnique([]), []);
 	});
 	
@@ -328,7 +328,7 @@ describe('MSTArrayIsMatch', function testMSTArrayIsMatch () {
 		}, /MSTErrorInputNotValid/);
 	});
 	
-	it('returns array', function () {
+	it('returns input', function () {
 		deepEqual(mainModule._MSTOperations.MSTArrayIsMatch([], /alfa/), []);
 	});
 	
@@ -336,7 +336,7 @@ describe('MSTArrayIsMatch', function testMSTArrayIsMatch () {
 		deepEqual(mainModule._MSTOperations.MSTArrayIsMatch(['alfa'], /bravo/), []);
 	});
 	
-	it('includes if match', function () {
+	it('includes', function () {
 		deepEqual(mainModule._MSTOperations.MSTArrayIsMatch(['alfa'], /alfa/), ['alfa']);
 	});
 
