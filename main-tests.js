@@ -53,6 +53,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayLast,
 		}, {
+			MSTOperationPattern: /^\[([^]+)\]$/,
+			MSTOperationInputTypes: 'Array',
+			MSTOperationCallback: mainModule._MSTOperations.MSTArrayAccess,
+		}, {
 			MSTOperationPattern: /^reverse$/,
 			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayReverse,
@@ -60,10 +64,6 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationPattern: /^unique$/,
 			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayUnique,
-		}, {
-			MSTOperationPattern: /^\[([^]+)\]$/,
-			MSTOperationInputTypes: 'Array',
-			MSTOperationCallback: mainModule._MSTOperations.MSTArrayAccess,
 		}]);
 	});
 
@@ -196,20 +196,6 @@ describe('MSTStringMap', function testMSTStringMap () {
 
 });
 
-describe('MSTArrayAccess', function testMSTArrayAccess () {
-
-	it('throws if param1 not array', function() {
-		throws(function() {
-			mainModule._MSTOperations.MSTArrayAccess(null, 1);
-		}, /MSTErrorInputNotValid/);
-	});
-	
-	it('returns property access', function () {
-		deepEqual(mainModule._MSTOperations.MSTArrayAccess(['alfa', 'bravo'], 0), 'alfa');
-	});
-
-});
-
 describe('MSTArrayFirst', function testMSTArrayFirst () {
 
 	it('throws if not array', function() {
@@ -242,6 +228,20 @@ describe('MSTArrayLast', function testMSTArrayLast () {
 	
 	it('returns last item', function () {
 		deepEqual(mainModule._MSTOperations.MSTArrayLast(['alfa', 'bravo']), 'bravo');
+	});
+
+});
+
+describe('MSTArrayAccess', function testMSTArrayAccess () {
+
+	it('throws if param1 not array', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayAccess(null, 1);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns property access', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayAccess(['alfa', 'bravo'], 0), 'alfa');
 	});
 
 });
