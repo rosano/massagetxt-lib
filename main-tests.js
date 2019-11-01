@@ -26,21 +26,21 @@ describe('MSTMassage', function testMSTMassage() {
 
 });
 
-describe('MSTMassageOperations', function testMSTMassageOperations() {
+describe('_MSTMassageOperations', function test_MSTMassageOperations() {
 
 	it('throws if not string', function() {
 		throws(function() {
-			mainModule.MSTMassageOperations(null);
+			mainModule._MSTMassageOperations(null);
 		}, /MSTErrorInputNotValid/);
 	});
 
 	it('returns array', function () {
-		deepEqual(mainModule.MSTMassageOperations(''), []);
+		deepEqual(mainModule._MSTMassageOperations(''), []);
 	});
 
 	context('root', function () {
 
-		const item = mainModule.MSTMassageOperations('root').shift();
+		const item = mainModule._MSTMassageOperations('root').shift();
 		
 		it('returns object', function () {
 			deepEqual(typeof item, 'object');
@@ -50,12 +50,8 @@ describe('MSTMassageOperations', function testMSTMassageOperations() {
 
 	context('lines', function () {
 
-		const item = mainModule.MSTMassageOperations('lines').shift();
+		const item = mainModule._MSTMassageOperations('lines').shift();
 		
-		it('returns object', function () {
-			deepEqual(typeof item, 'object');
-		});
-
 		it('sets MSTOperationInputType', function () {
 			deepEqual(item.MSTOperationInputType, 'String');
 		});
@@ -68,12 +64,8 @@ describe('MSTMassageOperations', function testMSTMassageOperations() {
 
 	context('last', function () {
 
-		const item = mainModule.MSTMassageOperations('last').shift();
+		const item = mainModule._MSTMassageOperations('last').shift();
 		
-		it('returns object', function () {
-			deepEqual(typeof item, 'object');
-		});
-
 		it('sets MSTOperationInputType', function () {
 			deepEqual(item.MSTOperationInputType, 'Array');
 		});

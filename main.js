@@ -7,12 +7,12 @@ export const MSTMassage = function (param1, param2) {
 		throw new Error('MSTErrorInputNotValid');
 	}
 
-	return MSTMassageOperations(param2).reduce(function (coll, item) {
+	return _MSTMassageOperations(param2).reduce(function (coll, item) {
 		return item.MSTOperationCallback(coll);
 	}, param1);
 };
 
-export const MSTMassageOperations = function (inputData) {
+export const _MSTMassageOperations = function (inputData) {
 	if (typeof inputData !== 'string') {
 		throw new Error('MSTErrorInputNotValid');
 	}
