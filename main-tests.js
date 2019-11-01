@@ -122,6 +122,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationPattern: /^isMatch\(\/([^]+)\/(\w)?\)$/,
 			MSTOperationInputTypes: 'Array,Regex',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayIsMatch,
+		}, {
+			MSTOperationPattern: /^match\(\/([^]+)\/(\w)?\)$/,
+			MSTOperationInputTypes: 'Array,Regex',
+			MSTOperationCallback: mainModule._MSTOperations.MSTArrayMatch,
 		}]);
 	});
 

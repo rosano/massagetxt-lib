@@ -127,6 +127,10 @@ export const __MSTMassageOperations = function () {
 		MSTOperationPattern: /^isMatch\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'Array,Regex',
 		MSTOperationCallback: _MSTOperations.MSTArrayIsMatch,
+	}, {
+		MSTOperationPattern: /^match\(\/([^]+)\/(\w)?\)$/,
+		MSTOperationInputTypes: 'Array,Regex',
+		MSTOperationCallback: _MSTOperations.MSTArrayMatch,
 	}];
 };
 
