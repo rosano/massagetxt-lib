@@ -8,7 +8,7 @@ export const MSTMassage = function (param1, param2) {
 	}
 
 	return _MSTMassageTerminate(_MSTMassageOperations(param2).reduce(function (coll, item) {
-		return (item.MSTOperationCallbackIndirect || item.MSTOperationCallback)(coll);
+		return item.MSTOperationCallback(coll);
 	}, param1));
 };
 
