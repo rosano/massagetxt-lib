@@ -341,3 +341,35 @@ describe('MSTArrayIsMatch', function testMSTArrayIsMatch () {
 	});
 
 });
+
+describe('MSTArrayMatch', function testMSTArrayMatch () {
+
+	it('throws if param1 not array', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayMatch(null, /alfa/);
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not RegExp', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayMatch([], null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns input', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayMatch([], /alfa/), []);
+	});
+	
+	it('excludes if no capture', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayMatch(['alfa'], /alfa/), []);
+	});
+	
+	it('excludes if no match', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayMatch(['alfa'], /(bravo)/), []);
+	});
+	
+	it('includes', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayMatch(['alfa'], /(alfa)/), [{ 1: 'alfa' }]);
+	});
+
+});

@@ -251,5 +251,21 @@ export const _MSTOperations = {
 			return e.match(param2);
 		});
 	},
+	
+	MSTArrayMatch (param1, param2) {
+		if (!Array.isArray(param1)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (!(param2 instanceof RegExp)) {
+			throw new Error('MSTErrorInputNotValid');
+		};
+
+		return param1.map(function (e) {
+			return _MSTOperations.MSTStringMatch(e, param2).shift();
+		}).filter(function (e) {
+			return e;
+		});
+	},
 
 };
