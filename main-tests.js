@@ -57,7 +57,7 @@ describe('_MSTMassageOperations', function test_MSTMassageOperations() {
 		});
 
 		it('sets MSTOperationCallback', function () {
-			deepEqual(item.MSTOperationCallback, mainModule._MSTOperations.MSTStringOperationLines);
+			deepEqual(item.MSTOperationCallback, mainModule._MSTOperations.MSTStringLines);
 		});
 	
 	});
@@ -146,23 +146,27 @@ describe('__MSTMassageTerminateFunction', function test__MSTMassageTerminateFunc
 
 });
 
-describe('MSTStringOperationLines', function testMSTStringOperationLines () {
-	
-	it('returns single if none', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringOperationLines(''), ['']);
-	});
-
-	it('returns multiple if newline', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringOperationLines('alfa\nbravo'), ['alfa', 'bravo']);
-	});
-
-});
-
 describe('_MSTBypass', function test_MSTBypass () {
 
 	it('returns input', function () {
 		let item = function () {};
 		deepEqual(mainModule._MSTOperations._MSTBypass(item), item);
+	});
+
+});
+
+describe('MSTStringLines', function testMSTStringLines () {
+	
+	it('returns array', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringLines(''), []);
+	});
+
+	it('excludes if not filled', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringLines('\n'), []);
+	});
+
+	it('includes if filled', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringLines('alfa\nbravo\n'), ['alfa', 'bravo']);
 	});
 
 });

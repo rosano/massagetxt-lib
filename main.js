@@ -36,7 +36,7 @@ export const _MSTMassageOperations = function (inputData) {
 		if (e === 'lines') {
 			return {
 				MSTOperationInputType: 'String',
-				MSTOperationCallback: _MSTOperations.MSTStringOperationLines,
+				MSTOperationCallback: _MSTOperations.MSTStringLines,
 			};
 		}
 
@@ -100,8 +100,10 @@ export const _MSTOperations = {
 		return inputData.slice(-1).pop();
 	},
 	
-	MSTStringOperationLines (inputData) {
-		return inputData.split('\n');
+	MSTStringLines (inputData) {
+		return inputData.split('\n').filter(function (e) {
+			return e.length;
+		});
 	},
 	
 	MSTStringIsMatch (param1, param2) {

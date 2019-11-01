@@ -40,4 +40,8 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		deepEqual(MSTMassage('- alfa\n- bravo\n', 'root.raw.matchArray(/- (.*)\n/g)'), JSON.stringify([{ 1: 'alfa' }, { 1: 'bravo' }]));
 	});
 
+	it('root.lines', function () {
+		deepEqual(MSTMassage('alfa\nbravo\n', 'root.lines'), JSON.stringify(['alfa', 'bravo']));
+	});
+
 });
