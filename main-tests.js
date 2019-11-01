@@ -162,11 +162,11 @@ describe('MSTStringIsMatch', function testMSTStringIsMatch () {
 		}, /MSTErrorInputNotValid/);
 	});
 	
-	it('returns object', function () {
+	it('returns false if no match', function () {
 		deepEqual(mainModule._MSTOperations.MSTStringIsMatch('alfa', /bravo/), false);
 	});
 	
-	it('sets index', function () {
+	it('returns true', function () {
 		deepEqual(mainModule._MSTOperations.MSTStringIsMatch('alfa', /alfa/), true);
 	});
 
