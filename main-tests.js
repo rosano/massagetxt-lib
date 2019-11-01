@@ -62,20 +62,6 @@ describe('_MSTMassageOperations', function test_MSTMassageOperations() {
 	
 	});
 
-	context('last', function () {
-
-		const item = mainModule._MSTMassageOperations('last').shift();
-		
-		it('sets MSTOperationInputType', function () {
-			deepEqual(item.MSTOperationInputType, 'Array');
-		});
-
-		it('sets MSTOperationCallback', function () {
-			deepEqual(item.MSTOperationCallback, mainModule._MSTOperations.MSTArrayLast);
-		});
-	
-	});
-
 	context('isMatch(…)', function () {
 
 		const item = mainModule._MSTMassageOperations('isMatch(/alfa/)').shift();
@@ -116,6 +102,34 @@ describe('_MSTMassageOperations', function test_MSTMassageOperations() {
 				deepEqual(item.MSTOperationCallbackIndirect('alfa'), [])
 			});
 		
+		});
+	
+	});
+
+	context('first', function () {
+
+		const item = mainModule._MSTMassageOperations('first').shift();
+		
+		it('sets MSTOperationInputType', function () {
+			deepEqual(item.MSTOperationInputType, 'Array');
+		});
+
+		it('sets MSTOperationCallback', function () {
+			deepEqual(item.MSTOperationCallback, mainModule._MSTOperations.MSTArrayFirst);
+		});
+	
+	});
+
+	context('last', function () {
+
+		const item = mainModule._MSTMassageOperations('last').shift();
+		
+		it('sets MSTOperationInputType', function () {
+			deepEqual(item.MSTOperationInputType, 'Array');
+		});
+
+		it('sets MSTOperationCallback', function () {
+			deepEqual(item.MSTOperationCallback, mainModule._MSTOperations.MSTArrayLast);
 		});
 	
 	});
@@ -245,6 +259,24 @@ describe('MSTStringMap', function testMSTStringMap () {
 		deepEqual(mainModule._MSTOperations.MSTStringMap('alfa bravo', /(\w+) \w+/), {
 			1: 'alfa',
 		});
+	});
+
+});
+
+describe('MSTArrayFirst', function testMSTArrayFirst () {
+
+	it('throws if not array', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayFirst(null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns undefined if none', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayFirst([]), undefined);
+	});
+	
+	it('returns first item', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayFirst(['alfa', 'bravo']), 'alfa');
 	});
 
 });

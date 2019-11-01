@@ -26,6 +26,13 @@ export const _MSTMassageOperations = function (inputData) {
 	})).map(function (e) {
 		let match;
 
+		if (e === 'first') {
+			return {
+				MSTOperationInputType: 'Array',
+				MSTOperationCallback: _MSTOperations.MSTArrayFirst,
+			};
+		}
+
 		if (e === 'last') {
 			return {
 				MSTOperationInputType: 'Array',
@@ -90,14 +97,6 @@ export const _MSTOperations = {
 	
 	_MSTBypass (inputData) {
 		return inputData;
-	},
-	
-	MSTArrayLast (inputData) {
-		if (!Array.isArray(inputData)) {
-			throw new Error('MSTErrorInputNotValid');
-		}
-
-		return inputData.slice(-1).pop();
 	},
 	
 	MSTStringLines (inputData) {
@@ -172,6 +171,22 @@ export const _MSTOperations = {
 
 			return coll;
 		}, {});
+	},
+	
+	MSTArrayFirst (inputData) {
+		if (!Array.isArray(inputData)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		return inputData[0];
+	},
+	
+	MSTArrayLast (inputData) {
+		if (!Array.isArray(inputData)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		return inputData.slice(-1).pop();
 	},
 
 };
