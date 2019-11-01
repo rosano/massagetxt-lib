@@ -24,80 +24,39 @@ export const _MSTMassageOperations = function (inputData) {
 	return [].concat.apply([], [inputData.split('.')[0]].concat((inputData.match(/\.(\w+)(\([^]+\))?(\[[^]+\])?/g) || []).map(function (e) {
 		const match = e.match(/(\[[^]+\])?$/);
 		return [e.slice(0, match.index).split('.').slice(1).join('.')].concat(match[0] || []);
-	}))).map(function (e) {
-		let match;
-
-		if (match = e.match(/^\[([^]+)\]$/)) {
-			return new function() {
-				const self = this;
-
-				Object.assign(this, {
-					MSTOperationInputType: 'Array',
-					MSTOperationCallbackIndirect (inputData) {
-						return self.MSTOperationCallback(inputData, match[1]);
-					},
-					MSTOperationCallback: _MSTOperations.MSTArrayAccess,
-				});
-			};
-		};
-
-		if (e === 'first') {
+	}))).map(function (operationString) {
+		return __MSTMassageOperations().map(function (e) {
 			return {
-				MSTOperationInputType: 'Array',
-				MSTOperationCallback: _MSTOperations.MSTArrayFirst,
+				match: operationString.match(e.MSTOperationPattern),
+				operation: e,
 			};
-		}
-
-		if (e === 'last') {
-			return {
-				MSTOperationInputType: 'Array',
-				MSTOperationCallback: _MSTOperations.MSTArrayLast,
+		}).filter(function (e) {
+			return e.match;
+		}).slice(0, 1).map(function (e) {
+			if ((e.operation.MSTOperationInputType || '').match('Regex')) {
+				const callback = e.operation.MSTOperationCallback;
+				
+				e.operation.MSTOperationCallback = function (inputData) {
+					return callback(inputData, new RegExp(e.match[1], e.match[2]));
+				};
+			} else if (typeof e.match.index !== 'undefined') {
+				const callback = e.operation.MSTOperationCallback;
+				
+				e.operation.MSTOperationCallback = function (inputData) {
+					return callback(inputData, e.match[1]);
+				};
 			};
-		}
 
-		if (e === 'lines') {
-			return {
-				MSTOperationInputType: 'String',
-				MSTOperationCallback: _MSTOperations.MSTStringLines,
-			};
-		}
-
-		if (match = e.match(/matchArray\(\/([^]+)\/(\w)?\)/)) {
-			return new function() {
-				const self = this;
-
-				Object.assign(this, {
-					MSTOperationInputType: 'String,Regex',
-					MSTOperationCallbackIndirect (inputData) {
-						return self.MSTOperationCallback(inputData, new RegExp(match[1], match[2]));
-					},
-					MSTOperationCallback: _MSTOperations.MSTStringMatchArray,
-				});
-			};
-		}
-
-		if (match = e.match(/isMatch\(\/([^]+)\/(\w)?\)/)) {
-			return new function() {
-				const self = this;
-
-				Object.assign(this, {
-					MSTOperationInputType: 'String,Regex',
-					MSTOperationCallbackIndirect (inputData) {
-						return self.MSTOperationCallback(inputData, new RegExp(match[1], match[2]));
-					},
-					MSTOperationCallback: _MSTOperations.MSTStringIsMatch,
-				});
-			};
-		}
-
-		return {
-			MSTOperationCallback: _MSTOperations._MSTBypass,
-		};
+			return e.operation;
+		}).shift();
 	});
 };
 
 export const __MSTMassageOperations = function () {
 	return [{
+		MSTOperationPattern: /root/,
+		MSTOperationCallback: _MSTOperations._MSTBypass
+	}, {
 		MSTOperationPattern: /lines/,
 		MSTOperationInputType: 'String',
 		MSTOperationCallback: _MSTOperations.MSTStringLines
