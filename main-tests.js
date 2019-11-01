@@ -228,32 +228,6 @@ describe('MSTStringMatch', function testMSTStringMatch () {
 
 });
 
-describe('MSTStringMap', function testMSTStringMap () {
-
-	it('throws if param1 not string', function() {
-		throws(function() {
-			mainModule._MSTOperations.MSTStringMap(null, /alfa/);
-		}, /MSTErrorInputNotValid/);
-	});
-
-	it('throws if param2 not RegExp', function() {
-		throws(function() {
-			mainModule._MSTOperations.MSTStringMap('', null);
-		}, /MSTErrorInputNotValid/);
-	});
-	
-	it('returns object', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringMap('alfa', /(bravo|charlie)/), {});
-	});
-	
-	it('sets index', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringMap('alfa bravo', /(\w+) \w+/), {
-			1: 'alfa',
-		});
-	});
-
-});
-
 describe('MSTArrayFirst', function testMSTArrayFirst () {
 
 	it('throws if not array', function() {
