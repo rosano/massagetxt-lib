@@ -25,7 +25,7 @@ export const MSTMassageOperations = function (inputData) {
 		if (e === 'last') {
 			return {
 				MSTOperationInputType: 'Array',
-				MSTOperationCallback: _MSTOperations.MSTArrayOperationLast,
+				MSTOperationCallback: _MSTOperations.MSTArrayLast,
 			};
 		}
 
@@ -46,7 +46,7 @@ export const MSTMassageOperations = function (inputData) {
 
 export const _MSTOperations = {
 	
-	MSTArrayOperationLast (inputData) {
+	MSTArrayLast (inputData) {
 		if (!Array.isArray(inputData)) {
 			throw new Error('MSTErrorInputNotValid');
 		}

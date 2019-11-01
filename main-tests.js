@@ -79,7 +79,7 @@ describe('MSTMassageOperations', function testMSTMassageOperations() {
 		});
 
 		it('sets MSTOperationCallback', function () {
-			deepEqual(item.MSTOperationCallback, mainModule._MSTOperations.MSTArrayOperationLast);
+			deepEqual(item.MSTOperationCallback, mainModule._MSTOperations.MSTArrayLast);
 		});
 	
 	});
@@ -148,20 +148,20 @@ describe('MSTStringMap', function testMSTStringMap () {
 
 });
 
-describe('MSTArrayOperationLast', function testMSTArrayOperationLast () {
+describe('MSTArrayLast', function testMSTArrayLast () {
 
 	it('throws if not array', function() {
 		throws(function() {
-			mainModule._MSTOperations.MSTArrayOperationLast(null);
+			mainModule._MSTOperations.MSTArrayLast(null);
 		}, /MSTErrorInputNotValid/);
 	});
 	
 	it('returns undefined if none', function () {
-		deepEqual(mainModule._MSTOperations.MSTArrayOperationLast([]), undefined);
+		deepEqual(mainModule._MSTOperations.MSTArrayLast([]), undefined);
 	});
 	
 	it('returns last item', function () {
-		deepEqual(mainModule._MSTOperations.MSTArrayOperationLast(['alfa', 'bravo']), 'bravo');
+		deepEqual(mainModule._MSTOperations.MSTArrayLast(['alfa', 'bravo']), 'bravo');
 	});
 
 });
