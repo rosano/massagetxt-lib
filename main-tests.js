@@ -123,6 +123,12 @@ describe('MSTStringOperationMatch', function testMSTStringOperationMatch () {
 });
 
 describe('MSTArrayOperationLast', function testMSTArrayOperationLast () {
+
+	it('throws if not array', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayOperationLast(null);
+		}, /MSTErrorInputNotValid/);
+	});
 	
 	it('returns undefined if none', function () {
 		deepEqual(mainModule._MSTOperations.MSTArrayOperationLast([]), undefined);

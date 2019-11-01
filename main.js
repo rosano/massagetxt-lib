@@ -47,6 +47,10 @@ export const MSTMassageOperations = function (inputData) {
 export const _MSTOperations = {
 	
 	MSTArrayOperationLast (inputData) {
+		if (!Array.isArray(inputData)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
 		return inputData.slice(-1).pop();
 	},
 	
