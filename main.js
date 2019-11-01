@@ -7,9 +7,9 @@ export const MSTMassage = function (param1, param2) {
 		throw new Error('MSTErrorInputNotValid');
 	}
 
-	return _MSTMassageOperations(param2).reduce(function (coll, item) {
+	return _MSTMassageTerminate(_MSTMassageOperations(param2).reduce(function (coll, item) {
 		return (item.MSTOperationCallbackIndirect || item.MSTOperationCallback)(coll);
-	}, param1);
+	}, param1));
 };
 
 export const _MSTMassageOperations = function (inputData) {
@@ -56,6 +56,10 @@ export const _MSTMassageOperations = function (inputData) {
 			MSTOperationCallback: _MSTOperations._MSTBypass,
 		};
 	});
+};
+
+export const _MSTMassageTerminate = function (inputData) {
+	return _MSTMassageTerminateFunction(inputData)(inputData);
 };
 
 export const _MSTMassageTerminateFunction = function (inputData) {

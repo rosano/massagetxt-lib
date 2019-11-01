@@ -100,6 +100,18 @@ describe('_MSTMassageOperations', function test_MSTMassageOperations() {
 
 });
 
+describe('_MSTMassageTerminate', function test_MSTMassageTerminate() {
+
+	it('returns string if not string', function () {
+		deepEqual(mainModule._MSTMassageTerminate(null), 'null');
+	});
+
+	it('returns input', function () {
+		deepEqual(mainModule._MSTMassageTerminate('alfa'), 'alfa');
+	});
+
+});
+
 describe('_MSTMassageTerminateFunction', function test_MSTMassageTerminateFunction() {
 
 	it('returns JSON.stringify if not string', function () {
