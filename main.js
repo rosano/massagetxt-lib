@@ -84,6 +84,10 @@ export const _MSTMassageTypeForInput = function(inputData) {
 		return 'Array';
 	};
 
+	if (typeof inputData === 'object' && inputData !== null) {
+		return 'Object';
+	};
+
 	throw new Error('MSTErrorInputNotValid');
 };
 

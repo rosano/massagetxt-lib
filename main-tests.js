@@ -72,6 +72,10 @@ describe('_MSTMassageTypeForInput', function test_MSTMassageTypeForInput() {
 		deepEqual(mainModule._MSTMassageTypeForInput([]), 'Array');
 	});
 
+	it('returns Object if object', function() {
+		deepEqual(mainModule._MSTMassageTypeForInput({}), 'Object');
+	});
+
 	it('throws', function() {
 		throws(function() {
 			mainModule._MSTMassageTypeForInput(null);
