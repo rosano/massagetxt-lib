@@ -98,6 +98,28 @@ describe('_MSTMassageOperations', function test_MSTMassageOperations() {
 	
 	});
 
+	context('matchArray(…)', function () {
+
+		const item = mainModule._MSTMassageOperations('matchArray(/alfa/)').shift();
+		
+		it('sets MSTOperationInputType', function () {
+			deepEqual(item.MSTOperationInputType, 'String,Regex');
+		});
+
+		it('sets MSTOperationCallback', function () {
+			deepEqual(item.MSTOperationCallback, mainModule._MSTOperations.MSTStringMatchArray);
+		});
+
+		context('MSTOperationCallbackIndirect', function () {
+
+			it('passes inputs', function () {
+				deepEqual(item.MSTOperationCallbackIndirect('alfa'), [])
+			});
+		
+		});
+	
+	});
+
 });
 
 describe('_MSTMassageTerminate', function test_MSTMassageTerminate() {
@@ -165,6 +187,34 @@ describe('MSTStringIsMatch', function testMSTStringIsMatch () {
 	
 	it('sets index', function () {
 		deepEqual(mainModule._MSTOperations.MSTStringIsMatch('alfa', /alfa/), true);
+	});
+
+});
+
+describe('MSTStringMatchArray', function testMSTStringMatchArray () {
+
+	it('throws if param1 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringMatchArray(null, /alfa/);
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not RegExp', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringMatchArray('', null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns array', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringMatchArray('alfa', /bravo/), []);
+	});
+	
+	it('excludes if no capture', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringMatchArray('alfa', /alfa/), []);
+	});
+	
+	it('includes if capture', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringMatchArray('alfa', /(alfa)/), [{ 1: 'alfa' }]);
 	});
 
 });

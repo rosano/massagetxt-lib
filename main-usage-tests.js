@@ -28,4 +28,16 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		deepEqual(MSTMassage('alfa', 'root.raw.isMatch(/alfa/)'), 'true');
 	});
 
+	it('string match array with no capture', function () {
+		deepEqual(MSTMassage('- alfa\n- bravo\n', 'root.raw.matchArray(/- .*\n/)'), '[]');
+	});
+
+	it('string match array with capture with no global', function () {
+		deepEqual(MSTMassage('- alfa\n- bravo\n', 'root.raw.matchArray(/- (.*)\n/)'), JSON.stringify([{ 1: 'alfa' }]));
+	});
+
+	it('string match array with capture with global', function () {
+		deepEqual(MSTMassage('- alfa\n- bravo\n', 'root.raw.matchArray(/- (.*)\n/g)'), JSON.stringify([{ 1: 'alfa' }, { 1: 'bravo' }]));
+	});
+
 });

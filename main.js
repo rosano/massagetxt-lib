@@ -21,7 +21,9 @@ export const _MSTMassageOperations = function (inputData) {
 		return [];
 	}
 
-	return inputData.split('.').map(function (e) {
+	return [inputData.split('.')[0]].concat((inputData.match(/\.(\w+)(\([^]*\))?/g) || []).map(function (e) {
+		return e.split('.').slice(1).join('.');
+	})).map(function (e) {
 		let match;
 
 		if (e === 'last') {
@@ -38,7 +40,21 @@ export const _MSTMassageOperations = function (inputData) {
 			};
 		}
 
-		if (match = e.match(/isMatch\(\/(.+)\/(\w)?\)/)) {
+		if (match = e.match(/matchArray\(\/([^]+)\/(\w)?\)/)) {
+			return new function() {
+				const self = this;
+
+				Object.assign(this, {
+					MSTOperationInputType: 'String,Regex',
+					MSTOperationCallbackIndirect (inputData) {
+						return self.MSTOperationCallback(inputData, new RegExp(match[1], match[2]));
+					},
+					MSTOperationCallback: _MSTOperations.MSTStringMatchArray,
+				});
+			};
+		}
+
+		if (match = e.match(/isMatch\(\/([^]+)\/(\w)?\)/)) {
 			return new function() {
 				const self = this;
 
@@ -98,6 +114,38 @@ export const _MSTOperations = {
 		};
 
 		return !!param1.match(param2);
+	},
+	
+	MSTStringMatchArray (param1, param2) {
+		if (typeof param1 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (!(param2 instanceof RegExp)) {
+			throw new Error('MSTErrorInputNotValid');
+		};
+
+		const match = param1.match(param2);
+
+		if (!match) {
+			return [];
+		};
+
+		if (match.length <= 1) {
+			return [];
+		};
+
+		return (typeof match.index !== 'undefined' ? [match] : match.map(function (e) {
+			return param2.exec(e.match(param2)); // #mysterious result is null unless match is called
+		})).map(function (e) {
+			return e.reduce(function (coll, item, index) {
+				if (index) {
+					coll[index] = item;
+				};
+
+				return coll;
+			}, {})
+		});
 	},
 	
 	MSTStringMap (param1, param2) {
