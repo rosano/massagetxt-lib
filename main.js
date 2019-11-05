@@ -246,6 +246,10 @@ export const _MSTOperations = {
 	},
 	
 	MSTStringLines (inputData) {
+		if (typeof inputData !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
 		return inputData.split('\n').filter(function (e) {
 			return e.length;
 		});

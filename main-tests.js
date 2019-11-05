@@ -247,6 +247,12 @@ describe('_MSTBypass', function test_MSTBypass () {
 
 describe('MSTStringLines', function testMSTStringLines () {
 	
+	it('throws if not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringLines(null);
+		}, /MSTErrorInputNotValid/);
+	});
+
 	it('returns array', function () {
 		deepEqual(mainModule._MSTOperations.MSTStringLines(''), []);
 	});
