@@ -45,6 +45,10 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		it('lines', function () {
 			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines'), JSON.stringify(['alfa', 'bravo']));
 		});
+
+		it('prepend', function () {
+			deepEqual(MSTMassage('alfa', '$input.prepend(bravo)'), 'bravoalfa');
+		});
 	
 	});
 

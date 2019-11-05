@@ -151,6 +151,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationInputTypes: 'String,Regex',
 			MSTOperationCallback: mainModule._MSTOperations.MSTStringMatch,
 		}, {
+			MSTOperationPattern: /^prepend\(([^]+)\)$/,
+			MSTOperationInputTypes: 'String,String',
+			MSTOperationCallback: mainModule._MSTOperations.MSTStringPrepend,
+		}, {
 			MSTOperationPattern: /^first$/,
 			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayFirst,

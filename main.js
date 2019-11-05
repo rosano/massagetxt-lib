@@ -169,6 +169,10 @@ export const __MSTMassageOperations = function () {
 		MSTOperationInputTypes: 'String,Regex',
 		MSTOperationCallback: _MSTOperations.MSTStringMatch,
 	}, {
+		MSTOperationPattern: /^prepend\(([^]+)\)$/,
+		MSTOperationInputTypes: 'String,String',
+		MSTOperationCallback: _MSTOperations.MSTStringPrepend,
+	}, {
 		MSTOperationPattern: /^first$/,
 		MSTOperationInputTypes: 'Array',
 		MSTOperationCallback: _MSTOperations.MSTArrayFirst,
