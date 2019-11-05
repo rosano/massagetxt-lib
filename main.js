@@ -451,6 +451,7 @@ export const _MSTOperations = {
 		};
 
 		return {
+			MSTGroupKey: param2,
 			MSTGroupValue: param1.reduce(function (coll, item) {
 				(coll[item[param2]] = coll[item[param2]] || []).push(item);
 

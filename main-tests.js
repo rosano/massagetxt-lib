@@ -608,13 +608,18 @@ describe('MSTArrayGroup', function testMSTArrayGroup () {
 	});
 	
 	it('returns Group', function () {
-		deepEqual(mainModule._MSTOperations.MSTArrayGroup([], ''), { MSTGroupValue: {} });
+		deepEqual(mainModule._MSTOperations.MSTArrayGroup([], ''), {
+			MSTGroupKey: '',
+			MSTGroupValue: {},
+		});
 	});
 	
 	it('groups by param2', function () {
-		deepEqual(mainModule._MSTOperations.MSTArrayGroup([{ alfa: 'bravo' }], 'alfa'), { MSTGroupValue: {
-			bravo: [{ alfa: 'bravo' }] }
-		});
+		deepEqual(mainModule._MSTOperations.MSTArrayGroup([{ alfa: 'bravo' }], 'alfa'), {
+			MSTGroupKey: 'alfa',
+			MSTGroupValue: {
+				bravo: [{ alfa: 'bravo' }] },
+			});
 	});
 
 });
