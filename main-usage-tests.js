@@ -49,6 +49,10 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		it('prepend', function () {
 			deepEqual(MSTMassage('alfa', '$input.prepend(bravo)'), 'bravoalfa');
 		});
+
+		it('postpend', function () {
+			deepEqual(MSTMassage('alfa', '$input.postpend(bravo)'), 'alfabravo');
+		});
 	
 	});
 

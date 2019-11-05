@@ -173,6 +173,10 @@ export const __MSTMassageOperations = function () {
 		MSTOperationInputTypes: 'String,String',
 		MSTOperationCallback: _MSTOperations.MSTStringPrepend,
 	}, {
+		MSTOperationPattern: /^postpend\(([^]+)\)$/,
+		MSTOperationInputTypes: 'String,String',
+		MSTOperationCallback: _MSTOperations.MSTStringPostpend,
+	}, {
 		MSTOperationPattern: /^first$/,
 		MSTOperationInputTypes: 'Array',
 		MSTOperationCallback: _MSTOperations.MSTArrayFirst,

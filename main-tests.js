@@ -155,6 +155,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationInputTypes: 'String,String',
 			MSTOperationCallback: mainModule._MSTOperations.MSTStringPrepend,
 		}, {
+			MSTOperationPattern: /^postpend\(([^]+)\)$/,
+			MSTOperationInputTypes: 'String,String',
+			MSTOperationCallback: mainModule._MSTOperations.MSTStringPostpend,
+		}, {
 			MSTOperationPattern: /^first$/,
 			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayFirst,
