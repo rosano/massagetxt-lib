@@ -21,13 +21,7 @@ export const _MSTMassageOperations = function (inputData) {
 		return [];
 	}
 
-	return [].concat.apply([], [inputData.split('.')[0]].concat((inputData.split('').reverse().join('').match(/(\][^]+?\[)?(\)[^]+?\()?(\w+)\./g) || []).map(function (e) {
-		e = e.split('').reverse().join('');
-
-		const match = e.match(/(\[[^]+\])?$/);
-
-		return [e.slice(0, match.index).split('.').slice(1).join('.')].concat(match[0] || []);
-	}).reverse())).map(function (operationString) {
+	return __MSTMassageOperationStrings(inputData).map(function (operationString) {
 		const operations = __MSTMassageOperations().filter(function (e) {
 			return operationString.match(e.MSTOperationPattern);
 		});
@@ -97,6 +91,16 @@ export const _MSTMassageOperations = function (inputData) {
 			return callback(operationInput);
 		};
 	});
+};
+
+export const __MSTMassageOperationStrings = function (inputData) {
+	return [].concat.apply([], [inputData.split('.')[0]].concat((inputData.split('').reverse().join('').match(/(\][^]+?\[)?(\)[^]+?\()?(\w+)\./g) || []).map(function (e) {
+		e = e.split('').reverse().join('');
+
+		const match = e.match(/(\[[^]+\])?$/);
+
+		return [e.slice(0, match.index).split('.').slice(1).join('.')].concat(match[0] || []);
+	}).reverse()));
 };
 
 export const _MSTMassageInputTypes = function(inputData) {
