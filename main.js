@@ -36,7 +36,7 @@ export const _MSTMassageOperations = function (inputData) {
 			throw new Error('MSTErrorIdentifierNotValid');
 		};
 
-		return function (inputData) {
+		const callback = function (inputData) {
 			const operation = operations.filter(function (e) {
 				if (!e.MSTOperationInputTypes) {
 					return true;
@@ -66,6 +66,22 @@ export const _MSTMassageOperations = function (inputData) {
 			};
 
 			return operation.MSTOperationCallback(inputData);
+		};
+
+		return function (inputData) {
+			if (__MSTIsGroup(inputData)) {
+				inputData = inputData.MSTGroupValue;
+
+				return {
+					MSTGroupValue: Object.keys(inputData).reduce(function (coll, item) {
+						coll[item] = coll[item].map(callback);
+						
+						return coll;
+					}, inputData),
+				};
+			};
+
+			return callback(inputData);
 		};
 	});
 };

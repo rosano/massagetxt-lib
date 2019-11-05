@@ -116,6 +116,14 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 	
 	});
 
+	context('group', function () {
+
+		it('print', function () {
+			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.match(/(\\w+)/).remap(name: $1).group(name).print(charlie $name)'), JSON.stringify({ alfa: ['charlie alfa'], bravo: ['charlie bravo'] }));
+		});
+	
+	});
+
 	context('case', function () {
 
 		it('structure', function () {
