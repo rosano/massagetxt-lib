@@ -101,6 +101,10 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		it('print', function () {
 			deepEqual(MSTMassage('- alfa 1\n- bravo 2\n', '$input.lines.match(/- (\\w+) (\\d+)/).remap(name: $1, number: $2).print(- $name $number)'), JSON.stringify(['- alfa 1', '- bravo 2']));
 		});
+
+		it('join', function () {
+			deepEqual(MSTMassage('- alfa 1\n- bravo 2\n', '$input.lines.join(,)'), '- alfa 1,- bravo 2');
+		});
 	
 	});
 

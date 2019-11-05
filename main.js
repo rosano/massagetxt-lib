@@ -75,7 +75,7 @@ export const _MSTMassageOperations = function (inputData) {
 				return {
 					MSTGroupValue: Object.keys(inputData).reduce(function (coll, item) {
 						coll[item] = coll[item].map(callback);
-						
+
 						return coll;
 					}, inputData),
 				};
@@ -198,6 +198,10 @@ export const __MSTMassageOperations = function () {
 		MSTOperationPattern: /^print\(([^]+)\)$/,
 		MSTOperationInputTypes: 'Array,String',
 		MSTOperationCallback: _MSTOperations.MSTArrayPrint,
+	}, {
+		MSTOperationPattern: /^join\(([^]+)\)$/,
+		MSTOperationInputTypes: 'Array,String',
+		MSTOperationCallback: _MSTOperations.MSTArrayJoin,
 	}, {
 		MSTOperationPattern: /^remap\(([^]+)\)$/,
 		MSTOperationInputTypes: 'Object,String',

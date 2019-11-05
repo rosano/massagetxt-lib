@@ -191,6 +191,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationInputTypes: 'Array,String',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayPrint,
 		}, {
+			MSTOperationPattern: /^join\(([^]+)\)$/,
+			MSTOperationInputTypes: 'Array,String',
+			MSTOperationCallback: mainModule._MSTOperations.MSTArrayJoin,
+		}, {
 			MSTOperationPattern: /^remap\(([^]+)\)$/,
 			MSTOperationInputTypes: 'Object,String',
 			MSTOperationCallback: mainModule._MSTOperations.MSTObjectRemap,
