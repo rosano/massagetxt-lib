@@ -142,6 +142,14 @@ export const __MSTMassageOperations = function () {
 		MSTOperationPattern: /^match\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'Array,Regex',
 		MSTOperationCallback: _MSTOperations.MSTArrayMatch,
+	}, {
+		MSTOperationPattern: /^remap\(([^]+)\)$/,
+		MSTOperationInputTypes: 'Array,String',
+		MSTOperationCallback: _MSTOperations.MSTArrayRemap,
+	}, {
+		MSTOperationPattern: /^remap\(([^]+)\)$/,
+		MSTOperationInputTypes: 'Object,String',
+		MSTOperationCallback: _MSTOperations.MSTObjectRemap,
 	}];
 };
 
@@ -280,6 +288,20 @@ export const _MSTOperations = {
 			return _MSTOperations.MSTStringMatch(e, param2).shift();
 		}).filter(function (e) {
 			return e;
+		});
+	},
+	
+	MSTArrayRemap (param1, param2) {
+		if (!Array.isArray(param1)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (typeof param2 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		};
+
+		return param1.map(function (e) {
+			return _MSTOperations._MSTObjectRemap(param2)(e);
 		});
 	},
 	

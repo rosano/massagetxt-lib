@@ -136,6 +136,14 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationPattern: /^match\(\/([^]+)\/(\w)?\)$/,
 			MSTOperationInputTypes: 'Array,Regex',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayMatch,
+		}, {
+			MSTOperationPattern: /^remap\(([^]+)\)$/,
+			MSTOperationInputTypes: 'Array,String',
+			MSTOperationCallback: mainModule._MSTOperations.MSTArrayRemap,
+		}, {
+			MSTOperationPattern: /^remap\(([^]+)\)$/,
+			MSTOperationInputTypes: 'Object,String',
+			MSTOperationCallback: mainModule._MSTOperations.MSTObjectRemap,
 		}]);
 	});
 
@@ -384,6 +392,30 @@ describe('MSTArrayMatch', function testMSTArrayMatch () {
 	
 	it('includes', function () {
 		deepEqual(mainModule._MSTOperations.MSTArrayMatch(['alfa'], /(alfa)/), [{ 1: 'alfa' }]);
+	});
+
+});
+
+describe('MSTArrayRemap', function testMSTArrayRemap () {
+
+	it('throws if param1 not array', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayRemap(null, '');
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayRemap([], null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns array', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayRemap([], ''), []);
+	});
+	
+	it('parses expression', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayRemap([{ alfa: 'bravo' }], 'charlie: $alfa'), [{ charlie: 'bravo' }]);
 	});
 
 });

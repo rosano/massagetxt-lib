@@ -92,4 +92,12 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 	
 	});
 
+	context('object', function () {
+
+		it('remap', function () {
+			deepEqual(MSTMassage('- alfa 1\n- bravo 2\n', '$input.lines.match(/- (\\w+) (\\d+)/).remap(name: $1, number: $2)'), JSON.stringify([{ name: 'alfa', number: '1'}, { name: 'bravo', number: '2' }]));
+		});
+	
+	});
+
 });
