@@ -68,50 +68,50 @@ describe('_MSTMassageInputTypes', function test_MSTMassageInputTypes() {
 
 });
 
-describe('_MSTMassageTypeForInput', function test_MSTMassageTypeForInput() {
+describe('_MSTMassageType', function test_MSTMassageType() {
 
 	it('returns String if string', function() {
-		deepEqual(mainModule._MSTMassageTypeForInput(''), 'String');
+		deepEqual(mainModule._MSTMassageType(''), 'String');
 	});
 
 	it('returns Array if array', function() {
-		deepEqual(mainModule._MSTMassageTypeForInput([]), 'Array');
+		deepEqual(mainModule._MSTMassageType([]), 'Array');
 	});
 
 	it('returns Object if object', function() {
-		deepEqual(mainModule._MSTMassageTypeForInput({}), 'Object');
+		deepEqual(mainModule._MSTMassageType({}), 'Object');
 	});
 
 	it('returns Group if group', function() {
-		deepEqual(mainModule._MSTMassageTypeForInput({
+		deepEqual(mainModule._MSTMassageType({
 			MSTGroupValue: {},
 		}), 'Group');
 	});
 
 	it('throws', function() {
 		throws(function() {
-			mainModule._MSTMassageTypeForInput(null);
+			mainModule._MSTMassageType(null);
 		}, /MSTErrorInputNotValid/);
 	});
 
 });
 
-describe('_MSTIsGroup', function test_MSTIsGroup () {
+describe('__MSTIsGroup', function test__MSTIsGroup () {
 
 	it('throws if param1 not object', function() {
 		throws(function() {
-			mainModule._MSTIsGroup(null, '');
+			mainModule.__MSTIsGroup(null, '');
 		}, /MSTErrorInputNotValid/);
 	});
 
 	it('returns false if MSTGroupValue not object', function () {
-		deepEqual(mainModule._MSTIsGroup({
+		deepEqual(mainModule.__MSTIsGroup({
 			MSTGroupValue: null,
 		}), false);
 	});
 	
 	it('returns true', function () {
-		deepEqual(mainModule._MSTIsGroup({ MSTGroupValue: {} }), true);
+		deepEqual(mainModule.__MSTIsGroup({ MSTGroupValue: {} }), true);
 	});
 
 });

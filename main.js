@@ -42,7 +42,7 @@ export const _MSTMassageOperations = function (inputData) {
 					return true;
 				};
 
-				return _MSTMassageInputTypes(e.MSTOperationInputTypes).shift() === _MSTMassageTypeForInput(inputData);
+				return _MSTMassageInputTypes(e.MSTOperationInputTypes).shift() === _MSTMassageType(inputData);
 			}).shift();
 
 			if (!operation) {
@@ -82,7 +82,7 @@ export const _MSTMassageInputTypes = function(inputData) {
 	});
 };
 
-export const _MSTMassageTypeForInput = function(inputData) {
+export const _MSTMassageType = function(inputData) {
 	if (typeof inputData === 'string') {
 		return 'String';
 	}
@@ -92,7 +92,7 @@ export const _MSTMassageTypeForInput = function(inputData) {
 	};
 
 	if (typeof inputData === 'object' && inputData !== null) {
-		if (_MSTIsGroup(inputData)) {
+		if (__MSTIsGroup(inputData)) {
 			return 'Group';
 		};
 		
@@ -102,7 +102,7 @@ export const _MSTMassageTypeForInput = function(inputData) {
 	throw new Error('MSTErrorInputNotValid');
 };
 
-export const _MSTIsGroup = function (inputData) {
+export const __MSTIsGroup = function (inputData) {
 	if (typeof inputData !== 'object' || inputData === null) {
 		throw new Error('MSTErrorInputNotValid');
 	}
