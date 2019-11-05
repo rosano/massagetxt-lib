@@ -68,18 +68,18 @@ export const _MSTMassageOperations = function (inputData) {
 			return operation.MSTOperationCallback(inputData);
 		};
 
-		return function (inputData) {
-			if (__MSTIsGroup(inputData)) {
-				inputData = inputData.MSTGroupValue;
+		return function (operationInput) {
+			if (__MSTIsGroup(operationInput)) {
+				operationInput = operationInput.MSTGroupValue;
 
 				const isJoin = operations.length === 1 && operationString.match(/^join/) && operationString.match(operations[0].MSTOperationPattern);
 
-				if (isJoin && !Array.isArray(Object.values(inputData)[0])) {
-					return callback(Object.values(inputData));
+				if (isJoin && !Array.isArray(Object.values(operationInput)[0])) {
+					return callback(Object.values(operationInput));
 				};
 
 				return {
-					MSTGroupValue: Object.keys(inputData).reduce(function (coll, item) {
+					MSTGroupValue: Object.keys(operationInput).reduce(function (coll, item) {
 						if (isJoin) {
 							coll[item] = callback(coll[item]);
 						} else {
@@ -87,11 +87,11 @@ export const _MSTMassageOperations = function (inputData) {
 						}
 
 						return coll;
-					}, inputData),
+					}, operationInput),
 				};
 			};
 
-			return callback(inputData);
+			return callback(operationInput);
 		};
 	});
 };
