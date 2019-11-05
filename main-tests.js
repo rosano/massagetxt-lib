@@ -420,6 +420,30 @@ describe('MSTArrayRemap', function testMSTArrayRemap () {
 
 });
 
+describe('MSTArrayGroup', function testMSTArrayGroup () {
+
+	it('throws if param1 not array', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayGroup(null, '');
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayGroup([], null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns object', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayGroup([], ''), {});
+	});
+	
+	it('groups by param2', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayGroup([{ alfa: 'bravo' }], 'alfa'), { bravo: [{ alfa: 'bravo' }] });
+	});
+
+});
+
 describe('MSTObjectRemap', function testMSTObjectRemap () {
 
 	it('throws if param1 not object', function() {

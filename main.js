@@ -305,6 +305,22 @@ export const _MSTOperations = {
 		});
 	},
 	
+	MSTArrayGroup (param1, param2) {
+		if (!Array.isArray(param1)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (typeof param2 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		};
+
+		return param1.reduce(function (coll, item) {
+			(coll[item[param2]] = coll[item[param2]] || []).push(item);
+			
+			return coll;
+		}, {});
+	},
+	
 	MSTObjectRemap (param1, param2) {
 		if (typeof param1 !== 'object' || param1 === null) {
 			throw new Error('MSTErrorInputNotValid');
