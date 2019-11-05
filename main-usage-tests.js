@@ -143,7 +143,7 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		});
 
 		it('prepend 1', function () {
-			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.match(/(\\w+)/).remap(name: $1).group(name).print(charlie $name).prepend(delta $name ).join(,).join(,)'), 'delta alfa charlie alfa,delta bravo charlie bravo');
+			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.match(/(\\w+)/).remap(name: $1, other: $1).group(name).print(charlie $other).prepend(delta $name ).join(,).join(,)'), 'delta alfa charlie alfa,delta bravo charlie bravo');
 		});
 	
 	});
