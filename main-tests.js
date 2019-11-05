@@ -381,3 +381,87 @@ describe('MSTArrayMatch', function testMSTArrayMatch () {
 	});
 
 });
+
+describe('MSTObjectRemap', function testMSTObjectRemap () {
+
+	it('throws if param1 not object', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTObjectRemap(null, '');
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTObjectRemap({}, null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns object', function () {
+		deepEqual(mainModule._MSTOperations.MSTObjectRemap({}, ''), {});
+	});
+	
+	it('parses expression object', function () {
+		deepEqual(mainModule._MSTOperations.MSTObjectRemap({ alfa: 'bravo' }, 'charlie: $alfa'), { charlie: 'bravo' });
+	});
+
+});
+
+describe('_MSTObjectRemap', function test_MSTObjectRemap () {
+
+	it('throws if not string', function() {
+		throws(function() {
+			mainModule._MSTOperations._MSTObjectRemap(null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns function', function () {
+		deepEqual(typeof mainModule._MSTOperations._MSTObjectRemap(''), 'function');
+	});
+
+	context('callback', function () {
+		
+		it('throws if not object', function () {
+			throws(function () {
+				mainModule._MSTOperations._MSTObjectRemap('')(null)
+			}, /MSTErrorInputNotValid/);
+		});
+
+		it('returns object', function () {
+			deepEqual(mainModule._MSTOperations._MSTObjectRemap('')({}), {});
+		});
+
+		it('excludes if no key', function () {
+			deepEqual(mainModule._MSTOperations._MSTObjectRemap(': $1')({ 1: 2 }), {});
+		});
+
+		it('excludes if no sign', function () {
+			deepEqual(mainModule._MSTOperations._MSTObjectRemap('alfa: 1')({ 1: 2 }), {});
+		});
+
+		it('excludes if no colon', function () {
+			deepEqual(mainModule._MSTOperations._MSTObjectRemap('alfa $1')({ 1: 2 }), {});
+		});
+
+		it('excludes if multiple colons', function () {
+			deepEqual(mainModule._MSTOperations._MSTObjectRemap('alfa: $1: bravo')({ 1: 2 }), {});
+		});
+
+		it('excludes if no match', function () {
+			deepEqual(mainModule._MSTOperations._MSTObjectRemap('alfa: $0')({ 1: 2 }), {});
+		});
+
+		it('includes if match', function () {
+			deepEqual(mainModule._MSTOperations._MSTObjectRemap('alfa: $1')({ 1: 2 }), { alfa: 2 });
+		});
+
+		it('includes if no whitespace', function () {
+			deepEqual(mainModule._MSTOperations._MSTObjectRemap('alfa:$1')({ 1: 2 }), { alfa: 2 });
+		});
+
+		it('includes multiple', function () {
+			deepEqual(mainModule._MSTOperations._MSTObjectRemap('alfa: $1, bravo: $3')({ 1: 2, 3: 4 }), { alfa: 2, bravo: 4 });
+		});
+	
+	});
+
+});

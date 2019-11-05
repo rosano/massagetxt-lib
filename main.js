@@ -275,5 +275,59 @@ export const _MSTOperations = {
 			return e;
 		});
 	},
+	
+	MSTObjectRemap (param1, param2) {
+		if (typeof param1 !== 'object' || param1 === null) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (typeof param2 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		};
+
+		return _MSTOperations._MSTObjectRemap(param2)(param1);
+	},
+	
+	_MSTObjectRemap (inputData) {
+		if (typeof inputData !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		};
+
+		return function (object) {
+			if (typeof object !== 'object' || object === null) {
+				throw new Error('MSTErrorInputNotValid');
+			}
+
+			return inputData.split(',').map(function (e) {
+				const pair = e.split(':').map(function (e) {
+					return e.trim();
+				});
+
+				if (pair.length != 2) {
+					return null;
+				};
+
+				if (!pair[0]) {
+					return null;
+				};
+
+				if (pair[1][0] !== '$') {
+					return null;
+				};
+
+				if (!Object.keys(object).includes(pair[1].slice(1))) {
+					return null;
+				};
+
+				return pair;
+			}).filter(function (e) {
+				return e;
+			}).reduce(function (coll, [key, value]) {
+				coll[key] = object[value.slice(1)];
+
+				return coll;
+			}, {});
+		};
+	},
 
 };
