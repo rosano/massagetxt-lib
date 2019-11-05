@@ -104,4 +104,12 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 	
 	});
 
+	context('case', function () {
+
+		it('structure', function () {
+			deepEqual(MSTMassage('- 2019.11.05 alfa: bravo\n- 2018.11.05 charlie: delta\n', '$input.lines.match(/- (\\d+)\\.\\d+\\.\\d+ (.*): (.*)/).remap(echo: $1, foxtrot: $2, golf: $3)'), JSON.stringify([{ echo: '2019', foxtrot: 'alfa', golf: 'bravo' }, { echo: '2018', foxtrot: 'charlie', golf: 'delta' }]));
+		});
+	
+	});
+
 });
