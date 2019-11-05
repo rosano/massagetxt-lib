@@ -295,6 +295,30 @@ describe('MSTStringPrepend', function testMSTStringPrepend () {
 
 });
 
+describe('MSTStringPostpend', function testMSTStringPostpend () {
+	
+	it('throws if param1 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringPostpend(null, '');
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringPostpend('', null);
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('returns string', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringPostpend('', ''), '');
+	});
+
+	it('returns postpends param2', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringPostpend('alfa', 'bravo'), 'alfabravo');
+	});
+
+});
+
 describe('MSTStringIsMatch', function testMSTStringIsMatch () {
 
 	it('throws if param1 not string', function() {
