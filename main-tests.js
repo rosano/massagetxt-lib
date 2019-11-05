@@ -116,6 +116,20 @@ describe('__MSTIsGroup', function test__MSTIsGroup () {
 
 });
 
+describe('__MSTGroupValue', function test__MSTGroupValue () {
+
+	it('throws if param1 not valid', function() {
+		throws(function() {
+			mainModule.__MSTGroupValue({});
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns MSTGroupValue', function () {
+		deepEqual(mainModule.__MSTGroupValue({ MSTGroupValue: {} }), {});
+	});
+
+});
+
 describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 
 	it('returns array', function () {

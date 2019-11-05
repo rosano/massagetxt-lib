@@ -114,6 +114,14 @@ export const __MSTIsGroup = function (inputData) {
 	return true;
 };
 
+export const __MSTGroupValue = function (inputData) {
+	if (!__MSTIsGroup(inputData)) {
+		throw new Error('MSTErrorInputNotValid');
+	}
+
+	return inputData.MSTGroupValue;
+};
+
 export const __MSTMassageOperations = function () {
 	return [{
 		MSTOperationPattern: /^\$?input$/,
