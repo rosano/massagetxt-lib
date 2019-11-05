@@ -148,6 +148,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationPattern: /^remap\(([^]+)\)$/,
 			MSTOperationInputTypes: 'Object,String',
 			MSTOperationCallback: mainModule._MSTOperations.MSTObjectRemap,
+		}, {
+			MSTOperationPattern: /^print\(([^]+)\)$/,
+			MSTOperationInputTypes: 'Object,String',
+			MSTOperationCallback: mainModule._MSTOperations.MSTObjectPrint,
 		}]);
 	});
 
