@@ -203,6 +203,11 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 
 describe('_MSTMassageTerminate', function test_MSTMassageTerminate() {
 
+	it('returns MSTGroupValue if Group', function () {
+		const item = { alfa: 'bravo' };
+		deepEqual(mainModule._MSTMassageTerminate({ MSTGroupValue: item }), JSON.stringify(item));
+	});
+
 	it('returns string if not string', function () {
 		deepEqual(mainModule._MSTMassageTerminate(null), 'null');
 	});
@@ -510,12 +515,14 @@ describe('MSTArrayGroup', function testMSTArrayGroup () {
 		}, /MSTErrorInputNotValid/);
 	});
 	
-	it('returns object', function () {
-		deepEqual(mainModule._MSTOperations.MSTArrayGroup([], ''), {});
+	it('returns Group', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayGroup([], ''), { MSTGroupValue: {} });
 	});
 	
 	it('groups by param2', function () {
-		deepEqual(mainModule._MSTOperations.MSTArrayGroup([{ alfa: 'bravo' }], 'alfa'), { bravo: [{ alfa: 'bravo' }] });
+		deepEqual(mainModule._MSTOperations.MSTArrayGroup([{ alfa: 'bravo' }], 'alfa'), { MSTGroupValue: {
+			bravo: [{ alfa: 'bravo' }] }
+		});
 	});
 
 });

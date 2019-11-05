@@ -190,6 +190,10 @@ export const __MSTMassageOperations = function () {
 };
 
 export const _MSTMassageTerminate = function (inputData) {
+	if (typeof inputData === 'object' && inputData !== null && __MSTIsGroup(inputData)) {
+		inputData = __MSTGroupValue(inputData);
+	}
+
 	return __MSTMassageTerminateFunction(inputData)(inputData);
 };
 
@@ -364,11 +368,13 @@ export const _MSTOperations = {
 			throw new Error('MSTErrorInputNotValid');
 		};
 
-		return param1.reduce(function (coll, item) {
-			(coll[item[param2]] = coll[item[param2]] || []).push(item);
+		return {
+			MSTGroupValue: param1.reduce(function (coll, item) {
+				(coll[item[param2]] = coll[item[param2]] || []).push(item);
 
-			return coll;
-		}, {});
+				return coll;
+			}, {}),
+		};
 	},
 	
 	MSTObjectRemap (param1, param2) {
