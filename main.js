@@ -51,22 +51,17 @@ export const _MSTMassageOperations = function (inputData) {
 				};
 
 				const match = operationString.match(operation.MSTOperationPattern);
+				let param2;
 
-				if (_MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'Regex') {
-					const callback = operation.MSTOperationCallback;
+				if (typeof param2 === 'undefined' && _MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'Regex') {
+					param2 = new RegExp(match[1], match[2]);
+				}
 
-					operation.MSTOperationCallback = function (inputData) {
-						return callback(inputData, new RegExp(match[1], match[2]));
-					};
-				} else if (typeof match.index !== 'undefined') {
-					const callback = operation.MSTOperationCallback;
-					
-					operation.MSTOperationCallback = function (inputData) {
-						return callback(inputData, match[1]);
-					};
+				if (typeof param2 === 'undefined' && typeof match.index !== 'undefined') {
+					param2 = match[1];
 				};
 
-				return operation.MSTOperationCallback(inputData);
+				return operation.MSTOperationCallback(inputData, param2);
 			};
 
 			if (__MSTIsGroup(operationInput)) {
