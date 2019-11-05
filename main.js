@@ -72,9 +72,15 @@ export const _MSTMassageOperations = function (inputData) {
 			if (__MSTIsGroup(inputData)) {
 				inputData = inputData.MSTGroupValue;
 
+				const isJoin = operations.length === 1 && operationString.match(/^join/) && operationString.match(operations[0].MSTOperationPattern);
+
+				if (isJoin && !Array.isArray(Object.values(inputData)[0])) {
+					return callback(Object.values(inputData));
+				};
+
 				return {
 					MSTGroupValue: Object.keys(inputData).reduce(function (coll, item) {
-						if (operations.length === 1 && operationString.match(/^join/) && operationString.match(operations[0].MSTOperationPattern)) {
+						if (isJoin) {
 							coll[item] = callback(coll[item]);
 						} else {
 							coll[item] = coll[item].map(callback);

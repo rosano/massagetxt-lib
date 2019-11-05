@@ -126,8 +126,12 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.match(/(\\w+)/).remap(name: $1).group(name).print(charlie $name)'), JSON.stringify({ alfa: ['charlie alfa'], bravo: ['charlie bravo'] }));
 		});
 
-		it('join', function () {
+		it('join 1', function () {
 			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.match(/(\\w+)/).remap(name: $1).group(name).print(charlie $name).join(,)'), JSON.stringify({ alfa: 'charlie alfa', bravo: 'charlie bravo' }));
+		});
+
+		it('join 2', function () {
+			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.match(/(\\w+)/).remap(name: $1).group(name).print(charlie $name).join(,).join(,)'), 'charlie alfa,charlie bravo');
 		});
 	
 	});
