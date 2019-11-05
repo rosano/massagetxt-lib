@@ -36,39 +36,39 @@ export const _MSTMassageOperations = function (inputData) {
 			throw new Error('MSTErrorIdentifierNotValid');
 		};
 
-		const callback = function (inputData) {
-			const operation = operations.filter(function (e) {
-				if (!e.MSTOperationInputTypes) {
-					return true;
-				};
-
-				return _MSTMassageInputTypes(e.MSTOperationInputTypes).shift() === _MSTMassageType(inputData);
-			}).shift();
-
-			if (!operation) {
-				throw new Error('MSTErrorIdentifierNotValid');
-			};
-
-			const match = operationString.match(operation.MSTOperationPattern);
-
-			if (_MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'Regex') {
-				const callback = operation.MSTOperationCallback;
-
-				operation.MSTOperationCallback = function (inputData) {
-					return callback(inputData, new RegExp(match[1], match[2]));
-				};
-			} else if (typeof match.index !== 'undefined') {
-				const callback = operation.MSTOperationCallback;
-				
-				operation.MSTOperationCallback = function (inputData) {
-					return callback(inputData, match[1]);
-				};
-			};
-
-			return operation.MSTOperationCallback(inputData);
-		};
-
 		return function (operationInput) {
+			const callback = function (inputData) {
+				const operation = operations.filter(function (e) {
+					if (!e.MSTOperationInputTypes) {
+						return true;
+					};
+
+					return _MSTMassageInputTypes(e.MSTOperationInputTypes).shift() === _MSTMassageType(inputData);
+				}).shift();
+
+				if (!operation) {
+					throw new Error('MSTErrorIdentifierNotValid');
+				};
+
+				const match = operationString.match(operation.MSTOperationPattern);
+
+				if (_MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'Regex') {
+					const callback = operation.MSTOperationCallback;
+
+					operation.MSTOperationCallback = function (inputData) {
+						return callback(inputData, new RegExp(match[1], match[2]));
+					};
+				} else if (typeof match.index !== 'undefined') {
+					const callback = operation.MSTOperationCallback;
+					
+					operation.MSTOperationCallback = function (inputData) {
+						return callback(inputData, match[1]);
+					};
+				};
+
+				return operation.MSTOperationCallback(inputData);
+			};
+
 			if (__MSTIsGroup(operationInput)) {
 				operationInput = operationInput.MSTGroupValue;
 
