@@ -89,13 +89,17 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		it('match with capture no match', function () {
 			deepEqual(MSTMassage('-alfa\n- bravo\n', '$input.lines.match(/- (.*)/)'), JSON.stringify([{ 1: 'bravo' }]));
 		});
+
+		it('remap', function () {
+			deepEqual(MSTMassage('- alfa 1\n- bravo 2\n', '$input.lines.match(/- (\\w+) (\\d+)/).remap(name: $1, number: $2)'), JSON.stringify([{ name: 'alfa', number: '1'}, { name: 'bravo', number: '2' }]));
+		});
 	
 	});
 
 	context('object', function () {
 
 		it('remap', function () {
-			deepEqual(MSTMassage('- alfa 1\n- bravo 2\n', '$input.lines.match(/- (\\w+) (\\d+)/).remap(name: $1, number: $2)'), JSON.stringify([{ name: 'alfa', number: '1'}, { name: 'bravo', number: '2' }]));
+			deepEqual(MSTMassage('- alfa 1', '$input.match(/- (\\w+) (\\d+)/).first.remap(name: $1, number: $2)'), JSON.stringify({ name: 'alfa', number: '1'}));
 		});
 	
 	});
