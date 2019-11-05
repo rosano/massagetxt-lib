@@ -72,8 +72,10 @@ export const _MSTMassageOperations = function (inputData) {
 				};
 
 				operationInput.MSTGroupValue = Object.keys(inputData).reduce(function (coll, item) {
-					if (isJoin) {
-						coll[item] = callback(coll[item]);
+					if (isJoin || !Array.isArray(coll[item])) {
+						coll[item] = callback(coll[item], {
+							MSTOptionGroupKey: item,
+						});
 					} else {
 						coll[item] = coll[item].map(function (e) {
 							return callback(e, {
