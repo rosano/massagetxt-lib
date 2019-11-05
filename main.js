@@ -313,7 +313,7 @@ export const _MSTOperations = {
 		};
 
 		return param1.map(function (e) {
-			return _MSTOperations._MSTObjectRemap(param2)(e);
+			return _MSTOperations.MSTObjectRemap(e, param2);
 		});
 	},
 	
