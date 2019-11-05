@@ -378,5 +378,19 @@ export const _MSTOperations = {
 			}, {});
 		};
 	},
+	
+	MSTObjectPrint (param1, param2) {
+		if (typeof param1 !== 'object' || param1 === null) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (typeof param2 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		};
+
+		return Object.keys(param1).reduce(function (coll, item) {
+			return coll.replace(new RegExp(`\\$${ item }`, 'g'), param1[item]);
+		}, param2);
+	},
 
 };

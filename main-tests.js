@@ -531,3 +531,27 @@ describe('_MSTObjectRemap', function test_MSTObjectRemap () {
 	});
 
 });
+
+describe('MSTObjectPrint', function testMSTObjectPrint () {
+
+	it('throws if param1 not object', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTObjectPrint(null, '');
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTObjectPrint({}, null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns param2', function () {
+		deepEqual(mainModule._MSTOperations.MSTObjectPrint({}, 'alfa'), 'alfa');
+	});
+	
+	it('substitutes variable', function () {
+		deepEqual(mainModule._MSTOperations.MSTObjectPrint({ alfa: 'bravo' }, 'charlie $alfa'), 'charlie bravo');
+	});
+
+});
