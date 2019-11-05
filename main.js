@@ -92,6 +92,10 @@ export const _MSTMassageTypeForInput = function(inputData) {
 	};
 
 	if (typeof inputData === 'object' && inputData !== null) {
+		if (_MSTIsGroup(inputData)) {
+			return 'Group';
+		};
+		
 		return 'Object';
 	};
 

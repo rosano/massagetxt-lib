@@ -82,6 +82,12 @@ describe('_MSTMassageTypeForInput', function test_MSTMassageTypeForInput() {
 		deepEqual(mainModule._MSTMassageTypeForInput({}), 'Object');
 	});
 
+	it('returns Group if group', function() {
+		deepEqual(mainModule._MSTMassageTypeForInput({
+			MSTGroupValue: {},
+		}), 'Group');
+	});
+
 	it('throws', function() {
 		throws(function() {
 			mainModule._MSTMassageTypeForInput(null);
