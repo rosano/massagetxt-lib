@@ -379,6 +379,18 @@ export const _MSTOperations = {
 		});
 	},
 	
+	MSTArrayJoin (param1, param2) {
+		if (!Array.isArray(param1)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (typeof param2 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		};
+
+		return param1.join(param2);
+	},
+	
 	MSTArrayGroup (param1, param2) {
 		if (!Array.isArray(param1)) {
 			throw new Error('MSTErrorInputNotValid');

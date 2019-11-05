@@ -503,6 +503,30 @@ describe('MSTArrayPrint', function testMSTArrayPrint () {
 
 });
 
+describe('MSTArrayJoin', function testMSTArrayJoin () {
+
+	it('throws if param1 not array', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayJoin(null, '');
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayJoin([], null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns string', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayJoin([], ''), '');
+	});
+	
+	it('joins items with param2', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayJoin(['alfa', 'bravo'], ','), 'alfa,bravo');
+	});
+
+});
+
 describe('MSTArrayGroup', function testMSTArrayGroup () {
 
 	it('throws if param1 not array', function() {
