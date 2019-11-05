@@ -98,10 +98,12 @@ describe('_MSTMassageType', function test_MSTMassageType() {
 
 describe('__MSTIsGroup', function test__MSTIsGroup () {
 
-	it('throws if param1 not object', function() {
-		throws(function() {
-			mainModule.__MSTIsGroup(null, '');
-		}, /MSTErrorInputNotValid/);
+	it('returns false if not object', function () {
+		deepEqual(mainModule.__MSTIsGroup(''), false);
+	});
+
+	it('returns false if null', function () {
+		deepEqual(mainModule.__MSTIsGroup(null), false);
 	});
 
 	it('returns false if MSTGroupValue not object', function () {

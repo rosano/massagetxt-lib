@@ -91,11 +91,11 @@ export const _MSTMassageType = function(inputData) {
 		return 'Array';
 	};
 
+	if (__MSTIsGroup(inputData)) {
+		return 'Group';
+	};
+
 	if (typeof inputData === 'object' && inputData !== null) {
-		if (__MSTIsGroup(inputData)) {
-			return 'Group';
-		};
-		
 		return 'Object';
 	};
 
@@ -103,8 +103,12 @@ export const _MSTMassageType = function(inputData) {
 };
 
 export const __MSTIsGroup = function (inputData) {
-	if (typeof inputData !== 'object' || inputData === null) {
-		throw new Error('MSTErrorInputNotValid');
+	if (typeof inputData !== 'object') {
+		return false;
+	};
+
+	if (inputData === null) {
+		return false;
 	}
 
 	if (typeof inputData.MSTGroupValue !== 'object' || inputData.MSTGroupValue === null) {
@@ -190,7 +194,7 @@ export const __MSTMassageOperations = function () {
 };
 
 export const _MSTMassageTerminate = function (inputData) {
-	if (typeof inputData === 'object' && inputData !== null && __MSTIsGroup(inputData)) {
+	if (__MSTIsGroup(inputData)) {
 		inputData = __MSTGroupValue(inputData);
 	}
 
