@@ -129,6 +129,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationInputTypes: 'Array',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayUnique,
 		}, {
+			MSTOperationPattern: /^group\((\w+)\)$/,
+			MSTOperationInputTypes: 'Array,String',
+			MSTOperationCallback: mainModule._MSTOperations.MSTArrayGroup,
+		}, {
 			MSTOperationPattern: /^isMatch\(\/([^]+)\/(\w)?\)$/,
 			MSTOperationInputTypes: 'Array,Regex',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayIsMatch,

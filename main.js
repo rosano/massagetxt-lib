@@ -135,6 +135,10 @@ export const __MSTMassageOperations = function () {
 		MSTOperationInputTypes: 'Array',
 		MSTOperationCallback: _MSTOperations.MSTArrayUnique,
 	}, {
+		MSTOperationPattern: /^group\((\w+)\)$/,
+		MSTOperationInputTypes: 'Array,String',
+		MSTOperationCallback: _MSTOperations.MSTArrayGroup,
+	}, {
 		MSTOperationPattern: /^isMatch\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'Array,Regex',
 		MSTOperationCallback: _MSTOperations.MSTArrayIsMatch,
@@ -316,7 +320,7 @@ export const _MSTOperations = {
 
 		return param1.reduce(function (coll, item) {
 			(coll[item[param2]] = coll[item[param2]] || []).push(item);
-			
+
 			return coll;
 		}, {});
 	},
