@@ -255,6 +255,18 @@ export const _MSTOperations = {
 		});
 	},
 	
+	MSTStringPrepend (param1, param2) {
+		if (typeof param1 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (typeof param2 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		return param2 + param1;
+	},
+	
 	MSTStringIsMatch (param1, param2) {
 		if (typeof param1 !== 'string') {
 			throw new Error('MSTErrorInputNotValid');
