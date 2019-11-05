@@ -30,6 +30,12 @@ describe('MSTMassage', function testMSTMassage() {
 		}, /MSTErrorIdentifierNotValid/);
 	});
 
+	it('throws if identifier not valid based on input', function() {
+		throws(function() {
+			mainModule.MSTMassage('alfa\nbravo', '$input.last')
+		}, /MSTErrorIdentifierNotValid/);
+	});
+
 });
 
 describe('_MSTMassageInputTypes', function test_MSTMassageInputTypes() {

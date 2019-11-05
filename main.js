@@ -34,31 +34,35 @@ export const _MSTMassageOperations = function (inputData) {
 		};
 
 		return function (inputData) {
-			return operations.filter(function (e) {
+			const operation = operations.filter(function (e) {
 				if (!e.MSTOperationInputTypes) {
 					return true;
 				};
 
 				return _MSTMassageInputTypes(e.MSTOperationInputTypes).shift() === _MSTMassageTypeForInput(inputData);
-			}).slice(0, 1).map(function (e) {
-				const match = operationString.match(e.MSTOperationPattern);
-
-				if (_MSTMassageInputTypes(e.MSTOperationInputTypes || '').pop() === 'Regex') {
-					const callback = e.MSTOperationCallback;
-
-					e.MSTOperationCallback = function (inputData) {
-						return callback(inputData, new RegExp(match[1], match[2]));
-					};
-				} else if (typeof match.index !== 'undefined') {
-					const callback = e.MSTOperationCallback;
-					
-					e.MSTOperationCallback = function (inputData) {
-						return callback(inputData, match[1]);
-					};
-				};
-
-				return e.MSTOperationCallback(inputData);
 			}).shift();
+
+			if (!operation) {
+				throw new Error('MSTErrorIdentifierNotValid');
+			};
+
+			const match = operationString.match(operation.MSTOperationPattern);
+
+			if (_MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'Regex') {
+				const callback = operation.MSTOperationCallback;
+
+				operation.MSTOperationCallback = function (inputData) {
+					return callback(inputData, new RegExp(match[1], match[2]));
+				};
+			} else if (typeof match.index !== 'undefined') {
+				const callback = operation.MSTOperationCallback;
+				
+				operation.MSTOperationCallback = function (inputData) {
+					return callback(inputData, match[1]);
+				};
+			};
+
+			return operation.MSTOperationCallback(inputData);
 		};
 	});
 };
