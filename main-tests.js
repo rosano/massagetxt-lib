@@ -428,6 +428,30 @@ describe('MSTArrayRemap', function testMSTArrayRemap () {
 
 });
 
+describe('MSTArrayPrint', function testMSTArrayPrint () {
+
+	it('throws if param1 not array', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayPrint(null, '');
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTArrayPrint([], null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns array', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayPrint([], ''), []);
+	});
+	
+	it('prints expression', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayPrint([{ alfa: 'bravo' }], 'charlie $alfa'), ['charlie bravo']);
+	});
+
+});
+
 describe('MSTArrayGroup', function testMSTArrayGroup () {
 
 	it('throws if param1 not array', function() {

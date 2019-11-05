@@ -313,6 +313,20 @@ export const _MSTOperations = {
 		});
 	},
 	
+	MSTArrayPrint (param1, param2) {
+		if (!Array.isArray(param1)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (typeof param2 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		};
+
+		return param1.map(function (e) {
+			return _MSTOperations.MSTObjectPrint(e, param2);
+		});
+	},
+	
 	MSTArrayGroup (param1, param2) {
 		if (!Array.isArray(param1)) {
 			throw new Error('MSTErrorInputNotValid');
