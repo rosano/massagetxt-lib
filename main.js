@@ -21,10 +21,13 @@ export const _MSTMassageOperations = function (inputData) {
 		return [];
 	}
 
-	return [].concat.apply([], [inputData.split('.')[0]].concat((inputData.match(/\.(\w+)(\([^]+\))?(\[[^]+\])?/g) || []).map(function (e) {
+	return [].concat.apply([], [inputData.split('.')[0]].concat((inputData.split('').reverse().join('').match(/(\][^]+?\[)?(\)[^]+?\()?(\w+)\./g) || []).map(function (e) {
+		e = e.split('').reverse().join('');
+
 		const match = e.match(/(\[[^]+\])?$/);
+
 		return [e.slice(0, match.index).split('.').slice(1).join('.')].concat(match[0] || []);
-	}))).map(function (operationString) {
+	}).reverse())).map(function (operationString) {
 		const operations = __MSTMassageOperations().filter(function (e) {
 			return operationString.match(e.MSTOperationPattern);
 		});
