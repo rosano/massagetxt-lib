@@ -151,6 +151,10 @@ export const __MSTMassageOperations = function () {
 		MSTOperationInputTypes: 'Array,String',
 		MSTOperationCallback: _MSTOperations.MSTArrayRemap,
 	}, {
+		MSTOperationPattern: /^print\(([^]+)\)$/,
+		MSTOperationInputTypes: 'Array,String',
+		MSTOperationCallback: _MSTOperations.MSTArrayPrint,
+	}, {
 		MSTOperationPattern: /^remap\(([^]+)\)$/,
 		MSTOperationInputTypes: 'Object,String',
 		MSTOperationCallback: _MSTOperations.MSTObjectRemap,

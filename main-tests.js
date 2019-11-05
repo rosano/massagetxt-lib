@@ -145,6 +145,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationInputTypes: 'Array,String',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayRemap,
 		}, {
+			MSTOperationPattern: /^print\(([^]+)\)$/,
+			MSTOperationInputTypes: 'Array,String',
+			MSTOperationCallback: mainModule._MSTOperations.MSTArrayPrint,
+		}, {
 			MSTOperationPattern: /^remap\(([^]+)\)$/,
 			MSTOperationInputTypes: 'Object,String',
 			MSTOperationCallback: mainModule._MSTOperations.MSTObjectRemap,
