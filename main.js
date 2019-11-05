@@ -98,6 +98,18 @@ export const _MSTMassageTypeForInput = function(inputData) {
 	throw new Error('MSTErrorInputNotValid');
 };
 
+export const _MSTIsGroup = function (inputData) {
+	if (typeof inputData !== 'object' || inputData === null) {
+		throw new Error('MSTErrorInputNotValid');
+	}
+
+	if (typeof inputData.MSTGroupValue !== 'object' || inputData.MSTGroupValue === null) {
+		return false;
+	}
+
+	return true;
+};
+
 export const __MSTMassageOperations = function () {
 	return [{
 		MSTOperationPattern: /^\$?input$/,

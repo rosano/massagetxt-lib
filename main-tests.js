@@ -90,6 +90,26 @@ describe('_MSTMassageTypeForInput', function test_MSTMassageTypeForInput() {
 
 });
 
+describe('_MSTIsGroup', function test_MSTIsGroup () {
+
+	it('throws if param1 not object', function() {
+		throws(function() {
+			mainModule._MSTIsGroup(null, '');
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('returns false if MSTGroupValue not object', function () {
+		deepEqual(mainModule._MSTIsGroup({
+			MSTGroupValue: null,
+		}), false);
+	});
+	
+	it('returns true', function () {
+		deepEqual(mainModule._MSTIsGroup({ MSTGroupValue: {} }), true);
+	});
+
+});
+
 describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 
 	it('returns array', function () {
