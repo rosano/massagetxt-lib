@@ -74,7 +74,11 @@ export const _MSTMassageOperations = function (inputData) {
 
 				return {
 					MSTGroupValue: Object.keys(inputData).reduce(function (coll, item) {
-						coll[item] = coll[item].map(callback);
+						if (operations.length === 1 && operationString.match(/^join/) && operationString.match(operations[0].MSTOperationPattern)) {
+							coll[item] = callback(coll[item]);
+						} else {
+							coll[item] = coll[item].map(callback);
+						}
 
 						return coll;
 					}, inputData),

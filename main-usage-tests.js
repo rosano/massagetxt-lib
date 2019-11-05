@@ -125,6 +125,10 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		it('print', function () {
 			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.match(/(\\w+)/).remap(name: $1).group(name).print(charlie $name)'), JSON.stringify({ alfa: ['charlie alfa'], bravo: ['charlie bravo'] }));
 		});
+
+		it('join', function () {
+			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.match(/(\\w+)/).remap(name: $1).group(name).print(charlie $name).join(,)'), JSON.stringify({ alfa: 'charlie alfa', bravo: 'charlie bravo' }));
+		});
 	
 	});
 
