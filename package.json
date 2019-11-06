@@ -1,0 +1,7 @@
+{
+  "name": "MSTMassage",
+  "main": "main.js",
+  "scripts": {
+    "test": "mocha **/*-tests.js --watch --reporter min"
+  }
+}
