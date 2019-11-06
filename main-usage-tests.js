@@ -27,19 +27,19 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		});
 
 		it('match with no capture', function () {
-			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.match(/- .*\n/)'), '[]');
+			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.capture(/- .*\n/)'), '[]');
 		});
 
 		it('match with capture with no global', function () {
-			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.match(/- (.*)\n/)'), JSON.stringify([{ 1: 'alfa' }]));
+			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.capture(/- (.*)\n/)'), JSON.stringify([{ 1: 'alfa' }]));
 		});
 
 		it('match with capture with global', function () {
-			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.match(/- (.*)\n/g)'), JSON.stringify([{ 1: 'alfa' }, { 1: 'bravo' }]));
+			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.capture(/- (.*)\n/g)'), JSON.stringify([{ 1: 'alfa' }, { 1: 'bravo' }]));
 		});
 
 		it('match with capture no match', function () {
-			deepEqual(MSTMassage('-alfa\n- bravo\n', '$input.match(/- (.*)\n/)'), JSON.stringify([{ 1: 'bravo' }]));
+			deepEqual(MSTMassage('-alfa\n- bravo\n', '$input.capture(/- (.*)\n/)'), JSON.stringify([{ 1: 'bravo' }]));
 		});
 
 		it('lines', function () {
@@ -75,7 +75,7 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		});
 
 		it('group', function () {
-			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.match(/(\\w+)/).remap(name: $1).group(name)'), JSON.stringify({alfa: [{ name: 'alfa' }], bravo: [{ name: 'bravo' }]}));
+			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.capture(/(\\w+)/).remap(name: $1).group(name)'), JSON.stringify({alfa: [{ name: 'alfa' }], bravo: [{ name: 'bravo' }]}));
 		});
 
 		it('index', function () {
@@ -87,27 +87,27 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		});
 
 		it('match with no capture', function () {
-			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.lines.match(/- .*/)'), '[]');
+			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.lines.capture(/- .*/)'), '[]');
 		});
 
 		it('match with capture with no global', function () {
-			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.lines.match(/- (.*)/)'), JSON.stringify([{ 1: 'alfa' }, { 1: 'bravo' }]));
+			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.lines.capture(/- (.*)/)'), JSON.stringify([{ 1: 'alfa' }, { 1: 'bravo' }]));
 		});
 
 		it.skip('match with capture with global', function () {
-			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.lines.match(/- (.*)/g)'), JSON.stringify([{ 1: 'alfa' }, { 1: 'bravo' }]));
+			deepEqual(MSTMassage('- alfa\n- bravo\n', '$input.lines.capture(/- (.*)/g)'), JSON.stringify([{ 1: 'alfa' }, { 1: 'bravo' }]));
 		});
 
 		it('match with capture no match', function () {
-			deepEqual(MSTMassage('-alfa\n- bravo\n', '$input.lines.match(/- (.*)/)'), JSON.stringify([{ 1: 'bravo' }]));
+			deepEqual(MSTMassage('-alfa\n- bravo\n', '$input.lines.capture(/- (.*)/)'), JSON.stringify([{ 1: 'bravo' }]));
 		});
 
 		it('remap', function () {
-			deepEqual(MSTMassage('- alfa 1\n- bravo 2\n', '$input.lines.match(/- (\\w+) (\\d+)/).remap(name: $1, number: $2)'), JSON.stringify([{ name: 'alfa', number: '1'}, { name: 'bravo', number: '2' }]));
+			deepEqual(MSTMassage('- alfa 1\n- bravo 2\n', '$input.lines.capture(/- (\\w+) (\\d+)/).remap(name: $1, number: $2)'), JSON.stringify([{ name: 'alfa', number: '1'}, { name: 'bravo', number: '2' }]));
 		});
 
 		it('print', function () {
-			deepEqual(MSTMassage('- alfa 1\n- bravo 2\n', '$input.lines.match(/- (\\w+) (\\d+)/).remap(name: $1, number: $2).print(- $name $number)'), JSON.stringify(['- alfa 1', '- bravo 2']));
+			deepEqual(MSTMassage('- alfa 1\n- bravo 2\n', '$input.lines.capture(/- (\\w+) (\\d+)/).remap(name: $1, number: $2).print(- $name $number)'), JSON.stringify(['- alfa 1', '- bravo 2']));
 		});
 
 		it('join', function () {
@@ -119,11 +119,11 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 	context('object', function () {
 
 		it('remap', function () {
-			deepEqual(MSTMassage('- alfa 1', '$input.match(/- (\\w+) (\\d+)/).first.remap(name: $1, number: $2)'), JSON.stringify({ name: 'alfa', number: '1'}));
+			deepEqual(MSTMassage('- alfa 1', '$input.capture(/- (\\w+) (\\d+)/).first.remap(name: $1, number: $2)'), JSON.stringify({ name: 'alfa', number: '1'}));
 		});
 
 		it('print', function () {
-			deepEqual(MSTMassage('- alfa 1', '$input.match(/- (\\w+) (\\d+)/).first.remap(name: $1, number: $2).print(- $name $number)'), '- alfa 1');
+			deepEqual(MSTMassage('- alfa 1', '$input.capture(/- (\\w+) (\\d+)/).first.remap(name: $1, number: $2).print(- $name $number)'), '- alfa 1');
 		});
 	
 	});
@@ -131,19 +131,19 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 	context('group', function () {
 
 		it('print', function () {
-			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.match(/(\\w+)/).remap(name: $1).group(name).print(charlie $name)'), JSON.stringify({ alfa: ['charlie alfa'], bravo: ['charlie bravo'] }));
+			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.capture(/(\\w+)/).remap(name: $1).group(name).print(charlie $name)'), JSON.stringify({ alfa: ['charlie alfa'], bravo: ['charlie bravo'] }));
 		});
 
 		it('join 1', function () {
-			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.match(/(\\w+)/).remap(name: $1).group(name).print(charlie $name).join(,)'), JSON.stringify({ alfa: 'charlie alfa', bravo: 'charlie bravo' }));
+			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.capture(/(\\w+)/).remap(name: $1).group(name).print(charlie $name).join(,)'), JSON.stringify({ alfa: 'charlie alfa', bravo: 'charlie bravo' }));
 		});
 
 		it('join 2', function () {
-			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.match(/(\\w+)/).remap(name: $1).group(name).print(charlie $name).join(,).join(,)'), 'charlie alfa,charlie bravo');
+			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.capture(/(\\w+)/).remap(name: $1).group(name).print(charlie $name).join(,).join(,)'), 'charlie alfa,charlie bravo');
 		});
 
 		it('prepend 1', function () {
-			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.match(/(\\w+)/).remap(name: $1, other: $1).group(name).print(charlie $other).prepend(delta $name ).join(,).join(,)'), 'delta alfa charlie alfa,delta bravo charlie bravo');
+			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.capture(/(\\w+)/).remap(name: $1, other: $1).group(name).print(charlie $other).prepend(delta $name ).join(,).join(,)'), 'delta alfa charlie alfa,delta bravo charlie bravo');
 		});
 	
 	});
@@ -151,11 +151,11 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 	context('case', function () {
 
 		it('structure', function () {
-			deepEqual(MSTMassage('- 2019.11.05 alfa: bravo\n- 2018.11.05 charlie: delta\n', '$input.lines.match(/- (\\d+)\\.\\d+\\.\\d+ (.*): (.*)/).remap(echo: $1, foxtrot: $2, golf: $3)'), JSON.stringify([{ echo: '2019', foxtrot: 'alfa', golf: 'bravo' }, { echo: '2018', foxtrot: 'charlie', golf: 'delta' }]));
+			deepEqual(MSTMassage('- 2019.11.05 alfa: bravo\n- 2018.11.05 charlie: delta\n', '$input.lines.capture(/- (\\d+)\\.\\d+\\.\\d+ (.*): (.*)/).remap(echo: $1, foxtrot: $2, golf: $3)'), JSON.stringify([{ echo: '2019', foxtrot: 'alfa', golf: 'bravo' }, { echo: '2018', foxtrot: 'charlie', golf: 'delta' }]));
 		});
 
 		it('re-structure', function () {
-			deepEqual(MSTMassage('- 2019.11.05 alfa: bravo\n- 2018.11.05 charlie: delta\n', '$input.lines.match(/- (\\d+)\\.\\d+\\.\\d+ (.*): (.*)/).remap(echo: $1, foxtrot: $2, golf: $3).group(echo).print(  $foxtrot : $golf).join(\n).prepend(HOTEL $echo\n).join(\n\n)'), 'HOTEL 2018\n  charlie : delta\n\nHOTEL 2019\n  alfa : bravo');
+			deepEqual(MSTMassage('- 2019.11.05 alfa: bravo\n- 2018.11.05 charlie: delta\n', '$input.lines.capture(/- (\\d+)\\.\\d+\\.\\d+ (.*): (.*)/).remap(echo: $1, foxtrot: $2, golf: $3).group(echo).print(  $foxtrot : $golf).join(\n).prepend(HOTEL $echo\n).join(\n\n)'), 'HOTEL 2018\n  charlie : delta\n\nHOTEL 2019\n  alfa : bravo');
 		});
 	
 	});
