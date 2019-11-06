@@ -1,4 +1,6 @@
-export const MSTMassage = function (param1, param2) {
+const mod = {
+
+MSTMassage (param1, param2) {
 	if (typeof param1 !== 'string') {
 		throw new Error('MSTErrorInputNotValid');
 	}
@@ -7,12 +9,12 @@ export const MSTMassage = function (param1, param2) {
 		throw new Error('MSTErrorInputNotValid');
 	}
 
-	return _MSTMassageTerminate(_MSTMassageOperations(param2).reduce(function (coll, item) {
+	return mod._MSTMassageTerminate(mod._MSTMassageOperations(param2).reduce(function (coll, item) {
 		return item(coll);
 	}, param1));
-};
+},
 
-export const _MSTMassageOperations = function (inputData) {
+_MSTMassageOperations (inputData) {
 	if (typeof inputData !== 'string') {
 		throw new Error('MSTErrorInputNotValid');
 	}
@@ -21,8 +23,8 @@ export const _MSTMassageOperations = function (inputData) {
 		return [];
 	}
 
-	return __MSTMassageOperationStrings(inputData).map(function (operationString) {
-		const operations = __MSTMassageOperations().filter(function (e) {
+	return mod.__MSTMassageOperationStrings(inputData).map(function (operationString) {
+		const operations = mod.__MSTMassageOperations().filter(function (e) {
 			return operationString.match(e.MSTOperationPattern);
 		});
 
@@ -37,7 +39,7 @@ export const _MSTMassageOperations = function (inputData) {
 						return true;
 					};
 
-					return _MSTMassageInputTypes(e.MSTOperationInputTypes).shift() === _MSTMassageType(inputData);
+					return mod._MSTMassageInputTypes(e.MSTOperationInputTypes).shift() === mod._MSTMassageType(inputData);
 				}).shift();
 
 				if (!operation) {
@@ -47,7 +49,7 @@ export const _MSTMassageOperations = function (inputData) {
 				const match = operationString.match(operation.MSTOperationPattern);
 				let param2;
 
-				if (typeof param2 === 'undefined' && _MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'Regex') {
+				if (typeof param2 === 'undefined' && mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'Regex') {
 					param2 = new RegExp(match[1], match[2]);
 				}
 
@@ -55,14 +57,14 @@ export const _MSTMassageOperations = function (inputData) {
 					param2 = match[1];
 				};
 
-				if (__MSTIsGroup(operationInput) && _MSTMassageType(inputData) === 'String') {
+				if (mod.__MSTIsGroup(operationInput) && mod._MSTMassageType(inputData) === 'String') {
 					param2 = param2.split(`$${ operationInput.MSTGroupKey }`).join(options.MSTOptionGroupKey);
 				};
 
 				return operation.MSTOperationCallback(inputData, param2);
 			};
 
-			if (__MSTIsGroup(operationInput)) {
+			if (mod.__MSTIsGroup(operationInput)) {
 				const inputData = operationInput.MSTGroupValue;
 
 				const isJoin = operations.length === 1 && operationString.match(/^join/) && operationString.match(operations[0].MSTOperationPattern);
@@ -93,9 +95,9 @@ export const _MSTMassageOperations = function (inputData) {
 			return callback(operationInput);
 		};
 	});
-};
+},
 
-export const __MSTMassageOperationStrings = function (inputData) {
+__MSTMassageOperationStrings (inputData) {
 	return [].concat.apply([], [inputData.split('.')[0]].concat((inputData.split('').reverse().join('').match(/(\][^]+?\[)?(\)[^]+?\()?(\w+)\./g) || []).map(function (e) {
 		e = e.split('').reverse().join('');
 
@@ -103,9 +105,9 @@ export const __MSTMassageOperationStrings = function (inputData) {
 
 		return [e.slice(0, match.index).split('.').slice(1).join('.')].concat(match[0] || []);
 	}).reverse()));
-};
+},
 
-export const _MSTMassageInputTypes = function(inputData) {
+_MSTMassageInputTypes(inputData) {
 	if (typeof inputData !== 'string') {
 		throw new Error('MSTErrorInputNotValid');
 	}
@@ -115,9 +117,9 @@ export const _MSTMassageInputTypes = function(inputData) {
 	}).filter(function (e) {
 		return !!e;
 	});
-};
+},
 
-export const _MSTMassageType = function(inputData) {
+_MSTMassageType(inputData) {
 	if (typeof inputData === 'string') {
 		return 'String';
 	}
@@ -126,7 +128,7 @@ export const _MSTMassageType = function(inputData) {
 		return 'Array';
 	};
 
-	if (__MSTIsGroup(inputData)) {
+	if (mod.__MSTIsGroup(inputData)) {
 		return 'Group';
 	};
 
@@ -135,9 +137,9 @@ export const _MSTMassageType = function(inputData) {
 	};
 
 	throw new Error('MSTErrorInputNotValid');
-};
+},
 
-export const __MSTIsGroup = function (inputData) {
+__MSTIsGroup (inputData) {
 	if (typeof inputData !== 'object') {
 		return false;
 	};
@@ -151,112 +153,112 @@ export const __MSTIsGroup = function (inputData) {
 	}
 
 	return true;
-};
+},
 
-export const __MSTGroupValue = function (inputData) {
-	if (!__MSTIsGroup(inputData)) {
+__MSTGroupValue (inputData) {
+	if (!mod.__MSTIsGroup(inputData)) {
 		throw new Error('MSTErrorInputNotValid');
 	}
 
 	return inputData.MSTGroupValue;
-};
+},
 
-export const __MSTMassageOperations = function () {
+__MSTMassageOperations () {
 	return [{
 		MSTOperationPattern: /^\$?input$/,
-		MSTOperationCallback: _MSTOperations._MSTBypass
+		MSTOperationCallback: mod._MSTOperations._MSTBypass
 	}, {
 		MSTOperationPattern: /^lines$/,
 		MSTOperationInputTypes: 'String',
-		MSTOperationCallback: _MSTOperations.MSTStringLines
+		MSTOperationCallback: mod._MSTOperations.MSTStringLines
 	}, {
 		MSTOperationPattern: /^isMatch\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'String,Regex',
-		MSTOperationCallback: _MSTOperations.MSTStringIsMatch,
+		MSTOperationCallback: mod._MSTOperations.MSTStringIsMatch,
 	}, {
 		MSTOperationPattern: /^match\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'String,Regex',
-		MSTOperationCallback: _MSTOperations.MSTStringMatch,
+		MSTOperationCallback: mod._MSTOperations.MSTStringMatch,
 	}, {
 		MSTOperationPattern: /^prepend\(([^]+)\)$/,
 		MSTOperationInputTypes: 'String,String',
-		MSTOperationCallback: _MSTOperations.MSTStringPrepend,
+		MSTOperationCallback: mod._MSTOperations.MSTStringPrepend,
 	}, {
 		MSTOperationPattern: /^postpend\(([^]+)\)$/,
 		MSTOperationInputTypes: 'String,String',
-		MSTOperationCallback: _MSTOperations.MSTStringPostpend,
+		MSTOperationCallback: mod._MSTOperations.MSTStringPostpend,
 	}, {
 		MSTOperationPattern: /^first$/,
 		MSTOperationInputTypes: 'Array',
-		MSTOperationCallback: _MSTOperations.MSTArrayFirst,
+		MSTOperationCallback: mod._MSTOperations.MSTArrayFirst,
 	}, {
 		MSTOperationPattern: /^last$/,
 		MSTOperationInputTypes: 'Array',
-		MSTOperationCallback: _MSTOperations.MSTArrayLast,
+		MSTOperationCallback: mod._MSTOperations.MSTArrayLast,
 	}, {
 		MSTOperationPattern: /^\[([^]+)\]$/,
 		MSTOperationInputTypes: 'Array',
-		MSTOperationCallback: _MSTOperations.MSTArrayAccess,
+		MSTOperationCallback: mod._MSTOperations.MSTArrayAccess,
 	}, {
 		MSTOperationPattern: /^reverse$/,
 		MSTOperationInputTypes: 'Array',
-		MSTOperationCallback: _MSTOperations.MSTArrayReverse,
+		MSTOperationCallback: mod._MSTOperations.MSTArrayReverse,
 	}, {
 		MSTOperationPattern: /^unique$/,
 		MSTOperationInputTypes: 'Array',
-		MSTOperationCallback: _MSTOperations.MSTArrayUnique,
+		MSTOperationCallback: mod._MSTOperations.MSTArrayUnique,
 	}, {
 		MSTOperationPattern: /^group\((\w+)\)$/,
 		MSTOperationInputTypes: 'Array,String',
-		MSTOperationCallback: _MSTOperations.MSTArrayGroup,
+		MSTOperationCallback: mod._MSTOperations.MSTArrayGroup,
 	}, {
 		MSTOperationPattern: /^isMatch\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'Array,Regex',
-		MSTOperationCallback: _MSTOperations.MSTArrayIsMatch,
+		MSTOperationCallback: mod._MSTOperations.MSTArrayIsMatch,
 	}, {
 		MSTOperationPattern: /^match\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'Array,Regex',
-		MSTOperationCallback: _MSTOperations.MSTArrayMatch,
+		MSTOperationCallback: mod._MSTOperations.MSTArrayMatch,
 	}, {
 		MSTOperationPattern: /^remap\(([^]+)\)$/,
 		MSTOperationInputTypes: 'Array,String',
-		MSTOperationCallback: _MSTOperations.MSTArrayRemap,
+		MSTOperationCallback: mod._MSTOperations.MSTArrayRemap,
 	}, {
 		MSTOperationPattern: /^print\(([^]+)\)$/,
 		MSTOperationInputTypes: 'Array,String',
-		MSTOperationCallback: _MSTOperations.MSTArrayPrint,
+		MSTOperationCallback: mod._MSTOperations.MSTArrayPrint,
 	}, {
 		MSTOperationPattern: /^join\(([^]+)\)$/,
 		MSTOperationInputTypes: 'Array,String',
-		MSTOperationCallback: _MSTOperations.MSTArrayJoin,
+		MSTOperationCallback: mod._MSTOperations.MSTArrayJoin,
 	}, {
 		MSTOperationPattern: /^remap\(([^]+)\)$/,
 		MSTOperationInputTypes: 'Object,String',
-		MSTOperationCallback: _MSTOperations.MSTObjectRemap,
+		MSTOperationCallback: mod._MSTOperations.MSTObjectRemap,
 	}, {
 		MSTOperationPattern: /^print\(([^]+)\)$/,
 		MSTOperationInputTypes: 'Object,String',
-		MSTOperationCallback: _MSTOperations.MSTObjectPrint,
+		MSTOperationCallback: mod._MSTOperations.MSTObjectPrint,
 	}];
-};
+},
 
-export const _MSTMassageTerminate = function (inputData) {
-	if (__MSTIsGroup(inputData)) {
-		inputData = __MSTGroupValue(inputData);
+_MSTMassageTerminate (inputData) {
+	if (mod.__MSTIsGroup(inputData)) {
+		inputData = mod.__MSTGroupValue(inputData);
 	}
 
-	return __MSTMassageTerminateFunction(inputData)(inputData);
-};
+	return mod.__MSTMassageTerminateFunction(inputData)(inputData);
+},
 
-export const __MSTMassageTerminateFunction = function (inputData) {
+__MSTMassageTerminateFunction (inputData) {
 	if (typeof inputData !== 'string') {
 		return JSON.stringify;
 	}
 
-	return _MSTOperations._MSTBypass;
-};
+	return mod._MSTOperations._MSTBypass;
+},
 
-export const _MSTOperations = {
+_MSTOperations: {
 	
 	_MSTBypass (inputData) {
 		return inputData;
@@ -404,7 +406,7 @@ export const _MSTOperations = {
 		};
 
 		return param1.map(function (e) {
-			return _MSTOperations.MSTStringMatch(e, param2).shift();
+			return mod._MSTOperations.MSTStringMatch(e, param2).shift();
 		}).filter(function (e) {
 			return e;
 		});
@@ -420,7 +422,7 @@ export const _MSTOperations = {
 		};
 
 		return param1.map(function (e) {
-			return _MSTOperations.MSTObjectRemap(e, param2);
+			return mod._MSTOperations.MSTObjectRemap(e, param2);
 		});
 	},
 	
@@ -434,7 +436,7 @@ export const _MSTOperations = {
 		};
 
 		return param1.map(function (e) {
-			return _MSTOperations.MSTObjectPrint(e, param2);
+			return mod._MSTOperations.MSTObjectPrint(e, param2);
 		});
 	},
 	
@@ -478,7 +480,7 @@ export const _MSTOperations = {
 			throw new Error('MSTErrorInputNotValid');
 		};
 
-		return _MSTOperations._MSTObjectRemap(param2)(param1);
+		return mod._MSTOperations._MSTObjectRemap(param2)(param1);
 	},
 	
 	_MSTObjectRemap (inputData) {
@@ -537,4 +539,8 @@ export const _MSTOperations = {
 		}, param2);
 	},
 
+},
+
 };
+
+Object.assign(exports, mod);

@@ -1,6 +1,6 @@
-import { throws, deepEqual } from 'assert';
+const { throws, deepEqual } = require('assert');
 
-import { MSTMassage } from './main.js';
+const { MSTMassage } = require('./main.js');
 
 describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 
