@@ -19,11 +19,11 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 	context('string', function () {
 
 		it('match bool false', function () {
-			deepEqual(MSTMassage('alfa', '$input.isMatch(/bravo/)'), 'false');
+			deepEqual(MSTMassage('alfa', '$input.conform(/bravo/)'), 'false');
 		});
 
 		it('match bool true', function () {
-			deepEqual(MSTMassage('alfa', '$input.isMatch(/alfa/)'), 'true');
+			deepEqual(MSTMassage('alfa', '$input.conform(/alfa/)'), 'true');
 		});
 
 		it('match with no capture', function () {
@@ -83,7 +83,7 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		});
 
 		it('match bool', function () {
-			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.isMatch(/alfa/)'), JSON.stringify(['alfa']));
+			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.conform(/alfa/)'), JSON.stringify(['alfa']));
 		});
 
 		it('match with no capture', function () {

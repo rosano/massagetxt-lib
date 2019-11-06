@@ -172,9 +172,9 @@ __MSTMassageOperations () {
 		MSTOperationInputTypes: 'String',
 		MSTOperationCallback: mod._MSTOperations.MSTStringLines
 	}, {
-		MSTOperationPattern: /^isMatch\(\/([^]+)\/(\w)?\)$/,
+		MSTOperationPattern: /^conform\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'String,Regex',
-		MSTOperationCallback: mod._MSTOperations.MSTStringIsMatch,
+		MSTOperationCallback: mod._MSTOperations.MSTStringConform,
 	}, {
 		MSTOperationPattern: /^capture\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'String,Regex',
@@ -212,9 +212,9 @@ __MSTMassageOperations () {
 		MSTOperationInputTypes: 'Array,String',
 		MSTOperationCallback: mod._MSTOperations.MSTArrayGroup,
 	}, {
-		MSTOperationPattern: /^isMatch\(\/([^]+)\/(\w)?\)$/,
+		MSTOperationPattern: /^conform\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'Array,Regex',
-		MSTOperationCallback: mod._MSTOperations.MSTArrayIsMatch,
+		MSTOperationCallback: mod._MSTOperations.MSTArrayConform,
 	}, {
 		MSTOperationPattern: /^capture\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'Array,Regex',
@@ -298,7 +298,7 @@ _MSTOperations: {
 		return param1 + param2;
 	},
 	
-	MSTStringIsMatch (param1, param2) {
+	MSTStringConform (param1, param2) {
 		if (typeof param1 !== 'string') {
 			throw new Error('MSTErrorInputNotValid');
 		}
@@ -382,7 +382,7 @@ _MSTOperations: {
 		return Array.from(new Set(inputData));
 	},
 	
-	MSTArrayIsMatch (param1, param2) {
+	MSTArrayConform (param1, param2) {
 		if (!Array.isArray(param1)) {
 			throw new Error('MSTErrorInputNotValid');
 		}
