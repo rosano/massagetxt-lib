@@ -2,6 +2,9 @@
   "name": "MSTMassage",
   "main": "main.js",
   "scripts": {
-    "test": "mocha '**/*-tests.js' --exclude '**/+(node_modules|__*)/**' --watch --reporter min"
+    "test": "olsk-spec"
+  },
+  "devDependencies": {
+  	"OLSKSpec": "olsk/OLSKSpec"
   }
 }
