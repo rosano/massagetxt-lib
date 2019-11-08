@@ -227,7 +227,7 @@ __MSTGroupValue (inputData) {
 __MSTMassageOperations () {
 	return [{
 		MSTOperationPattern: /^\$?input$/,
-		MSTOperationCallback: mod._MSTOperations._MSTBypass
+		MSTOperationCallback: mod._MSTOperations._MSTBypass,
 	}, {
 		MSTOperationPattern: /^split\(([^]+)\)$/,
 		MSTOperationInputTypes: 'String,String',
@@ -235,7 +235,7 @@ __MSTMassageOperations () {
 	}, {
 		MSTOperationPattern: /^lines$/,
 		MSTOperationInputTypes: 'String',
-		MSTOperationCallback: mod._MSTOperations.MSTStringLines
+		MSTOperationCallback: mod._MSTOperations.MSTStringLines,
 	}, {
 		MSTOperationPattern: /^conform\(\/([^]+)\/(\w)?\)$/,
 		MSTOperationInputTypes: 'String,Regex',

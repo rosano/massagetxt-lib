@@ -177,7 +177,7 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 	it('returns array', function () {
 		deepEqual(mainModule.__MSTMassageOperations(), [{
 			MSTOperationPattern: /^\$?input$/,
-			MSTOperationCallback: mainModule._MSTOperations._MSTBypass
+			MSTOperationCallback: mainModule._MSTOperations._MSTBypass,
 		}, {
 			MSTOperationPattern: /^split\(([^]+)\)$/,
 			MSTOperationInputTypes: 'String,String',
@@ -185,7 +185,7 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 		}, {
 			MSTOperationPattern: /^lines$/,
 			MSTOperationInputTypes: 'String',
-			MSTOperationCallback: mainModule._MSTOperations.MSTStringLines
+			MSTOperationCallback: mainModule._MSTOperations.MSTStringLines,
 		}, {
 			MSTOperationPattern: /^conform\(\/([^]+)\/(\w)?\)$/,
 			MSTOperationInputTypes: 'String,Regex',
