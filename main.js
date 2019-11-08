@@ -97,6 +97,22 @@ _MSTMassageOperations (inputData) {
 	});
 },
 
+__MSTIsMarkdownParser (inputData) {
+	if (typeof inputData !== 'object') {
+		return false;
+	};
+
+	if (inputData === null) {
+		return false;
+	}
+
+	if (!inputData.IsMarkdownParser) {
+		return false;
+	};
+
+	return true;
+},
+
 __MSTMassageOperationStrings (inputData) {
 	return [].concat.apply([], [inputData.split('.')[0]].concat((inputData.split('').reverse().join('').match(/(\][^]+?\[)?(\)[^]+?\()?(\w+)\./g) || []).map(function (e) {
 		e = e.split('').reverse().join('');
