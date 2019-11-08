@@ -32,7 +32,7 @@ _MSTMassageOperations (inputData, options = {}) {
 	};
 
 	return mod.__MSTMassageOperationStrings(inputData).map(function (operationString) {
-		const operations = mod.__MSTMassageOperations().filter(function (e) {
+		const operations = mod.__MSTMassageOperations().concat(options.MSTOptionMarkdownParser ? mod.__MSTMassageOperationsMarkdown() : []).filter(function (e) {
 			return operationString.match(e.MSTOperationPattern);
 		});
 
@@ -63,6 +63,10 @@ _MSTMassageOperations (inputData, options = {}) {
 				return operation.MSTOperationCallback(inputData, (function() {
 					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'Regex') {
 						return new RegExp(match[1], match[2]);
+					}
+
+					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'MarkdownParser') {
+						return options.MSTOptionMarkdownParser;
 					}
 
 					let outputData;
@@ -304,6 +308,10 @@ __MSTMassageOperationsMarkdown () {
 _MSTMassageTerminate (inputData) {
 	if (mod.__MSTIsGroup(inputData)) {
 		inputData = mod.__MSTGroupValue(inputData);
+	}
+
+	if (mod.__MSTIsMarkdownTree(inputData)) {
+		inputData = inputData.MSTMarkdownTreeSource;
 	}
 
 	return mod.__MSTMassageTerminateFunction(inputData)(inputData);

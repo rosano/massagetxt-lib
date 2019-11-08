@@ -24,5 +24,13 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 		}, /MSTErrorMarkdownParserNotValid/);
 	});
 
+	it('no method', function () {
+		deepEqual(MSTMassage('# alfa\n', '$input.markdown', {
+			MSTOptionMarkdownParser: {
+				IsMarkdownParser: true,
+			},
+		}), '# alfa\n');
+	});
+
 
 });
