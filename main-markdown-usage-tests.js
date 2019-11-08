@@ -36,5 +36,4 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 		deepEqual(MSTMassage('# alfa\n', '$input.markdown', uOptions()), '# alfa\n');
 	});
 
-
 });
