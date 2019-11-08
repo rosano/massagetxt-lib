@@ -624,6 +624,20 @@ describe('MSTArrayGroup', function testMSTArrayGroup () {
 
 });
 
+describe('MSTObjectAccess', function testMSTObjectAccess () {
+
+	it('throws if param1 not object', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTObjectRemap(null, '');
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('returns property access', function () {
+		deepEqual(mainModule._MSTOperations.MSTObjectAccess({ alfa: 'bravo' }, 'alfa'), 'bravo');
+	});
+
+});
+
 describe('MSTObjectRemap', function testMSTObjectRemap () {
 
 	it('throws if param1 not object', function() {

@@ -471,6 +471,14 @@ _MSTOperations: {
 		};
 	},
 	
+	MSTObjectAccess (param1, param2) {
+		if (typeof param1 !== 'object' || param1 === null) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		return param1[param2];
+	},
+	
 	MSTObjectRemap (param1, param2) {
 		if (typeof param1 !== 'object' || param1 === null) {
 			throw new Error('MSTErrorInputNotValid');
