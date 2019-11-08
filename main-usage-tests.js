@@ -244,4 +244,8 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 		deepEqual(MSTMassage('alfa\nbravo\n\ncharlie\ndelta', '$input.markdown.paragraphs', uOptions()), JSON.stringify(['alfa\nbravo', 'charlie\ndelta']));
 	});
 
+	it('string operation on tree', function () {
+		deepEqual(MSTMassage('alfa\n# bravo\ncharlie\ndelta', '$input.markdown.section(bravo).lines', uOptions()), JSON.stringify(['charlie', 'delta']));
+	});
+
 });

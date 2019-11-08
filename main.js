@@ -51,11 +51,25 @@ _MSTMassageOperations (inputData, options = {}) {
 						return true;
 					};
 
-					return mod._MSTMassageInputTypes(e.MSTOperationInputTypes).shift() === mod._MSTMassageType(inputData);
+					const param1 = mod._MSTMassageInputTypes(e.MSTOperationInputTypes).shift();
+					
+					if (param1 === mod._MSTMassageType(inputData)) {
+						return true;
+					};
+					
+					if (mod._MSTMassageType(inputData) === 'MarkdownTree' && param1 === 'String') {
+						return true;
+					};
+
+					return false;
 				}).shift();
 
 				if (!operation) {
 					throw new Error('MSTErrorIdentifierNotValid');
+				};
+
+				if (mod.__MSTIsMarkdownTree(inputData) && mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').shift() === 'String') {
+					inputData = inputData.MSTMarkdownTreeSource;
 				};
 
 				const match = operationString.match(operation.MSTOperationPattern);
