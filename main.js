@@ -139,6 +139,22 @@ _MSTMassageType(inputData) {
 	throw new Error('MSTErrorInputNotValid');
 },
 
+__MSTIsMarkdownTree (inputData) {
+	if (typeof inputData !== 'object') {
+		return false;
+	};
+
+	if (inputData === null) {
+		return false;
+	}
+
+	if (typeof inputData.MSTMarkdownTreeSource !== 'string') {
+		return false;
+	}
+
+	return true;
+},
+
 __MSTIsGroup (inputData) {
 	if (typeof inputData !== 'object') {
 		return false;

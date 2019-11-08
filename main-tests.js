@@ -96,6 +96,28 @@ describe('_MSTMassageType', function test_MSTMassageType() {
 
 });
 
+describe('__MSTIsMarkdownTree', function test__MSTIsMarkdownTree () {
+
+	it('returns false if not object', function () {
+		deepEqual(mainModule.__MSTIsMarkdownTree(''), false);
+	});
+
+	it('returns false if null', function () {
+		deepEqual(mainModule.__MSTIsMarkdownTree(null), false);
+	});
+
+	it('returns false if MSTMarkdownTreeSource not string', function () {
+		deepEqual(mainModule.__MSTIsMarkdownTree({
+			MSTMarkdownTreeSource: null,
+		}), false);
+	});
+	
+	it('returns true', function () {
+		deepEqual(mainModule.__MSTIsMarkdownTree({ MSTMarkdownTreeSource: 'alfa' }), true);
+	});
+
+});
+
 describe('__MSTIsGroup', function test__MSTIsGroup () {
 
 	it('returns false if not object', function () {
