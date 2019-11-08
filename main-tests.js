@@ -429,9 +429,7 @@ describe('MSTStringMarkdown', function testMSTStringMarkdown () {
 
 	it('throws if param1 not string', function() {
 		throws(function() {
-			mainModule._MSTOperations.MSTStringMarkdown(null, {
-				IsMarkdownParser: true,
-			});
+			mainModule._MSTOperations.MSTStringMarkdown(null, function () {});
 		}, /MSTErrorInputNotValid/);
 	});
 
