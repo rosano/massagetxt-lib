@@ -249,7 +249,7 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 	});
 
 	it('string operation on tree', function () {
-		deepEqual(MSTMassage('alfa\n# bravo\ncharlie\ndelta', '$input.markdown.section(bravo).lines', uOptions()), JSON.stringify(['charlie', 'delta']));
+		deepEqual(MSTMassage('alfa\n# bravo\ncharlie\ndelta', '$input.markdown.section(bravo).split(\n)', uOptions()), JSON.stringify(['charlie', 'delta']));
 	});
 
 });
