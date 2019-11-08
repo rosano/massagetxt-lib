@@ -38,7 +38,7 @@ _MSTMassageOperations (inputData) {
 		};
 
 		return function (operationInput) {
-			const callback = function (inputData, options = {}) {
+			const callback = function (inputData, callbackOptions = {}) {
 				const operation = operations.filter(function (e) {
 					if (!e.MSTOperationInputTypes) {
 						return true;
@@ -52,21 +52,24 @@ _MSTMassageOperations (inputData) {
 				};
 
 				const match = operationString.match(operation.MSTOperationPattern);
-				let param2;
 
-				if (typeof param2 === 'undefined' && mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'Regex') {
-					param2 = new RegExp(match[1], match[2]);
-				}
+				return operation.MSTOperationCallback(inputData, (function() {
+					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'Regex') {
+						return new RegExp(match[1], match[2]);
+					}
 
-				if (typeof param2 === 'undefined' && typeof match.index !== 'undefined') {
-					param2 = match[1];
-				};
+					let outputData;
 
-				if (mod.__MSTIsGroup(operationInput) && mod._MSTMassageType(inputData) === 'String') {
-					param2 = param2.split(`$${ operationInput.MSTGroupKey }`).join(options.MSTOptionGroupKey);
-				};
+					if (typeof match.index !== 'undefined') {
+						outputData = match[1];
+					};
 
-				return operation.MSTOperationCallback(inputData, param2);
+					if (mod.__MSTIsGroup(operationInput) && mod._MSTMassageType(inputData) === 'String') {
+						outputData = outputData.split(`$${ operationInput.MSTGroupKey }`).join(callbackOptions.MSTOptionGroupKey);
+					};
+
+					return outputData
+				})());
 			};
 
 			if (mod.__MSTIsGroup(operationInput)) {
