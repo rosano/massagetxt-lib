@@ -832,13 +832,13 @@ describe('MSTObjectPrint', function testMSTObjectPrint () {
 
 });
 
+const uParser = require('unified')().use(require('remark-parse')).parse;
+
+const uTree = function (inputData) {
+	return mainModule._MSTOperations.MSTStringMarkdown(inputData, uParser);
+};
+
 describe('MSTMarkdownSections', function testMSTMarkdownSections () {
-
-	const uParser = require('unified')().use(require('remark-parse')).parse;
-
-	const uTree = function (inputData) {
-		return mainModule._MSTOperations.MSTStringMarkdown(inputData, uParser);
-	};
 
 	const uSources = function (inputData) {
 		return mainModule._MSTOperations.MSTMarkdownSections(uTree(inputData)).map(function (e) {
@@ -846,7 +846,7 @@ describe('MSTMarkdownSections', function testMSTMarkdownSections () {
 		});
 	};
 
-	it('throws if param1 not MarkdownTree', function() {
+	it('throws if not MarkdownTree', function() {
 		throws(function() {
 			mainModule._MSTOperations.MSTMarkdownSections({});
 		}, /MSTErrorInputNotValid/);
