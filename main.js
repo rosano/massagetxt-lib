@@ -658,6 +658,37 @@ _MSTOperations: {
 			};
 		});
 	},
+	
+	MSTMarkdownSection (param1, param2) {
+		if (!mod.__MSTIsMarkdownTree(param1)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (typeof param2 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		const match = mod._MSTOperations.MSTMarkdownSections(param1).filter(function (e) {
+			if (e.children[0].type !== 'heading') {
+				return false;
+			};
+
+			if (e.children[0].children[0].value !== param2) {
+				return false;
+			};
+
+			return true;
+		}).shift();
+
+		if (!match || match.children.length === 1) {
+			return '';
+		};
+
+		return Object.assign({
+			children: match.children.slice(1),
+			MSTMarkdownTreeSource: param1.MSTMarkdownTreeSource.slice(match.children[1].position.start.offset, match.children.slice(-1).pop().position.end.offset),
+		})
+	},
 
 },
 

@@ -881,3 +881,35 @@ describe('MSTMarkdownSections', function testMSTMarkdownSections () {
 	});
 	
 });
+
+describe('MSTMarkdownSection', function testMSTMarkdownSection () {
+
+	const uSource = function (param1, param2) {
+		return mainModule._MSTOperations.MSTMarkdownSection(uTree(param1), param2);
+	};
+
+	it('throws if param1 not MarkdownTree', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTMarkdownSection({}, '');
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTMarkdownSection(uTree(''), null);
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('returns string if not defined', function () {
+		deepEqual(uSource('', ''), '');
+	});
+
+	it('returns string if defined with no lines', function () {
+		deepEqual(uSource('# alfa', 'alfa'), '');
+	});
+
+	it('returns MarkdownTree', function () {
+		deepEqual(uSource('# alfa\nbravo', 'alfa').MSTMarkdownTreeSource, 'bravo');
+	});
+	
+});
