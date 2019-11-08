@@ -216,4 +216,8 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 		deepEqual(MSTMassage('alfa\n\n# bravo\ncharlie', '$input.markdown.sections', uOptions()), JSON.stringify(['alfa', '# bravo\ncharlie']));
 	});
 
+	it('sections array access', function () {
+		deepEqual(MSTMassage('alfa', '$input.markdown.sections[0]', uOptions()), 'alfa');
+	});
+
 });
