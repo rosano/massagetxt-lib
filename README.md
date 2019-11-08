@@ -2,7 +2,7 @@
 
 # MassageTXT
 
-_Mini language for converting between text and data_
+_Convert between text and structured data without programming_
 
 ## Usage
 
