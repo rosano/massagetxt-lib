@@ -421,6 +421,32 @@ describe('MSTStringCapture', function testMSTStringCapture () {
 
 });
 
+describe('MSTStringMarkdown', function testMSTStringMarkdown () {
+
+	it('throws if param1 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringMarkdown(null, {
+				IsMarkdownParser: true,
+			});
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not MarkdownParser', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringMarkdown('', null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns MarkdownTree', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringMarkdown('alfa', {
+			IsMarkdownParser: true,
+		}), {
+			MSTMarkdownTreeSource: 'alfa',
+		});
+	});
+	
+});
+
 describe('MSTArrayFirst', function testMSTArrayFirst () {
 
 	it('throws if not array', function() {

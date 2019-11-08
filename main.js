@@ -378,6 +378,20 @@ _MSTOperations: {
 		});
 	},
 	
+	MSTStringMarkdown (param1, param2) {
+		if (typeof param1 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (!mod.__MSTIsMarkdownParser(param2)) {
+			throw new Error('MSTErrorInputNotValid');
+		};
+
+		return {
+			MSTMarkdownTreeSource: param1,
+		};
+	},
+	
 	MSTArrayFirst (inputData) {
 		if (!Array.isArray(inputData)) {
 			throw new Error('MSTErrorInputNotValid');
