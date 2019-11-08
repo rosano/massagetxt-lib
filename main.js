@@ -619,6 +619,27 @@ _MSTOperations: {
 			return coll.replace(new RegExp(`\\$${ item }`, 'g'), param1[item]);
 		}, param2);
 	},
+	
+	MSTMarkdownSections (inputData) {
+		if (!mod.__MSTIsMarkdownTree(inputData)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		return inputData.children.reduce(function (coll, item) {
+			if (!coll.length || item.type === 'heading') {
+				return coll.concat([[item]]);
+			};
+
+			coll.slice(-1).pop().push(item)
+
+			return coll;
+		}, []).map(function (e) {
+			return {
+				children: e,
+				MSTMarkdownTreeSource: inputData.MSTMarkdownTreeSource.slice(e[0].position.start.offset, e.slice(-1).pop().position.end.offset),
+			};
+		});
+	},
 
 },
 

@@ -817,3 +817,53 @@ describe('MSTObjectPrint', function testMSTObjectPrint () {
 	});
 
 });
+
+describe('MSTMarkdownSections', function testMSTMarkdownSections () {
+
+	const uParser = require('unified')().use(require('remark-parse')).parse;
+
+	const uTree = function (inputData) {
+		return mainModule._MSTOperations.MSTStringMarkdown(inputData, uParser);
+	};
+
+	const uSources = function (inputData) {
+		return mainModule._MSTOperations.MSTMarkdownSections(uTree(inputData)).map(function (e) {
+			return e.MSTMarkdownTreeSource;
+		});
+	};
+
+	it('throws if param1 not MarkdownTree', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTMarkdownSections({});
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('returns array', function () {
+		deepEqual(uSources(''), []);
+	});
+
+	it('includes single line if no heading', function () {
+		deepEqual(uSources('alfa'), ['alfa']);
+	});
+
+	it('includes multiple line if no heading', function () {
+		deepEqual(uSources('alfa\nbravo'), ['alfa\nbravo']);
+	});
+
+	it('includes multiple paragraphs if no heading', function () {
+		deepEqual(uSources('alfa\n\nbravo'), ['alfa\n\nbravo']);
+	});
+
+	it('includes if heading', function () {
+		deepEqual(uSources('# alfa'), ['# alfa']);
+	});
+
+	it('includes initial section if heading', function () {
+		deepEqual(uSources('alfa\n# bravo'), ['alfa', '# bravo']);
+	});
+
+	it('includes multiple paragraphs if heading', function () {
+		deepEqual(uSources('alfa\n# bravo\n\n charlie'), ['alfa', '# bravo\n\n charlie']);
+	});
+	
+});
