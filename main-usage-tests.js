@@ -122,6 +122,10 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 			deepEqual(MSTMassage('- alfa 1', '$input.capture(/- (\\w+) (\\d+)/).first.remap(name: $1, number: $2)'), JSON.stringify({ name: 'alfa', number: '1'}));
 		});
 
+		it('access', function () {
+			deepEqual(MSTMassage('- alfa 1', '$input.capture(/- (\\w+) (\\d+)/).first.remap(name: $1, number: $2)[name]'), 'alfa');
+		});
+
 		it('print', function () {
 			deepEqual(MSTMassage('- alfa 1', '$input.capture(/- (\\w+) (\\d+)/).first.remap(name: $1, number: $2).print(- $name $number)'), '- alfa 1');
 		});

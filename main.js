@@ -232,6 +232,10 @@ __MSTMassageOperations () {
 		MSTOperationInputTypes: 'Array,String',
 		MSTOperationCallback: mod._MSTOperations.MSTArrayJoin,
 	}, {
+		MSTOperationPattern: /^\[([^]+)\]$/,
+		MSTOperationInputTypes: 'Object',
+		MSTOperationCallback: mod._MSTOperations.MSTObjectAccess,
+	}, {
 		MSTOperationPattern: /^remap\(([^]+)\)$/,
 		MSTOperationInputTypes: 'Object,String',
 		MSTOperationCallback: mod._MSTOperations.MSTObjectRemap,

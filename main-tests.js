@@ -203,6 +203,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationInputTypes: 'Array,String',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayJoin,
 		}, {
+			MSTOperationPattern: /^\[([^]+)\]$/,
+			MSTOperationInputTypes: 'Object',
+			MSTOperationCallback: mainModule._MSTOperations.MSTObjectAccess,
+		}, {
 			MSTOperationPattern: /^remap\(([^]+)\)$/,
 			MSTOperationInputTypes: 'Object,String',
 			MSTOperationCallback: mainModule._MSTOperations.MSTObjectRemap,
