@@ -98,20 +98,12 @@ describe('_MSTMassageType', function test_MSTMassageType() {
 
 describe('__MSTIsMarkdownParser', function test__MSTIsMarkdownParser () {
 
-	it('returns false if not object', function () {
-		deepEqual(mainModule.__MSTIsMarkdownParser(''), false);
-	});
-
-	it('returns false if null', function () {
+	it('returns false if not function', function () {
 		deepEqual(mainModule.__MSTIsMarkdownParser(null), false);
 	});
 
-	it('returns false if IsMarkdownParser not true', function () {
-		deepEqual(mainModule.__MSTIsMarkdownParser({}), false);
-	});
-	
 	it('returns true', function () {
-		deepEqual(mainModule.__MSTIsMarkdownParser({ IsMarkdownParser: true }), true);
+		deepEqual(mainModule.__MSTIsMarkdownParser(function () {}), true);
 	});
 
 });
@@ -450,9 +442,7 @@ describe('MSTStringMarkdown', function testMSTStringMarkdown () {
 	});
 	
 	it('returns MarkdownTree', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringMarkdown('alfa', {
-			IsMarkdownParser: true,
-		}), {
+		deepEqual(mainModule._MSTOperations.MSTStringMarkdown('alfa', function () {}), {
 			MSTMarkdownTreeSource: 'alfa',
 		});
 	});

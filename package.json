@@ -5,6 +5,13 @@
     "test": "olsk-spec"
   },
   "devDependencies": {
-  	"OLSKSpec": "olsk/OLSKSpec"
+    "// SPEC": null,
+    "OLSKSpec": "olsk/OLSKSpec",
+
+    "// MARKDOWN": null,
+    "unified": "latest",
+    "remark-parse": "latest",
+
+    "// I sacrifice myself for the commas of others": null  
   }
 }

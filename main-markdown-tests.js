@@ -2,7 +2,15 @@ const { throws, deepEqual } = require('assert');
 
 const { MSTMassage } = require('./main.js');
 
+const uParser = require('unified')().use(require('remark-parse')).parse;
+
 describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
+
+	const uOptions = function () {
+		return {
+			MSTOptionMarkdownParser: uParser,
+		};
+	};
 
 	it('throws if param3 not object', function() {
 		throws(function() {
@@ -25,11 +33,7 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 	});
 
 	it('no method', function () {
-		deepEqual(MSTMassage('# alfa\n', '$input.markdown', {
-			MSTOptionMarkdownParser: {
-				IsMarkdownParser: true,
-			},
-		}), '# alfa\n');
+		deepEqual(MSTMassage('# alfa\n', '$input.markdown', uOptions()), '# alfa\n');
 	});
 
 

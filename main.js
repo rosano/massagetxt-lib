@@ -117,15 +117,7 @@ _MSTMassageOperations (inputData, options = {}) {
 },
 
 __MSTIsMarkdownParser (inputData) {
-	if (typeof inputData !== 'object') {
-		return false;
-	};
-
-	if (inputData === null) {
-		return false;
-	}
-
-	if (!inputData.IsMarkdownParser) {
+	if (typeof inputData !== 'function') {
 		return false;
 	};
 
