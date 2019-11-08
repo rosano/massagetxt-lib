@@ -229,6 +229,10 @@ __MSTMassageOperations () {
 		MSTOperationPattern: /^\$?input$/,
 		MSTOperationCallback: mod._MSTOperations._MSTBypass
 	}, {
+		MSTOperationPattern: /^split\(([^]+)\)$/,
+		MSTOperationInputTypes: 'String,String',
+		MSTOperationCallback: mod._MSTOperations.MSTStringSplit,
+	}, {
 		MSTOperationPattern: /^lines$/,
 		MSTOperationInputTypes: 'String',
 		MSTOperationCallback: mod._MSTOperations.MSTStringLines

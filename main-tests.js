@@ -179,6 +179,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationPattern: /^\$?input$/,
 			MSTOperationCallback: mainModule._MSTOperations._MSTBypass
 		}, {
+			MSTOperationPattern: /^split\(([^]+)\)$/,
+			MSTOperationInputTypes: 'String,String',
+			MSTOperationCallback: mainModule._MSTOperations.MSTStringSplit,
+		}, {
 			MSTOperationPattern: /^lines$/,
 			MSTOperationInputTypes: 'String',
 			MSTOperationCallback: mainModule._MSTOperations.MSTStringLines

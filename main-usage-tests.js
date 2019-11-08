@@ -42,6 +42,10 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 			deepEqual(MSTMassage('-alfa\n- bravo\n', '$input.capture(/- (.*)\n/)'), JSON.stringify([{ 1: 'bravo' }]));
 		});
 
+		it('split', function () {
+			deepEqual(MSTMassage('alfa\nbravo\n', '$input.split(\n)'), JSON.stringify(['alfa', 'bravo', '']));
+		});
+
 		it('lines', function () {
 			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines'), JSON.stringify(['alfa', 'bravo']));
 		});
