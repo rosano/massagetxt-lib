@@ -78,7 +78,7 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines.capture(/(\\w+)/).remap(name: $1).group(name)'), JSON.stringify({alfa: [{ name: 'alfa' }], bravo: [{ name: 'bravo' }]}));
 		});
 
-		it('index', function () {
+		it('access', function () {
 			deepEqual(MSTMassage('alfa\nbravo\n', '$input.lines[1]'), 'bravo');
 		});
 
