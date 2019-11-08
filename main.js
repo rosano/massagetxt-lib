@@ -18,7 +18,7 @@ MSTMassage (param1, param2, param3 = {}) {
 	}, param1));
 },
 
-_MSTMassageOperations (inputData) {
+_MSTMassageOperations (inputData, options = {}) {
 	if (typeof inputData !== 'string') {
 		throw new Error('MSTErrorInputNotValid');
 	}
@@ -27,7 +27,10 @@ _MSTMassageOperations (inputData) {
 		return [];
 	}
 
+	if (options.MSTOptionMarkdownParser && !mod.__MSTIsMarkdownParser(options.MSTOptionMarkdownParser)) {
+		throw new Error('MSTErrorMarkdownParserNotValid');
 	};
+
 	return mod.__MSTMassageOperationStrings(inputData).map(function (operationString) {
 		const operations = mod.__MSTMassageOperations().filter(function (e) {
 			return operationString.match(e.MSTOperationPattern);
