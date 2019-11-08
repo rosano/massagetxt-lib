@@ -729,6 +729,7 @@ const mod = {
 			return Object.assign({
 				children: match.children.slice(1),
 				MSTMarkdownTreeSource: param1.MSTMarkdownTreeSource.slice(match.children[1].position.start.offset, match.children.slice(-1).pop().position.end.offset),
+				_MSTMarkdownTreeSourceOffset: match.children[1].position.start.offset,
 			});
 		},
 		
@@ -743,7 +744,7 @@ const mod = {
 				return e.children.filter(function(e) {
 					return e.type === 'listItem';
 				}).map(function (e) {
-					return e.children[0].children[0].value;
+					return inputData.MSTMarkdownTreeSource.slice(e.children[0].position.start.offset - (inputData._MSTMarkdownTreeSourceOffset || 0), e.position.end.offset - (inputData._MSTMarkdownTreeSourceOffset || 0));
 				});
 			}));
 		},
