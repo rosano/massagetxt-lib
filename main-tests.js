@@ -26,13 +26,13 @@ describe('MSTMassage', function testMSTMassage() {
 
 	it('throws if identifier not valid', function() {
 		throws(function() {
-			mainModule.MSTMassage('alfa\nbravo', '$input.alfa')
+			mainModule.MSTMassage('alfa\nbravo', '$input.alfa');
 		}, /MSTErrorIdentifierNotValid/);
 	});
 
 	it('throws if identifier not valid based on input', function() {
 		throws(function() {
-			mainModule.MSTMassage('alfa\nbravo', '$input.last')
+			mainModule.MSTMassage('alfa\nbravo', '$input.last');
 		}, /MSTErrorIdentifierNotValid/);
 	});
 
@@ -490,7 +490,7 @@ describe('MSTStringMarkdown', function testMSTStringMarkdown () {
 	});
 	
 	it('returns MarkdownTree', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringMarkdown('alfa', function () { return {} }), {
+		deepEqual(mainModule._MSTOperations.MSTStringMarkdown('alfa', function () { return {}; }), {
 			MSTMarkdownTreeSource: 'alfa',
 		});
 	});
@@ -745,7 +745,7 @@ describe('MSTArrayGroup', function testMSTArrayGroup () {
 			MSTGroupKey: 'alfa',
 			MSTGroupValue: {
 				bravo: [{ alfa: 'bravo' }] },
-			});
+		});
 	});
 
 });
@@ -804,7 +804,7 @@ describe('_MSTObjectRemap', function test_MSTObjectRemap () {
 		
 		it('throws if not object', function () {
 			throws(function () {
-				mainModule._MSTOperations._MSTObjectRemap('')(null)
+				mainModule._MSTOperations._MSTObjectRemap('')(null);
 			}, /MSTErrorInputNotValid/);
 		});
 
