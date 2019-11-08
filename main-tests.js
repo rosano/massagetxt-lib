@@ -951,3 +951,30 @@ describe('MSTMarkdownItems', function testMSTMarkdownItems () {
 	});
 	
 });
+
+
+describe('MSTMarkdownParagraphs', function testMSTMarkdownParagraphs () {
+
+	it('throws if not MarkdownTree', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTMarkdownParagraphs({});
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('returns array', function () {
+		deepEqual(mainModule._MSTOperations.MSTMarkdownParagraphs(uTree('')), []);
+	});
+
+	it('includes single line', function () {
+		deepEqual(mainModule._MSTOperations.MSTMarkdownParagraphs(uTree('alfa')), ['alfa']);
+	});
+
+	it('includes multiple line', function () {
+		deepEqual(mainModule._MSTOperations.MSTMarkdownParagraphs(uTree('alfa\nbravo')), ['alfa\nbravo']);
+	});
+
+	it('includes multiple paragraphs', function () {
+		deepEqual(mainModule._MSTOperations.MSTMarkdownParagraphs(uTree('alfa\nbravo\n\ncharlie\ndelta')), ['alfa\nbravo', 'charlie\ndelta']);
+	});
+	
+});

@@ -713,6 +713,22 @@ _MSTOperations: {
 			});
 		}));
 	},
+	
+	MSTMarkdownParagraphs (inputData) {
+		if (!mod.__MSTIsMarkdownTree(inputData)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		return inputData.children.filter(function (e) {
+			return e.type === 'paragraph'
+		}).map(function (e) {
+			return e.children.filter(function(e) {
+				return e.type === 'text';
+			}).map(function (e) {
+				return e.value;
+			}).join('\n');
+		});
+	},
 
 },
 
