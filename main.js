@@ -310,6 +310,10 @@ __MSTMassageOperationsMarkdown () {
 		MSTOperationPattern: /^items$/,
 		MSTOperationInputTypes: 'MarkdownTree',
 		MSTOperationCallback: mod._MSTOperations.MSTMarkdownItems,
+	}, {
+		MSTOperationPattern: /^paragraphs$/,
+		MSTOperationInputTypes: 'MarkdownTree',
+		MSTOperationCallback: mod._MSTOperations.MSTMarkdownParagraphs,
 	}];
 },
 

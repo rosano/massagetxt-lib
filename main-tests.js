@@ -278,6 +278,10 @@ describe('__MSTMassageOperationsMarkdown', function test__MSTMassageOperationsMa
 			MSTOperationPattern: /^items$/,
 			MSTOperationInputTypes: 'MarkdownTree',
 			MSTOperationCallback: mainModule._MSTOperations.MSTMarkdownItems,
+		}, {
+			MSTOperationPattern: /^paragraphs$/,
+			MSTOperationInputTypes: 'MarkdownTree',
+			MSTOperationCallback: mainModule._MSTOperations.MSTMarkdownParagraphs,
 		}]);
 	});
 
