@@ -236,4 +236,8 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 		deepEqual(MSTMassage('# alfa\n## bravo\ncharlie\n# delta\n## bravo\necho', '$input.markdown.section(delta).section(bravo)', uOptions()), 'echo');
 	});
 
+	it('items', function () {
+		deepEqual(MSTMassage('- alfa\n- bravo', '$input.markdown.items', uOptions()), JSON.stringify(['alfa', 'bravo']));
+	});
+
 });
