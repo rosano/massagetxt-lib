@@ -1,6 +1,6 @@
 const mod = {
 
-MSTMassage (param1, param2) {
+MSTMassage (param1, param2, param3 = {}) {
 	if (typeof param1 !== 'string') {
 		throw new Error('MSTErrorInputNotValid');
 	}
@@ -9,7 +9,11 @@ MSTMassage (param1, param2) {
 		throw new Error('MSTErrorInputNotValid');
 	}
 
-	return mod._MSTMassageTerminate(mod._MSTMassageOperations(param2).reduce(function (coll, item) {
+	if (typeof param3 !== 'object' || param3 === null) {
+		throw new Error('MSTErrorInputNotValid');
+	}
+
+	return mod._MSTMassageTerminate(mod._MSTMassageOperations(param2, param3).reduce(function (coll, item) {
 		return item(coll);
 	}, param1));
 },
@@ -23,6 +27,7 @@ _MSTMassageOperations (inputData) {
 		return [];
 	}
 
+	};
 	return mod.__MSTMassageOperationStrings(inputData).map(function (operationString) {
 		const operations = mod.__MSTMassageOperations().filter(function (e) {
 			return operationString.match(e.MSTOperationPattern);
