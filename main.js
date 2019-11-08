@@ -36,6 +36,10 @@ _MSTMassageOperations (inputData, options = {}) {
 			return operationString.match(e.MSTOperationPattern);
 		});
 
+		if (!operations.length && operationString === 'markdown') {
+			throw new Error('MSTErrorMarkdownParserNotSet');
+		};
+
 		if (!operations.length) {
 			throw new Error('MSTErrorIdentifierNotValid');
 		};
