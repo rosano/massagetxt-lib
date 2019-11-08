@@ -501,7 +501,11 @@ describe('MSTArrayAccess', function testMSTArrayAccess () {
 		}, /MSTErrorInputNotValid/);
 	});
 	
-	it('returns property access', function () {
+	it('returns string if not defined', function () {
+		deepEqual(mainModule._MSTOperations.MSTArrayAccess(['alfa', 'bravo'], 2), '');
+	});
+	
+	it('returns element if defined', function () {
 		deepEqual(mainModule._MSTOperations.MSTArrayAccess(['alfa', 'bravo'], 0), 'alfa');
 	});
 

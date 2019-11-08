@@ -454,7 +454,7 @@ _MSTOperations: {
 			throw new Error('MSTErrorInputNotValid');
 		}
 
-		return param1[param2];
+		return param1[param2] || '';
 	},
 	
 	MSTArrayReverse (inputData) {
