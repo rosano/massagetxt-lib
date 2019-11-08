@@ -88,6 +88,12 @@ describe('_MSTMassageType', function test_MSTMassageType() {
 		}), 'Group');
 	});
 
+	it('returns MarkdownTree if MarkdownTree', function() {
+		deepEqual(mainModule._MSTMassageType({
+			MSTMarkdownTreeSource: '',
+		}), 'MarkdownTree');
+	});
+
 	it('throws', function() {
 		throws(function() {
 			mainModule._MSTMassageType(null);

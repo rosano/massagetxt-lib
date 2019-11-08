@@ -159,6 +159,10 @@ _MSTMassageType(inputData) {
 		return 'Group';
 	};
 
+	if (mod.__MSTIsMarkdownTree(inputData)) {
+		return 'MarkdownTree';
+	};
+
 	if (typeof inputData === 'object' && inputData !== null) {
 		return 'Object';
 	};
