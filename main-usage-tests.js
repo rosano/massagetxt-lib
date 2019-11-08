@@ -256,4 +256,12 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 		deepEqual(MSTMassage('alfa\n# bravo\ncharlie\ndelta', '$input.markdown.section(bravo).split(\n)', uOptions()), JSON.stringify(['charlie', 'delta']));
 	});
 
+	context('litmus', function () {
+
+		it('name: data', function () {
+			deepEqual(MSTMassage('- alfa: bravo\n- charlie: delta\n', '$input.markdown.items.capture(/(\\w+): (\\w+)/).remap(name: $1, data: $2).print($name;$data).join(\n).prepend(name;data\n)', uOptions()), 'name;data\nalfa;bravo\ncharlie;delta');
+		});
+
+	});
+
 });
