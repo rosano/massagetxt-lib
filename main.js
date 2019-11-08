@@ -410,9 +410,9 @@ _MSTOperations: {
 			throw new Error('MSTErrorInputNotValid');
 		};
 
-		return {
+		return Object.assign(param2(param1), {
 			MSTMarkdownTreeSource: param1,
-		};
+		});
 	},
 	
 	MSTArrayFirst (inputData) {

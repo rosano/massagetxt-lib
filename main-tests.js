@@ -442,7 +442,7 @@ describe('MSTStringMarkdown', function testMSTStringMarkdown () {
 	});
 	
 	it('returns MarkdownTree', function () {
-		deepEqual(mainModule._MSTOperations.MSTStringMarkdown('alfa', function () {}), {
+		deepEqual(mainModule._MSTOperations.MSTStringMarkdown('alfa', function () { return {} }), {
 			MSTMarkdownTreeSource: 'alfa',
 		});
 	});
