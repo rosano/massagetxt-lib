@@ -325,6 +325,30 @@ describe('_MSTBypass', function test_MSTBypass () {
 
 });
 
+describe('MSTStringSplit', function testMSTStringSplit () {
+	
+	it('throws if param1 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringSplit(null, '');
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringSplit('', null);
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('returns array', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringSplit('', ''), []);
+	});
+
+	it('splits with delimiter', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringSplit('alfa bravo', ' '), ['alfa', 'bravo']);
+	});
+
+});
+
 describe('MSTStringLines', function testMSTStringLines () {
 	
 	it('throws if not string', function() {

@@ -367,6 +367,18 @@ _MSTOperations: {
 		return inputData;
 	},
 	
+	MSTStringSplit (param1, param2) {
+		if (typeof param1 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		if (typeof param2 !== 'string') {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		return param1.split(param2);
+	},
+	
 	MSTStringLines (inputData) {
 		if (typeof inputData !== 'string') {
 			throw new Error('MSTErrorInputNotValid');
