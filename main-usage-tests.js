@@ -137,6 +137,10 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		it('print', function () {
 			deepEqual(MSTMassage('- alfa 1', '$input.capture(/- (\\w+) (\\d+)/).first.remap(name: $1, number: $2).print(- $name $number)'), '- alfa 1');
 		});
+
+		it.skip('print expression', function () {
+			deepEqual(MSTMassage('- alfa 1', '$input.capture(/- (\\w+) (\\d+)/).first.remap(name: $1, number: $2).print(- $name.prepend(bravo) $number)'), '- bravoalfa 1');
+		});
 	
 	});
 
