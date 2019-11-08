@@ -261,6 +261,18 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 
 });
 
+describe('__MSTMassageOperationsMarkdown', function test__MSTMassageOperationsMarkdown() {
+
+	it('returns array', function () {
+		deepEqual(mainModule.__MSTMassageOperationsMarkdown(), [{
+			MSTOperationPattern: /^markdown$/,
+			MSTOperationInputTypes: 'String,MarkdownParser',
+			MSTOperationCallback: mainModule._MSTOperations.MSTStringMarkdown
+		}]);
+	});
+
+});
+
 describe('_MSTMassageTerminate', function test_MSTMassageTerminate() {
 
 	it('returns MSTGroupValue if Group', function () {

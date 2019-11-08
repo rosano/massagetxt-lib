@@ -278,6 +278,14 @@ __MSTMassageOperations () {
 	}];
 },
 
+__MSTMassageOperationsMarkdown () {
+	return [{
+		MSTOperationPattern: /^markdown$/,
+		MSTOperationInputTypes: 'String,MarkdownParser',
+		MSTOperationCallback: mod._MSTOperations.MSTStringMarkdown
+	}];
+},
+
 _MSTMassageTerminate (inputData) {
 	if (mod.__MSTIsGroup(inputData)) {
 		inputData = mod.__MSTGroupValue(inputData);
