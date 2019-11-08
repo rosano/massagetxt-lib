@@ -220,4 +220,12 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 		deepEqual(MSTMassage('alfa', '$input.markdown.sections[0]', uOptions()), 'alfa');
 	});
 
+	it('section not defined', function () {
+		deepEqual(MSTMassage('alfa\nbravo', '$input.markdown.section(alfa)', uOptions()), '');
+	});
+
+	it('section defined', function () {
+		deepEqual(MSTMassage('# alfa\nbravo', '$input.markdown.section(alfa)', uOptions()), 'bravo');
+	});
+
 });

@@ -302,6 +302,10 @@ __MSTMassageOperationsMarkdown () {
 		MSTOperationPattern: /^sections$/,
 		MSTOperationInputTypes: 'MarkdownTree',
 		MSTOperationCallback: mod._MSTOperations.MSTMarkdownSections,
+	}, {
+		MSTOperationPattern: /^section\(([^]+)\)$/,
+		MSTOperationInputTypes: 'MarkdownTree,String',
+		MSTOperationCallback: mod._MSTOperations.MSTMarkdownSection,
 	}];
 },
 

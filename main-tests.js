@@ -270,6 +270,10 @@ describe('__MSTMassageOperationsMarkdown', function test__MSTMassageOperationsMa
 			MSTOperationPattern: /^sections$/,
 			MSTOperationInputTypes: 'MarkdownTree',
 			MSTOperationCallback: mainModule._MSTOperations.MSTMarkdownSections,
+		}, {
+			MSTOperationPattern: /^section\(([^]+)\)$/,
+			MSTOperationInputTypes: 'MarkdownTree,String',
+			MSTOperationCallback: mainModule._MSTOperations.MSTMarkdownSection,
 		}]);
 	});
 
