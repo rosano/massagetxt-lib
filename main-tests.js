@@ -921,3 +921,29 @@ describe('MSTMarkdownSection', function testMSTMarkdownSection () {
 	});
 	
 });
+
+describe('MSTMarkdownItems', function testMSTMarkdownItems () {
+
+	it('throws if not MarkdownTree', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTMarkdownItems({});
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('returns array', function () {
+		deepEqual(mainModule._MSTOperations.MSTMarkdownItems(uTree('')), []);
+	});
+
+	it('excludes non bullets', function () {
+		deepEqual(mainModule._MSTOperations.MSTMarkdownItems(uTree('alfa')), []);
+	});
+
+	it('includes hyphenated', function () {
+		deepEqual(mainModule._MSTOperations.MSTMarkdownItems(uTree('- alfa\n- bravo')), ['alfa', 'bravo']);
+	});
+
+	it('includes starred', function () {
+		deepEqual(mainModule._MSTOperations.MSTMarkdownItems(uTree('* alfa\n* bravo')), ['alfa', 'bravo']);
+	});
+	
+});

@@ -693,6 +693,22 @@ _MSTOperations: {
 			MSTMarkdownTreeSource: param1.MSTMarkdownTreeSource.slice(match.children[1].position.start.offset, match.children.slice(-1).pop().position.end.offset),
 		})
 	},
+	
+	MSTMarkdownItems (inputData) {
+		if (!mod.__MSTIsMarkdownTree(inputData)) {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
+		return [].concat(...inputData.children.filter(function (e) {
+			return e.type === 'list'
+		}).map(function (e) {
+			return e.children.filter(function(e) {
+				return e.type === 'listItem';
+			}).map(function (e) {
+				return e.children[0].children[0].value;
+			});
+		}));
+	},
 
 },
 
