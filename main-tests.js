@@ -883,6 +883,10 @@ describe('MSTMarkdownSections', function testMSTMarkdownSections () {
 	it('includes multiple paragraphs if heading', function () {
 		deepEqual(uSources('alfa\n# bravo\n\n charlie'), ['alfa', '# bravo\n\n charlie']);
 	});
+
+	it.skip('nests secondary sections', function () {
+		deepEqual(uSources('alfa\n# bravo\n## charlie\ndelta'), ['alfa', '# bravo\n## charlie\ndelta']);
+	});
 	
 });
 

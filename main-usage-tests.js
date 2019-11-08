@@ -228,4 +228,12 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 		deepEqual(MSTMassage('# alfa\nbravo', '$input.markdown.section(alfa)', uOptions()), 'bravo');
 	});
 
+	it('section nested direct', function () {
+		deepEqual(MSTMassage('# alfa\n## bravo\ncharlie\n# delta\n## bravo\necho', '$input.markdown.section(bravo)', uOptions()), 'charlie');
+	});
+
+	it.skip('section nested', function () {
+		deepEqual(MSTMassage('# alfa\n## bravo\ncharlie\n# delta\n## bravo\necho', '$input.markdown.section(delta).section(bravo)', uOptions()), 'echo');
+	});
+
 });
