@@ -265,7 +265,11 @@ describe('__MSTMassageOperationsMarkdown', function test__MSTMassageOperationsMa
 		deepEqual(mainModule.__MSTMassageOperationsMarkdown(), [{
 			MSTOperationPattern: /^markdown$/,
 			MSTOperationInputTypes: 'String,MarkdownParser',
-			MSTOperationCallback: mainModule._MSTOperations.MSTStringMarkdown
+			MSTOperationCallback: mainModule._MSTOperations.MSTStringMarkdown,
+		}, {
+			MSTOperationPattern: /^sections$/,
+			MSTOperationInputTypes: 'MarkdownTree',
+			MSTOperationCallback: mainModule._MSTOperations.MSTMarkdownSections,
 		}]);
 	});
 

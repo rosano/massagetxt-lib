@@ -201,7 +201,15 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 	});
 
 	it('sections with no heading', function () {
-		deepEqual(MSTMassage('alfa\n', '$input.markdown.sections', uOptions()), JSON.stringify(['alfa\n']));
+		deepEqual(MSTMassage('alfa', '$input.markdown.sections', uOptions()), JSON.stringify(['alfa']));
+	});
+
+	it('sections with heading', function () {
+		deepEqual(MSTMassage('# alfa', '$input.markdown.sections', uOptions()), JSON.stringify(['# alfa']));
+	});
+
+	it('sections with heading first not empty', function () {
+		deepEqual(MSTMassage('alfa\n\n# bravo\ncharlie', '$input.markdown.sections', uOptions()), JSON.stringify(['alfa', '# bravo\ncharlie']));
 	});
 
 });

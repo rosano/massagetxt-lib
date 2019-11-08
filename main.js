@@ -297,7 +297,11 @@ __MSTMassageOperationsMarkdown () {
 	return [{
 		MSTOperationPattern: /^markdown$/,
 		MSTOperationInputTypes: 'String,MarkdownParser',
-		MSTOperationCallback: mod._MSTOperations.MSTStringMarkdown
+		MSTOperationCallback: mod._MSTOperations.MSTStringMarkdown,
+	}, {
+		MSTOperationPattern: /^sections$/,
+		MSTOperationInputTypes: 'MarkdownTree',
+		MSTOperationCallback: mod._MSTOperations.MSTMarkdownSections,
 	}];
 },
 
@@ -308,6 +312,16 @@ _MSTMassageTerminate (inputData) {
 
 	if (mod.__MSTIsMarkdownTree(inputData)) {
 		inputData = inputData.MSTMarkdownTreeSource;
+	}
+
+	if (Array.isArray(inputData)) {
+		inputData = inputData.map(function (e) {
+			if (mod.__MSTIsMarkdownTree(e)) {
+				return e.MSTMarkdownTreeSource;
+			};
+			
+			return e;
+		});
 	}
 
 	return mod.__MSTMassageTerminateFunction(inputData)(inputData);
