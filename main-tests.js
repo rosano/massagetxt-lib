@@ -45,16 +45,28 @@ describe('___MSTMassageIsVariable', function test___MSTMassageIsVariable() {
 		deepEqual(mainModule.___MSTMassageIsVariable('alfa'), false);
 	});
 
-	it('returns false if no letters', function() {
-		deepEqual(mainModule.___MSTMassageIsVariable('$'), false);
-	});
-
-	it('returns false if space', function() {
+	it('returns false if not identifier', function() {
 		deepEqual(mainModule.___MSTMassageIsVariable('$alfa bravo'), false);
 	});
 
 	it('returns true', function() {
 		deepEqual(mainModule.___MSTMassageIsVariable('$alfa'), true);
+	});
+
+});
+
+describe('___MSTMassageIsIdentifier', function test___MSTMassageIsIdentifier() {
+
+	it('returns false if no letters', function() {
+		deepEqual(mainModule.___MSTMassageIsIdentifier(''), false);
+	});
+
+	it('returns false if space', function() {
+		deepEqual(mainModule.___MSTMassageIsIdentifier('alfa bravo'), false);
+	});
+
+	it('returns true', function() {
+		deepEqual(mainModule.___MSTMassageIsIdentifier('alfa'), true);
 	});
 
 });

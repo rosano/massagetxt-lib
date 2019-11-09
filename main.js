@@ -150,7 +150,11 @@ const mod = {
 
 
 	___MSTMassageIsVariable (inputData) {
-		return !!inputData.match(/\$[^\s]+$/i);
+		return inputData[0] === '$' && mod.___MSTMassageIsIdentifier(inputData.slice(1));
+	},
+
+	___MSTMassageIsIdentifier (inputData) {
+		return !!inputData.match(/^[^\s]+$/i);
 	},
 
 	_MSTMassageInputTypes(inputData) {
