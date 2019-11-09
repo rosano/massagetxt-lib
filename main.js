@@ -148,6 +148,89 @@ const mod = {
 		}).reverse()));
 	},
 
+	___MSTMassageOperationStrings (inputData) {
+		// console.log(['START', inputData, inputData.length]);
+		return mod.____MSTMassageOperationStrings(inputData).operationStrings;
+	},
+
+	____MSTMassageOperationStrings (inputData) {
+		const state = {};
+		let lastIndex;
+
+		return {
+			operationStrings: inputData.split('').reduce(function (coll, item, index, original) {
+			if (state.nestStart && item === '/') {
+				const match = original.slice(index).join('').match(/\/[^]*\/[a-z]?[\)\]]/);
+
+				if (match) {
+					state.nestEnd = index + match[0].length - 1;
+				};
+			};
+
+			if (state.nestStart && !state.nestEnd) {
+				// console.log(['-', inputData, index, item]);
+				const object = mod.____MSTMassageOperationStrings(original.slice(index).join(''));
+				// console.log(['-', object]);
+				state.nestEnd = state.nestStart + object.lastIndex;
+			};
+
+			if (state.nestStart && index <= state.nestEnd) {
+				Array.from(coll).pop().push(item);
+
+				return coll;
+			};
+
+			if (!state.nestStart && [')', ']'].includes(item)) {
+				state.isDelegated = true;
+			};
+
+			if (state.nestStart && index > state.nestEnd) {
+				delete state.nestStart;
+				delete state.nestEnd;
+			};
+
+			if (state.isDelegated) {
+				return coll;
+			};
+
+			if (item === '$') {
+				state.isIdentifier = true;
+				
+				return coll.concat([[item]])
+			};
+
+			if (item === '.') {
+				state.isIdentifier = true;
+
+				return coll.concat([[]])
+			};
+
+			if (item === '[') {
+				coll.push([]);
+			};
+
+			if (!Array.isArray(Array.from(coll).pop())) {
+				coll.push([]);
+			};
+
+			Array.from(coll).pop().push(item);
+			lastIndex = index;
+
+			if (!state.nestStart && ['(', '['].includes(item)) {
+				isIdentifier = false;
+
+				state.nestStart = index + 1;
+			};
+
+			return coll;
+		}, []).map(function (e) {
+			return e.join('');
+		}).filter(function (e) {
+			return !!e;
+		}),
+			lastIndex,
+		};
+	},
 
 	___MSTMassageIsVariable (inputData) {
 		return inputData[0] === '$' && mod.___MSTMassageIsIdentifier(inputData.slice(1));

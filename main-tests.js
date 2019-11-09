@@ -38,6 +38,61 @@ describe('MSTMassage', function testMSTMassage() {
 
 });
 
+describe('___MSTMassageOperationStrings', function test___MSTMassageOperationStrings() {
+
+	it('returns array', function() {
+		deepEqual(mainModule.___MSTMassageOperationStrings(''), []);
+	});
+
+	it('parses variable', function() {
+		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa'), ['$alfa']);
+	});
+
+	it('ignores blank', function() {
+		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.'), ['$alfa']);
+	});
+
+	it('parses method single', function() {
+		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo'), ['$alfa', 'bravo']);
+	});
+
+	it('parses method multiple', function() {
+		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo.charlie'), ['$alfa', 'bravo', 'charlie']);
+	});
+
+	it('parses parentheses', function() {
+		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(charlie)'), ['$alfa', 'bravo(charlie)']);
+	});
+
+	it('parses brackets', function() {
+		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo[charlie]'), ['$alfa', 'bravo', '[charlie]']);
+	});
+
+	it('parses nested expression', function() {
+		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo($charlie.delta(echo))'), ['$alfa', 'bravo($charlie.delta(echo))']);
+	});
+
+	it('parses parentheses from regular expressions', function() {
+		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/(.*)/)'), ['$alfa', 'bravo(/(.*)/)']);
+	});
+
+	it('parses escaped parentheses from regular expressions', function() {
+		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/\((.*)\)/)'), ['$alfa', 'bravo(/\((.*)\)/)']);
+	});
+
+	it('parses escaped parentheses from print expressions', function() {
+		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(\(alfa\))'), ['$alfa', 'bravo(\(alfa\))']);
+	});
+
+	context('case', function () {
+		
+		it('parses key value syntax', function() {
+			deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/(\\w+)/).charlie(name: $1)'), ['$alfa', 'bravo(/(\\w+)/)', 'charlie(name: $1)']);
+		});
+	
+	});
+
+});
 
 describe('___MSTMassageIsVariable', function test___MSTMassageIsVariable() {
 
