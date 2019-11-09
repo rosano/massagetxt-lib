@@ -38,6 +38,27 @@ describe('MSTMassage', function testMSTMassage() {
 
 });
 
+
+describe('___MSTMassageIsVariable', function test___MSTMassageIsVariable() {
+
+	it('returns false if no $', function() {
+		deepEqual(mainModule.___MSTMassageIsVariable('alfa'), false);
+	});
+
+	it('returns false if no letters', function() {
+		deepEqual(mainModule.___MSTMassageIsVariable('$'), false);
+	});
+
+	it('returns false if space', function() {
+		deepEqual(mainModule.___MSTMassageIsVariable('$alfa bravo'), false);
+	});
+
+	it('returns true', function() {
+		deepEqual(mainModule.___MSTMassageIsVariable('$alfa'), true);
+	});
+
+});
+
 describe('_MSTMassageInputTypes', function test_MSTMassageInputTypes() {
 
 	it('throws if not string', function() {

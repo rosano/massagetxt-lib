@@ -148,6 +148,11 @@ const mod = {
 		}).reverse()));
 	},
 
+
+	___MSTMassageIsVariable (inputData) {
+		return !!inputData.match(/\$[^\s]+$/i);
+	},
+
 	_MSTMassageInputTypes(inputData) {
 		if (typeof inputData !== 'string') {
 			throw new Error('MSTErrorInputNotValid');
