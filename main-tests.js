@@ -94,6 +94,14 @@ describe('___MSTMassageOperationStrings', function test___MSTMassageOperationStr
 
 });
 
+describe('____MSTMassageOperationStrings', function test____MSTMassageOperationStrings() {
+
+	it('stops processing if identifier terminates', function() {
+		deepEqual(mainModule.____MSTMassageOperationStrings('$alfa;').operationStrings, ['$alfa']);
+	});
+
+});
+
 describe('___MSTMassageIsVariable', function test___MSTMassageIsVariable() {
 
 	it('returns false if no $', function() {

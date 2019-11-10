@@ -211,6 +211,14 @@ const mod = {
 				coll.push([]);
 			};
 
+			if (state.isVariable && !mod.___MSTMassageIsVariable(Array.from(coll).pop().join('') + item)) {
+				delete state.isVariable;
+				delete state.isIdentifier;
+
+				state.isDelegated = true;
+				return coll;
+			};
+
 			if (!Array.isArray(Array.from(coll).pop())) {
 				coll.push([]);
 			};
