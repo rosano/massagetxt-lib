@@ -217,7 +217,7 @@ const mod = {
 			lastIndex = index;
 
 			if (!state.nestStart && ['(', '['].includes(item)) {
-				isIdentifier = false;
+				delete state.isIdentifier;
 
 				state.nestStart = index + 1;
 			};
