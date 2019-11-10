@@ -154,86 +154,123 @@ const mod = {
 	},
 
 	____MSTMassageOperationStrings (inputData) {
-		const state = {};
+		let state = {};
 		let lastIndex;
 
 		return {
 			operationStrings: inputData.split('').reduce(function (coll, item, index, original) {
-			if (state.nestStart && item === '/') {
-				const match = original.slice(index).join('').match(/\/[^]*\/[a-z]?[\)\]]/);
+				function stateVisual() {
+					return [].concat(inputData, inputData.split('').map(function (e, i) {
+						return i === index ? `${ item }:${ index }` : ' ';
+					}).join(''), state.nestStart ? inputData.split('').map(function (e, i) {
+						return i === state.nestStart ? `${ inputData[state.nestStart] }:${ state.nestStart } nestStart` : ' ';
+					}).join('') : [], state.nestEnd ? inputData.split('').map(function (e, i) {
+						return i === state.nestEnd ? `${ inputData[state.nestEnd] }:${ state.nestEnd } nestEnd` : ' ';
+					}).join('') : [], state);
+				}
 
-				if (match) {
-					state.nestEnd = index + match[0].length - 1;
+				if (state.isDelegated) {
+					return coll;
 				};
-			};
 
-			if (state.nestStart && !state.nestEnd) {
-				// console.log(['-', inputData, index, item]);
-				const object = mod.____MSTMassageOperationStrings(original.slice(index).join(''));
-				// console.log(['-', object]);
-				state.nestEnd = state.nestStart + object.lastIndex;
-			};
+				state = ({
+					'$': function () {
+						if (state.nestStart) {
+							return state;
+						};
 
-			if (state.nestStart && index <= state.nestEnd) {
-				Array.from(coll).pop().push(item);
+						coll.push([]);
+
+						return {
+							isVariable: true,
+							isIdentifier: true,
+						};
+					},
+					'.': function () {
+						if (state.nestStart) {
+							return state;
+						};
+
+						coll.push([]);
+
+						return {
+							isIdentifier: true,
+						};
+					},
+					'(': function () {
+						if (state.nestStart) {
+							return state;
+						};
+
+						const nestStart = index + 1;
+
+						// console.log(['-', inputData, index, item]);
+						const object = mod.____MSTMassageOperationStrings(original.slice(nestStart).join(''));
+						// console.log(['-', object]);
+						return {
+							nestStart,
+							nestEnd: nestStart + object.lastIndex,
+						};
+					},
+					')': function () {
+						if (state.nestStart && index > state.nestEnd) {
+							return {};
+						};
+
+						if (state.nestStart) {
+							return state;
+						};
+
+						return {
+							isDelegated: true,
+						};
+					},
+					'[': function () {
+						coll.push([]);
+
+						return {};
+					},
+					'/': function () {
+						let match;
+
+						if (state.nestStart && (match = original.slice(index).join('').match(/\/[^]*\/[a-z]?[\)\]]/))) {
+							state.nestEnd = state.nestStart + match[0].length - 2;
+						}
+
+						return state;
+					},
+				}[item] || function () {
+					if (!state.nestStart) {
+						return state;
+					};
+
+					if (state.nestStart && index <= state.nestEnd) {
+						return state;
+					};
+
+					return {};
+				})();
+
+				if (!Array.isArray(Array.from(coll).pop())) {
+					coll.push([]);
+				};
+
+				if ((function() {
+					if (state.isIdentifier && item === '.') {
+						return false;
+					}
+					
+					if (state.isDelegated) {
+						return false;
+					}
+
+					return true;
+				})()) {
+					Array.from(coll).pop().push(item);
+					lastIndex = index;
+				};
 
 				return coll;
-			};
-
-			if (!state.nestStart && [')', ']'].includes(item)) {
-				state.isDelegated = true;
-			};
-
-			if (state.nestStart && index > state.nestEnd) {
-				delete state.nestStart;
-				delete state.nestEnd;
-			};
-
-			if (state.isDelegated) {
-				return coll;
-			};
-
-			if (item === '$') {
-				state.isVariable = true;
-				state.isIdentifier = true;
-				
-				return coll.concat([[item]])
-			};
-
-			if (item === '.') {
-				state.isVariable = false;
-				state.isIdentifier = true;
-
-				return coll.concat([[]])
-			};
-
-			if (item === '[') {
-				coll.push([]);
-			};
-
-			if (state.isVariable && !mod.___MSTMassageIsVariable(Array.from(coll).pop().join('') + item)) {
-				delete state.isVariable;
-				delete state.isIdentifier;
-
-				state.isDelegated = true;
-				return coll;
-			};
-
-			if (!Array.isArray(Array.from(coll).pop())) {
-				coll.push([]);
-			};
-
-			Array.from(coll).pop().push(item);
-			lastIndex = index;
-
-			if (!state.nestStart && ['(', '['].includes(item)) {
-				delete state.isIdentifier;
-				delete state.isVariable;
-
-				state.nestStart = index + 1;
-			};
-
-			return coll;
 		}, []).map(function (e) {
 			return e.join('');
 		}).filter(function (e) {
