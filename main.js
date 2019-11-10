@@ -194,12 +194,14 @@ const mod = {
 			};
 
 			if (item === '$') {
+				state.isVariable = true;
 				state.isIdentifier = true;
 				
 				return coll.concat([[item]])
 			};
 
 			if (item === '.') {
+				state.isVariable = false;
 				state.isIdentifier = true;
 
 				return coll.concat([[]])
@@ -218,6 +220,7 @@ const mod = {
 
 			if (!state.nestStart && ['(', '['].includes(item)) {
 				delete state.isIdentifier;
+				delete state.isVariable;
 
 				state.nestStart = index + 1;
 			};
