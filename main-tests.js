@@ -112,7 +112,7 @@ describe('___MSTMassageIsVariable', function test___MSTMassageIsVariable() {
 
 describe('___MSTMassageIsIdentifier', function test___MSTMassageIsIdentifier() {
 
-	it('returns false if no letters', function() {
+	it('returns false if empty', function() {
 		deepEqual(mainModule.___MSTMassageIsIdentifier(''), false);
 	});
 
@@ -120,8 +120,12 @@ describe('___MSTMassageIsIdentifier', function test___MSTMassageIsIdentifier() {
 		deepEqual(mainModule.___MSTMassageIsIdentifier('alfa bravo'), false);
 	});
 
-	it('returns true', function() {
+	it('returns true if letters', function() {
 		deepEqual(mainModule.___MSTMassageIsIdentifier('alfa'), true);
+	});
+
+	it('returns true if numbers', function() {
+		deepEqual(mainModule.___MSTMassageIsIdentifier('123'), true);
 	});
 
 });

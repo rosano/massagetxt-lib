@@ -237,7 +237,7 @@ const mod = {
 	},
 
 	___MSTMassageIsIdentifier (inputData) {
-		return !!inputData.match(/^[^\s]+$/i);
+		return !!inputData.match(/^[a-z0-9]+$/i);
 	},
 
 	_MSTMassageInputTypes(inputData) {
