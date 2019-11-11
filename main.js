@@ -272,6 +272,10 @@ const mod = {
 						};
 					},
 					'[': function () {
+						if (state.isRegex) {
+							return state;
+						}
+
 						coll.push([]);
 
 						return {

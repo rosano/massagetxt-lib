@@ -120,11 +120,15 @@ describe('___MSTMassageOperationStrings', function test___MSTMassageOperationStr
 		
 		context('regular expression', function () {
 
-			it('parses unescaped parentheses', function() {
+			it('ignores unescaped brackets', function() {
+				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/[.]*/)'), ['$alfa', 'bravo(/[.]*/)']);
+			});
+			
+			it('ignores unescaped parentheses', function() {
 				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/(.*)/)'), ['$alfa', 'bravo(/(.*)/)']);
 			});
 			
-			it('parses escaped parentheses', function() {
+			it('ignores escaped parentheses', function() {
 				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/\((.*)\)/)'), ['$alfa', 'bravo(/\((.*)\)/)']);
 			});
 		
