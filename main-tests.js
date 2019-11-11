@@ -1037,6 +1037,10 @@ describe('MSTObjectPrint', function testMSTObjectPrint () {
 	it('substitutes variable', function () {
 		deepEqual(mainModule._MSTOperations.MSTObjectPrint({ alfa: 'bravo' }, 'charlie $alfa'), 'charlie bravo');
 	});
+	
+	it('prints expression', function () {
+		deepEqual(mainModule._MSTOperations.MSTObjectPrint({ alfa: 'bravo' }, 'charlie $alfa.prepend(delta)'), 'charlie deltabravo');
+	});
 
 });
 
