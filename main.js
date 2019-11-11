@@ -880,6 +880,18 @@ const mod = {
 				throw new Error('MSTErrorInputNotValid');
 			}
 
+			return mod._MSTOperations.__MSTPrintSubExpressions(param1, param2);
+		},
+
+		__MSTPrintSubExpressions (param1, param2) {
+			if (typeof param1 !== 'object' || param1 === null) {
+				throw new Error('MSTErrorInputNotValid');
+			}
+
+			if (typeof param2 !== 'string') {
+				throw new Error('MSTErrorInputNotValid');
+			}
+
 			return param2.split('').map(function (e, i) {
 				if (e !== '$') {
 					return;
