@@ -153,7 +153,7 @@ const mod = {
 		return mod.____MSTMassageOperationStrings(inputData).operationStrings;
 	},
 
-	____MSTMassageOperationStrings (inputData) {
+	____MSTMassageOperationStrings (inputData, options = {}) {
 		let state = {};
 		let lastIndex;
 
@@ -169,7 +169,7 @@ const mod = {
 					}).join('') : [], state);
 				}
 
-				if (state.isDelegated) {
+				if (state.delegateEnd && index < state.delegateEnd) {
 					return coll;
 				};
 
@@ -178,6 +178,10 @@ const mod = {
 						if (state.nestStart) {
 							return state;
 						};
+
+						if (!index && !mod.___MSTMassageIsVariable(`${ item }${ original[index + 1] || '' }`)) {
+							throw new Error('MSTSyntaxErrorNoStartingVariable');
+						}
 
 						coll.push([]);
 
@@ -197,16 +201,43 @@ const mod = {
 							isIdentifier: true,
 						};
 					},
+					'\\': function () {
+						return Object.assign(state, {
+							isEscaped: true,
+						});
+					},
 					'(': function () {
 						if (state.nestStart) {
 							return state;
 						};
 
+						if (state.isEscaped) {
+							delete state.isEscaped;
+
+							return state;
+						};
+
 						const nestStart = index + 1;
 
-						// console.log(['-', inputData, index, item]);
-						const object = mod.____MSTMassageOperationStrings(original.slice(nestStart).join(''));
+						let regexMatch = original.slice(nestStart).join('').match(/^\/[^]*\/[a-z]?\)/);
+
+						if (regexMatch) {
+							return {
+								nestStart,
+								nestEnd: nestStart + regexMatch[0].slice(0, -1).length - 1,
+							};
+						}
+
+						// console.log(['NEST'].concat(stateVisual()));
+						const object = mod.____MSTMassageOperationStrings(original.slice(nestStart).join(''), {
+							MSTOptionIsRecursive: true,
+						});
+
+						if (nestStart + object.lastIndex + 1 === original.length) {
+							throw new Error('MSTSyntaxErrorNoClosingParenthesis');
+						}
 						// console.log(['-', object]);
+
 						return {
 							nestStart,
 							nestEnd: nestStart + object.lastIndex,
@@ -221,8 +252,18 @@ const mod = {
 							return state;
 						};
 
+						if (state.delegateEnd) {
+							return state;
+						};
+
+						if (state.isEscaped) {
+							delete state.isEscaped;
+
+							return state;
+						};
+
 						return {
-							isDelegated: true,
+							delegateEnd: Infinity,
 						};
 					},
 					'[': function () {
@@ -230,25 +271,32 @@ const mod = {
 
 						return {};
 					},
-					'/': function () {
-						let match;
-
-						if (state.nestStart && (match = original.slice(index).join('').match(/\/[^]*\/[a-z]?[\)\]]/))) {
-							state.nestEnd = state.nestStart + match[0].length - 2;
-						}
-
-						return state;
-					},
 				}[item] || function () {
-					if (!state.nestStart) {
-						return state;
+					if (!index && !options.MSTOptionIsRecursive) {
+						throw new Error('MSTSyntaxErrorNoStartingVariable');
+
+						return {
+							delegateEnd: Infinity,
+						};
 					};
 
-					if (state.nestStart && index <= state.nestEnd) {
-						return state;
+					if (!options.MSTOptionIsRecursive && state.isVariable && !mod.___MSTMassageIsVariable(Array.from(coll).pop().join('').concat(item))) {
+						throw new Error('MSTSyntaxErrorNoStartingVariable');
+
+						return {
+							delegateEnd: Infinity,
+						};
 					};
 
-					return {};
+					if (!state.isVariable && state.isIdentifier && !mod.___MSTMassageIsIdentifier(Array.from(coll).pop().join('').concat(item))) {
+						coll.push([]);
+
+						return {
+							delegateEnd: Infinity,
+						};
+					};
+
+					return state;
 				})();
 
 				if (!Array.isArray(Array.from(coll).pop())) {
@@ -260,7 +308,7 @@ const mod = {
 						return false;
 					}
 					
-					if (state.isDelegated) {
+					if (state.delegateEnd && index < state.delegateEnd) {
 						return false;
 					}
 

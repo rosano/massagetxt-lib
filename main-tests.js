@@ -44,60 +44,128 @@ describe('___MSTMassageOperationStrings', function test___MSTMassageOperationStr
 		deepEqual(mainModule.___MSTMassageOperationStrings(''), []);
 	});
 
-	it('parses variable', function() {
-		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa'), ['$alfa']);
+	context('variable', function () {
+
+		it('throws if no marker', function() {
+			throws(function() {
+				mainModule.___MSTMassageOperationStrings('alfa');
+			}, /MSTSyntaxErrorNoStartingVariable/);
+		});
+
+		it('throws if no identifier', function() {
+			throws(function() {
+				mainModule.___MSTMassageOperationStrings('$');
+			}, /MSTSyntaxErrorNoStartingVariable/);
+		});
+
+		it('throws if not valid', function() {
+			throws(function() {
+				mainModule.___MSTMassageOperationStrings('$alfa bravo');
+			}, /MSTSyntaxErrorNoStartingVariable/);
+		});
+
+		it('includes', function() {
+			deepEqual(mainModule.___MSTMassageOperationStrings('$alfa'), ['$alfa']);
+		});
+	
 	});
 
-	it('ignores blank', function() {
-		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.'), ['$alfa']);
+	context('method', function () {
+		
+		it('excludes if blank', function() {
+			deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.'), ['$alfa']);
+		});
+
+		it('excludes if not valid', function() {
+			deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo charlie'), ['$alfa', 'bravo']);
+		});
+
+		it('includes single', function() {
+			deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo'), ['$alfa', 'bravo']);
+		});
+
+		it('includes multiple', function() {
+			deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo.charlie'), ['$alfa', 'bravo', 'charlie']);
+		});
+	
 	});
 
-	it('parses method single', function() {
-		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo'), ['$alfa', 'bravo']);
+	context('parentheses', function () {
+
+		context('format', function () {
+
+			it('throws if no closing brace', function () {
+				throws(function () {
+					mainModule.___MSTMassageOperationStrings('$alfa.bravo(charlie')
+				}, /MSTSyntaxErrorNoClosingParenthesis/);
+			});
+			
+			it('parses string', function() {
+				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(charlie)'), ['$alfa', 'bravo(charlie)']);
+			});
+
+			it('parses escaped parentheses', function() {
+				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(\\(alfa\\))'), ['$alfa', 'bravo(\\(alfa\\))']);
+			});
+
+			it('parses variable', function() {
+				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo($charlie)'), ['$alfa', 'bravo($charlie)']);
+			});
+
+			it('parses methods', function() {
+				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo($charlie.delta(echo))'), ['$alfa', 'bravo($charlie.delta(echo))']);
+			});
+		
+		});
+		
+		context('regular expression', function () {
+
+			it('parses unescaped parentheses', function() {
+				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/(.*)/)'), ['$alfa', 'bravo(/(.*)/)']);
+			});
+			
+			it('parses escaped parentheses', function() {
+				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/\((.*)\)/)'), ['$alfa', 'bravo(/\((.*)\)/)']);
+			});
+		
+		});
+
+		context('hash', function () {
+
+			it('parses pair variable single', function() {
+				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(charlie: $delta)'), ['$alfa', 'bravo(charlie: $delta)']);
+			});
+
+			it('parses pair variable multiple', function() {
+				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(charlie: $delta, echo: $foxtrot)'), ['$alfa', 'bravo(charlie: $delta, echo: $foxtrot)']);
+			});
+
+			it('parses pair methods', function() {
+				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(charlie: $delta, echo: $foxtrot)'), ['$alfa', 'bravo(charlie: $delta, echo: $foxtrot)']);
+			});
+			
+		});
+	
 	});
 
-	it('parses method multiple', function() {
-		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo.charlie'), ['$alfa', 'bravo', 'charlie']);
-	});
-
-	it('parses parentheses', function() {
-		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(charlie)'), ['$alfa', 'bravo(charlie)']);
-	});
-
-	it('parses brackets', function() {
-		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo[charlie]'), ['$alfa', 'bravo', '[charlie]']);
-	});
-
-	it('parses nested expression', function() {
-		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo($charlie.delta(echo))'), ['$alfa', 'bravo($charlie.delta(echo))']);
-	});
-
-	it('parses parentheses from regular expressions', function() {
-		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/(.*)/)'), ['$alfa', 'bravo(/(.*)/)']);
-	});
-
-	it('parses escaped parentheses from regular expressions', function() {
-		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/\((.*)\)/)'), ['$alfa', 'bravo(/\((.*)\)/)']);
-	});
-
-	it('parses escaped parentheses from print expressions', function() {
-		deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(\(alfa\))'), ['$alfa', 'bravo(\(alfa\))']);
+	context('brackets', function () {
+		
+		it('parses string', function() {
+			deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo[charlie]'), ['$alfa', 'bravo', '[charlie]']);
+		});
+	
 	});
 
 	context('case', function () {
 		
 		it('parses key value syntax', function() {
-			deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/(\\w+)/).charlie(name: $1)'), ['$alfa', 'bravo(/(\\w+)/)', 'charlie(name: $1)']);
+			deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/(\\w+)/).charlie(delta: $1, echo: $1)'), ['$alfa', 'bravo(/(\\w+)/)', 'charlie(delta: $1, echo: $1)']);
+		});
+		
+		it('parses multiple delegates', function() {
+			deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/(\\w+)/).charlie(delta: $1, echo: $1).foxtrot(- $golf)'), ['$alfa', 'bravo(/(\\w+)/)', 'charlie(delta: $1, echo: $1)', 'foxtrot(- $golf)']);
 		});
 	
-	});
-
-});
-
-describe('____MSTMassageOperationStrings', function test____MSTMassageOperationStrings() {
-
-	it('stops processing if identifier terminates', function() {
-		deepEqual(mainModule.____MSTMassageOperationStrings('$alfa;').operationStrings, ['$alfa']);
 	});
 
 });
