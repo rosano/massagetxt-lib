@@ -249,12 +249,6 @@ const mod = {
 						};
 					},
 					')': function () {
-						if (state.nestStart && index > state.nestEnd && !['.', '['].includes(original[index + 1])) {
-							return {
-								delegateStart: index + 1,
-							};
-						};
-
 						if (state.nestStart && index > state.nestEnd) {
 							return {};
 						};
@@ -280,7 +274,9 @@ const mod = {
 					'[': function () {
 						coll.push([]);
 
-						return {};
+						return {
+							isBracket: true,
+						};
 					},
 				}[item] || function () {
 					if (!index && !options.MSTOptionIsRecursive) {
@@ -298,8 +294,6 @@ const mod = {
 					};
 
 					if (!options.MSTOptionIsRecursive && state.isVariable && !mod.___MSTMassageIsVariable(Array.from(coll).pop().join('').concat(item))) {
-						throw new Error('MSTSyntaxErrorNoStartingVariable');
-
 						return {
 							delegateStart: index,
 						};
@@ -308,6 +302,12 @@ const mod = {
 					if (!state.isVariable && state.isIdentifier && !mod.___MSTMassageIsIdentifier(Array.from(coll).pop().join('').concat(item))) {
 						coll.push([]);
 
+						return {
+							delegateStart: index,
+						};
+					};
+
+					if (!options.MSTOptionIsRecursive && !state.isVariable && !state.isIdentifier && !state.nestStart && !state.isBracket) {
 						return {
 							delegateStart: index,
 						};
@@ -889,9 +889,7 @@ const mod = {
 			}).filter(function (e) {
 				return typeof e !== 'undefined';
 			}).map(function (e) {
-				const object = mod.____MSTMassageOperationStrings(param2.slice(e), {
-					MSTOptionIsRecursive: true,
-				});
+				const object = mod.____MSTMassageOperationStrings(param2.slice(e));
 
 				return {
 					index: e,
