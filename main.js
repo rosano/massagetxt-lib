@@ -830,7 +830,7 @@ const mod = {
 				throw new Error('MSTErrorInputNotValid');
 			}
 
-			return mod._MSTOperations._MSTObjectRemap(param2)(param1);
+			return mod._MSTOperations.__MSTObjectRemap(param1, param2);
 		},
 		
 		_MSTObjectRemap (inputData) {
@@ -875,6 +875,131 @@ const mod = {
 			};
 		},
 		
+		__MSTObjectRemap (param1, param2) {
+			if (typeof param1 !== 'object' || param1 === null) {
+				throw new Error('MSTErrorInputNotValid');
+			}
+
+			if (typeof param2 !== 'string') {
+				throw new Error('MSTErrorInputNotValid');
+			}
+
+			if (!mod.___MSTMassageIsIdentifier(param2[0] || '')) {
+				return {};
+			}
+
+			let state = {};
+
+			return param2.split('').reduce(function (coll, item, index, original) {
+				if (state.delegateStart && index >= state.delegateStart) {
+					return coll;
+				};
+
+				state = ({
+					'$': function () {
+						const object = mod.____MSTMassageOperationStrings(original.slice(index).join(''), {
+							MSTOptionIsRecursive: true,
+						});
+
+						return {
+							expressionEnd: index + object.lastIndex,
+						};
+					},
+					':': function () {
+						if (!state.isIdentifier) {
+							throw new Error('MSTSyntaxErrorNoIdentifier');
+						}
+
+						coll.push([]);
+
+						return {
+							isValue: true,
+						};
+					},
+					',': function () {
+						coll.push([]);
+
+						return {};
+					},
+				}[item] || function () {
+					if (state.expressionEnd && index > state.expressionEnd) {
+						return {};
+					}
+
+					if (state.isValue && !state.expressionEnd && item !== ' ') {
+						throw new Error('MSTSyntaxErrorNoStartingVariable');
+					};
+
+					if (state.isIdentifier && !mod.___MSTMassageIsIdentifier(Array.from(coll).pop().join('').concat(item))) {
+						return {
+							delegateStart: index,
+						};
+					};
+
+					if (!Object.keys(state).length) {
+						return {
+							isIdentifier: true,
+						}
+					};
+
+					return state;
+				})();
+
+				if (!Array.isArray(Array.from(coll).pop())) {
+					coll.push([]);
+				};
+
+				if ((function() {
+					if (state.delegateStart && index >= state.delegateStart) {
+						return false;
+					}
+
+					if (state.expressionEnd) {
+						return true;
+					}
+
+					if (state.isValue && item === ':') {
+						return false;
+					}
+
+					if (item === ' ') {
+						return false;
+					}
+
+					if (item === ',') {
+						return false;
+					}
+
+					return true;
+				})()) {
+					Array.from(coll).pop().push(item);
+					lastIndex = index;
+				};
+
+				return coll;
+			}, []).map(function (e) {
+				return e.join('');
+			}).filter(function (e) {
+				return !!e;
+			}).reduce(function (coll, item, index, original) {
+				if (index % 2 != 0) {
+					return coll;
+				}
+
+				if (typeof original[index + 1] === 'undefined') {
+					return coll;
+				}
+
+				if (typeof param1[original[index + 1].split('.')[0].slice(1)] === 'undefined') {
+					return coll;
+				};
+
+				coll[item] = mod.MSTMassage(param1[original[index + 1].split('.')[0].slice(1)].toString(), ['$input'].concat(original[index + 1].split('.').slice(1)).join('.'));
+
+				return coll;
+			}, {});
+		},
+		
 		MSTObjectPrint (param1, param2) {
 			if (typeof param1 !== 'object' || param1 === null) {
 				throw new Error('MSTErrorInputNotValid');
@@ -884,7 +1009,13 @@ const mod = {
 				throw new Error('MSTErrorInputNotValid');
 			}
 
-			return mod._MSTOperations.__MSTPrintSubExpressions(param1, param2);
+			return mod._MSTOperations.__MSTPrintSubExpressions(param1, param2).reverse().reduce(function (coll, item) {
+				return [
+					coll.slice(0, item.index),
+					item.replace,
+					coll.slice(item.index + item.length),
+				].join('');
+			}, param2);
 		},
 
 		__MSTPrintSubExpressions (param1, param2) {
@@ -910,17 +1041,11 @@ const mod = {
 				return {
 					index: e,
 					length: param2.slice(e, e + object.lastIndex + 1).length,
-					replace: mod.MSTMassage(param1[object.operationStrings[0].slice(1)], ['$input'].concat(object.operationStrings.slice(1)).filter(function (e) {
+					replace: mod.MSTMassage(param1[object.operationStrings[0].slice(1)].toString(), ['$input'].concat(object.operationStrings.slice(1)).filter(function (e) {
 						return !!e;
 					}).join('.')),
 				}
-			}).reverse().reduce(function (coll, item) {
-				return [
-					coll.slice(0, item.index),
-					item.replace,
-					coll.slice(item.index + item.length),
-				].join('');
-			}, param2);
+			});
 		},
 		
 		MSTMarkdownSections (inputData) {

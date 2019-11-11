@@ -1015,9 +1015,69 @@ describe('_MSTObjectRemap', function test_MSTObjectRemap () {
 		it('includes multiple', function () {
 			deepEqual(mainModule._MSTOperations._MSTObjectRemap('alfa: $1, bravo: $3')({ 1: 2, 3: 4 }), { alfa: 2, bravo: 4 });
 		});
-	
+
 	});
 
+});
+
+describe('__MSTObjectRemap', function test__MSTObjectRemap () {
+
+	it('throws if param1 not object', function () {
+		throws(function () {
+			mainModule._MSTOperations.__MSTObjectRemap(null, '');
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('throws if param2 not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.__MSTObjectRemap({}, null);
+		}, /MSTErrorInputNotValid/);
+	});
+	
+	it('returns object', function () {
+		deepEqual(mainModule._MSTOperations.__MSTObjectRemap({}, ''), {});
+	});
+
+	it('excludes if no key', function () {
+		deepEqual(mainModule._MSTOperations.__MSTObjectRemap({ 1: 2 }, ': $1'), {});
+	});
+
+	it('throws if param2 no variable marker', function() {
+		throws(function() {
+			mainModule._MSTOperations.__MSTObjectRemap({ 1: 2 }, 'alfa: 1');
+		}, /MSTSyntaxErrorNoStartingVariable/);
+	});
+
+	it('excludes if no colon', function () {
+		deepEqual(mainModule._MSTOperations.__MSTObjectRemap({ 1: 2 }, 'alfa $1'), {});
+	});
+
+	it('throws if multiple colons', function () {
+		throws(function () {
+			mainModule._MSTOperations.__MSTObjectRemap({ 1: 2 }, 'alfa: $1: bravo');
+		}, /MSTSyntaxErrorNoIdentifier/);
+	});
+
+	it('excludes if no match', function () {
+		deepEqual(mainModule._MSTOperations.__MSTObjectRemap({ 1: 2 }, 'alfa: $0'), {});
+	});
+
+	it('includes if match', function () {
+		deepEqual(mainModule._MSTOperations.__MSTObjectRemap({ 1: 2 }, 'alfa: $1'), { alfa: 2 });
+	});
+
+	it('includes if no whitespace', function () {
+		deepEqual(mainModule._MSTOperations.__MSTObjectRemap({ 1: 2 }, 'alfa:$1'), { alfa: 2 });
+	});
+
+	it('includes multiple', function () {
+		deepEqual(mainModule._MSTOperations.__MSTObjectRemap({ 1: 2, 3: 4 }, 'alfa: $1, bravo: $3'), { alfa: 2, bravo: 4 });
+	});
+
+	it('prints expression', function () {
+		deepEqual(mainModule._MSTOperations.__MSTObjectRemap({ 1: 2 }, 'alfa: $1.prepend(bravo)'), { alfa: 'bravo2' });
+	});
+	
 });
 
 describe('MSTObjectPrint', function testMSTObjectPrint () {
