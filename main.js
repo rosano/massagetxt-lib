@@ -202,6 +202,10 @@ const mod = {
 						};
 					},
 					'\\': function () {
+						if (state.isRegex) {
+							return state;
+						};
+
 						return Object.assign(state, {
 							isEscaped: true,
 						});
@@ -225,6 +229,7 @@ const mod = {
 							return {
 								nestStart,
 								nestEnd: nestStart + regexMatch[0].slice(0, -1).length - 1,
+								isRegex: true,
 							};
 						}
 
@@ -244,6 +249,12 @@ const mod = {
 						};
 					},
 					')': function () {
+						if (state.nestStart && index > state.nestEnd && !['.', '['].includes(original[index + 1])) {
+							return {
+								delegateStart: index + 1,
+							};
+						};
+
 						if (state.nestStart && index > state.nestEnd) {
 							return {};
 						};
@@ -275,6 +286,12 @@ const mod = {
 					if (!index && !options.MSTOptionIsRecursive) {
 						throw new Error('MSTSyntaxErrorNoStartingVariable');
 
+						return {
+							delegateStart: index,
+						};
+					};
+
+					if (options.MSTOptionIsRecursive && state.isVariable && !mod.___MSTMassageIsVariable(Array.from(coll).pop().join('').concat(item))) {
 						return {
 							delegateStart: index,
 						};
@@ -863,8 +880,32 @@ const mod = {
 				throw new Error('MSTErrorInputNotValid');
 			}
 
-			return Object.keys(param1).reduce(function (coll, item) {
-				return coll.replace(new RegExp(`\\$${ item }`, 'g'), param1[item]);
+			return param2.split('').map(function (e, i) {
+				if (e !== '$') {
+					return;
+				}
+
+				return i
+			}).filter(function (e) {
+				return typeof e !== 'undefined';
+			}).map(function (e) {
+				const object = mod.____MSTMassageOperationStrings(param2.slice(e), {
+					MSTOptionIsRecursive: true,
+				});
+
+				return {
+					index: e,
+					length: param2.slice(e, e + object.lastIndex + 1).length,
+					replace: mod.MSTMassage(param1[object.operationStrings[0].slice(1)], ['$input'].concat(object.operationStrings.slice(1)).filter(function (e) {
+						return !!e;
+					}).join('.')),
+				}
+			}).reverse().reduce(function (coll, item) {
+				return [
+					coll.slice(0, item.index),
+					item.replace,
+					coll.slice(item.index + item.length),
+				].join('');
 			}, param2);
 		},
 		
