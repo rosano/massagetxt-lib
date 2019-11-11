@@ -169,7 +169,7 @@ const mod = {
 					}).join('') : [], state);
 				}
 
-				if (state.delegateEnd && index < state.delegateEnd) {
+				if (state.delegateStart && index >= state.delegateStart) {
 					return coll;
 				};
 
@@ -252,7 +252,7 @@ const mod = {
 							return state;
 						};
 
-						if (state.delegateEnd) {
+						if (state.delegateStart) {
 							return state;
 						};
 
@@ -263,7 +263,7 @@ const mod = {
 						};
 
 						return {
-							delegateEnd: Infinity,
+							delegateStart: index,
 						};
 					},
 					'[': function () {
@@ -276,7 +276,7 @@ const mod = {
 						throw new Error('MSTSyntaxErrorNoStartingVariable');
 
 						return {
-							delegateEnd: Infinity,
+							delegateStart: index,
 						};
 					};
 
@@ -284,7 +284,7 @@ const mod = {
 						throw new Error('MSTSyntaxErrorNoStartingVariable');
 
 						return {
-							delegateEnd: Infinity,
+							delegateStart: index,
 						};
 					};
 
@@ -292,7 +292,7 @@ const mod = {
 						coll.push([]);
 
 						return {
-							delegateEnd: Infinity,
+							delegateStart: index,
 						};
 					};
 
@@ -308,7 +308,7 @@ const mod = {
 						return false;
 					}
 					
-					if (state.delegateEnd && index < state.delegateEnd) {
+					if (state.delegateStart && index >= state.delegateStart) {
 						return false;
 					}
 
