@@ -45,6 +45,10 @@ const mod = {
 			}
 
 			return function (operationInput) {
+				const applyOperation = function (operation) {
+					return operation.MSTOperationCallback.call(...[null].concat(Array.from(arguments).slice(1)));
+				};
+
 				const callback = function (inputData, callbackOptions = {}) {
 					const operation = operations.concat({
 						MSTOperationPattern: /^.*\(([^]+)\)$/,
@@ -63,7 +67,7 @@ const mod = {
 									throw new Error('MSTErrorIdentifierNotValid');
 								}
 
-								return operation.MSTOperationCallback(e, param2)
+								return applyOperation(operation, e, param2)
 							});
 						},
 					}).filter(function (e) {
