@@ -103,11 +103,12 @@ const mod = {
 							return options.MSTOptionMarkdownParser;
 						}
 
-						let outputData;
 
-						if (typeof match.index !== 'undefined') {
-							outputData = match[1];
+						if (typeof match.index === 'undefined') {
+							return;
 						}
+						
+						let outputData = match[1];
 
 						if (mod.__MSTIsGroup(operationInput) && mod._MSTMassageType(inputData) === 'String') {
 							outputData = outputData.split(`$${ operationInput.MSTGroupKey }`).join(callbackOptions.MSTOptionGroupKey);
