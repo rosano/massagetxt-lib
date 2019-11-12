@@ -1086,7 +1086,7 @@ const mod = {
 				return {
 					index: e,
 					length: param2.slice(e, e + object.lastIndex + 1).length,
-					replace: mod.MSTMassage(param1[object.operationStrings[0].slice(1)].toString(), ['$input'].concat(object.operationStrings.slice(1)).filter(function (e) {
+					replace: mod.MSTMassage((param1[object.operationStrings[0].slice(1)] || '').toString(), ['$input'].concat(object.operationStrings.slice(1)).filter(function (e) {
 						return !!e;
 					}).join('.')),
 				}
