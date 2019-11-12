@@ -414,10 +414,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationPattern: /^remap\(([^]+)\)$/,
 			MSTOperationInputTypes: 'Array,Mapping',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayRemap,
-		}, {
-			MSTOperationPattern: /^print\(([^]+)\)$/,
-			MSTOperationInputTypes: 'Array,String',
-			MSTOperationCallback: mainModule._MSTOperations.MSTArrayPrint,
+		// }, {
+		// 	MSTOperationPattern: /^print\(([^]+)\)$/,
+		// 	MSTOperationInputTypes: 'Array,String',
+		// 	MSTOperationCallback: mainModule._MSTOperations.MSTArrayPrint,
 		}, {
 			MSTOperationPattern: /^join\(([^]+)\)$/,
 			MSTOperationInputTypes: 'Array,String',

@@ -50,7 +50,27 @@ const mod = {
 
 			return function (operationInput) {
 				const callback = function (inputData, callbackOptions = {}) {
-					const operation = operations.filter(function (e) {
+					const operation = operations.concat({
+						MSTOperationPattern: /^.*\(([^]+)\)$/,
+						MSTOperationInputTypes: 'Array',
+						MSTOperationCallback (param1, param2) {
+							if (!Array.isArray(param1)) {
+								throw new Error('MSTErrorInputNotValid');
+							}
+
+							return param1.map(function (e) {
+								const operation = operations.filter(function (op) {
+									return mod._MSTMassageInputTypes(op.MSTOperationInputTypes).shift() === mod._MSTMassageType(e);
+								}).shift();
+
+								if (!operation) {
+									throw new Error('MSTErrorIdentifierNotValid');
+								}
+
+								return operation.MSTOperationCallback(e, param2)
+							});
+						},
+					}).filter(function (e) {
 						if (!e.MSTOperationInputTypes) {
 							return true;
 						}
@@ -501,10 +521,10 @@ const mod = {
 			MSTOperationPattern: /^remap\(([^]+)\)$/,
 			MSTOperationInputTypes: 'Array,Mapping',
 			MSTOperationCallback: mod._MSTOperations.MSTArrayRemap,
-		}, {
-			MSTOperationPattern: /^print\(([^]+)\)$/,
-			MSTOperationInputTypes: 'Array,String',
-			MSTOperationCallback: mod._MSTOperations.MSTArrayPrint,
+		// }, {
+		// 	MSTOperationPattern: /^print\(([^]+)\)$/,
+		// 	MSTOperationInputTypes: 'Array,String',
+		// 	MSTOperationCallback: mod._MSTOperations.MSTArrayPrint,
 		}, {
 			MSTOperationPattern: /^join\(([^]+)\)$/,
 			MSTOperationInputTypes: 'Array,String',
