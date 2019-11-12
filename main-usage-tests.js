@@ -16,6 +16,14 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		deepEqual(MSTMassage('alfa', '$input'), 'alfa');
 	});
 
+	it('throws if MSTOptionContext not object', function () {
+		throws(function () {
+			MSTMassage('', '', {
+				MSTOptionContext: true,
+			});
+		}, /MSTErrorInputNotValid/);
+	});
+
 	context('string', function () {
 
 		it('conform false', function () {

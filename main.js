@@ -31,6 +31,10 @@ const mod = {
 			throw new Error('MSTErrorMarkdownParserNotValid');
 		}
 
+		if (options.MSTOptionContext && mod._MSTMassageType(options.MSTOptionContext) !== 'Object') {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
 		return mod.___MSTMassageOperationStrings(inputData).map(function (operationString) {
 			const operations = mod.__MSTMassageOperations().concat(options.MSTOptionMarkdownParser ? mod.__MSTMassageOperationsMarkdown() : []).filter(function (e) {
 				return operationString.match(e.MSTOperationPattern);
