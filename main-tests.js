@@ -134,7 +134,7 @@ describe('___MSTMassageOperationStrings', function test___MSTMassageOperationStr
 		
 		});
 
-		context('hash', function () {
+		context('mapping', function () {
 
 			it('parses pair variable single', function() {
 				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(charlie: $delta)'), ['$alfa', 'bravo(charlie: $delta)']);
@@ -145,7 +145,11 @@ describe('___MSTMassageOperationStrings', function test___MSTMassageOperationStr
 			});
 
 			it('parses pair methods', function() {
-				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(charlie: $delta, echo: $foxtrot)'), ['$alfa', 'bravo(charlie: $delta, echo: $foxtrot)']);
+				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(charlie: $delta.echo)'), ['$alfa', 'bravo(charlie: $delta.echo)']);
+			});
+
+			it('parses pair method parentheses', function() {
+				deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(charlie: $delta.echo(foxtrot))'), ['$alfa', 'bravo(charlie: $delta.echo(foxtrot))']);
 			});
 			
 		});
