@@ -117,6 +117,22 @@ const mod = {
 							outputData = outputData.split(`$${ operationInput.MSTGroupKey }`).join(callbackOptions.MSTOptionGroupKey);
 						}
 
+						if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'String') {
+							const context = Object.assign({}, options.MSTOptionContext);
+
+							if (mod._MSTMassageType(inputData) === 'Object') {
+								Object.assign(context, inputData);
+							}
+
+							outputData = mod._MSTOperations.__MSTPrintSubExpressions(context, outputData).reverse().reduce(function (coll, item) {
+								return [
+									coll.slice(0, item.index),
+									item.replace,
+									coll.slice(item.index + item.length),
+								].join('');
+							}, outputData);
+						}
+
 						return outputData;
 					})());
 				};
@@ -1018,7 +1034,10 @@ const mod = {
 					return coll;
 				};
 
-				coll[item] = mod.MSTMassage(param1[original[index + 1].split('.')[0].slice(1)].toString(), ['$input'].concat(original[index + 1].split('.').slice(1)).join('.'));
+
+				coll[item] = mod.MSTMassage(param1[original[index + 1].split('.')[0].slice(1)].toString(), ['$input'].concat(original[index + 1].split('.').slice(1)).join('.'), {
+					MSTOptionContext: param1,
+				});
 
 				return coll;
 			}, {});
