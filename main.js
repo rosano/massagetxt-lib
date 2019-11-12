@@ -23,10 +23,6 @@ const mod = {
 			throw new Error('MSTErrorInputNotValid');
 		}
 
-		if (!inputData) {
-			return [];
-		}
-
 		if (options.MSTOptionMarkdownParser && !mod.__MSTIsMarkdownParser(options.MSTOptionMarkdownParser)) {
 			throw new Error('MSTErrorMarkdownParserNotValid');
 		}
