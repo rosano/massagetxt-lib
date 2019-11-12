@@ -408,7 +408,7 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayCapture,
 		}, {
 			MSTOperationPattern: /^remap\(([^]+)\)$/,
-			MSTOperationInputTypes: 'Array,String',
+			MSTOperationInputTypes: 'Array,Mapping',
 			MSTOperationCallback: mainModule._MSTOperations.MSTArrayRemap,
 		}, {
 			MSTOperationPattern: /^print\(([^]+)\)$/,
@@ -424,7 +424,7 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationCallback: mainModule._MSTOperations.MSTObjectAccess,
 		}, {
 			MSTOperationPattern: /^remap\(([^]+)\)$/,
-			MSTOperationInputTypes: 'Object,String',
+			MSTOperationInputTypes: 'Object,Mapping',
 			MSTOperationCallback: mainModule._MSTOperations.MSTObjectRemap,
 		}, {
 			MSTOperationPattern: /^print\(([^]+)\)$/,

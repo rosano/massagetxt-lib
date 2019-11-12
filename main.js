@@ -495,7 +495,7 @@ const mod = {
 			MSTOperationCallback: mod._MSTOperations.MSTArrayCapture,
 		}, {
 			MSTOperationPattern: /^remap\(([^]+)\)$/,
-			MSTOperationInputTypes: 'Array,String',
+			MSTOperationInputTypes: 'Array,Mapping',
 			MSTOperationCallback: mod._MSTOperations.MSTArrayRemap,
 		}, {
 			MSTOperationPattern: /^print\(([^]+)\)$/,
@@ -511,7 +511,7 @@ const mod = {
 			MSTOperationCallback: mod._MSTOperations.MSTObjectAccess,
 		}, {
 			MSTOperationPattern: /^remap\(([^]+)\)$/,
-			MSTOperationInputTypes: 'Object,String',
+			MSTOperationInputTypes: 'Object,Mapping',
 			MSTOperationCallback: mod._MSTOperations.MSTObjectRemap,
 		}, {
 			MSTOperationPattern: /^print\(([^]+)\)$/,
