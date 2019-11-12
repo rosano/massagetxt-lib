@@ -1081,6 +1081,10 @@ describe('__MSTObjectRemap', function test__MSTObjectRemap () {
 	it('prints expression', function () {
 		deepEqual(mainModule._MSTOperations.__MSTObjectRemap({ 1: 2 }, 'alfa: $1.prepend(bravo)'), { alfa: 'bravo2' });
 	});
+
+	it('parses subexpressions', function () {
+		deepEqual(mainModule._MSTOperations.__MSTObjectRemap({ 1: 2, 3: 4, 5: 6, 7: 8 }, 'alfa: $1.postpend( $3:$5), bravo: $7'), { alfa: '2 4:6', bravo: '8' });
+	});
 	
 });
 

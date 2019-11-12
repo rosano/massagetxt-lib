@@ -931,17 +931,27 @@ const mod = {
 					return coll;
 				};
 
+				if (state.expressionEnd && index > state.expressionEnd) {
+					state = {};
+				}
+
 				state = ({
 					'$': function () {
-						const object = mod.____MSTMassageOperationStrings(original.slice(index).join(''), {
-							MSTOptionIsRecursive: true,
-						});
+						if (state.expressionEnd) {
+							return state;
+						};
+
+						const object = mod.____MSTMassageOperationStrings(original.slice(index).join(''));
 
 						return {
 							expressionEnd: index + object.lastIndex,
 						};
 					},
 					':': function () {
+						if (state.expressionEnd) {
+							return state;
+						};
+
 						if (!state.isIdentifier) {
 							throw new Error('MSTSyntaxErrorNoIdentifier');
 						}
@@ -958,10 +968,6 @@ const mod = {
 						return {};
 					},
 				}[item] || function () {
-					if (state.expressionEnd && index > state.expressionEnd) {
-						return {};
-					}
-
 					if (state.isValue && !state.expressionEnd && item !== ' ') {
 						throw new Error('MSTSyntaxErrorNoStartingVariable');
 					};
