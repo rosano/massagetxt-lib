@@ -455,9 +455,9 @@ describe('__MSTMassageOperationsMarkdown', function test__MSTMassageOperationsMa
 			MSTOperationInputTypes: 'MarkdownTree',
 			MSTOperationCallback: mainModule._MSTOperations.MSTMarkdownSections,
 		}, {
-			MSTOperationPattern: /^section\(([^]+)\)$/,
+			MSTOperationPattern: /^content\(([^]+)\)$/,
 			MSTOperationInputTypes: 'MarkdownTree,String',
-			MSTOperationCallback: mainModule._MSTOperations.MSTMarkdownSection,
+			MSTOperationCallback: mainModule._MSTOperations.MSTMarkdownContent,
 		}, {
 			MSTOperationPattern: /^items$/,
 			MSTOperationInputTypes: 'MarkdownTree',
@@ -1192,21 +1192,21 @@ describe('MSTMarkdownSections', function testMSTMarkdownSections () {
 	
 });
 
-describe('MSTMarkdownSection', function testMSTMarkdownSection () {
+describe('MSTMarkdownContent', function testMSTMarkdownSection () {
 
 	const uSource = function (param1, param2) {
-		return mainModule._MSTOperations.MSTMarkdownSection(uTree(param1), param2);
+		return mainModule._MSTOperations.MSTMarkdownContent(uTree(param1), param2);
 	};
 
 	it('throws if param1 not MarkdownTree', function() {
 		throws(function() {
-			mainModule._MSTOperations.MSTMarkdownSection({}, '');
+			mainModule._MSTOperations.MSTMarkdownContent({}, '');
 		}, /MSTErrorInputNotValid/);
 	});
 
 	it('throws if param2 not string', function() {
 		throws(function() {
-			mainModule._MSTOperations.MSTMarkdownSection(uTree(''), null);
+			mainModule._MSTOperations.MSTMarkdownContent(uTree(''), null);
 		}, /MSTErrorInputNotValid/);
 	});
 

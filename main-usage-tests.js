@@ -240,20 +240,20 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 		deepEqual(MSTMassage('alfa', '$input.markdown.sections[0]', uOptions()), 'alfa');
 	});
 
-	it('section not defined', function () {
-		deepEqual(MSTMassage('alfa\nbravo', '$input.markdown.section(alfa)', uOptions()), '');
+	it('content not defined', function () {
+		deepEqual(MSTMassage('alfa\nbravo', '$input.markdown.content(alfa)', uOptions()), '');
 	});
 
-	it('section defined', function () {
-		deepEqual(MSTMassage('# alfa\nbravo', '$input.markdown.section(alfa)', uOptions()), 'bravo');
+	it('content defined', function () {
+		deepEqual(MSTMassage('# alfa\nbravo', '$input.markdown.content(alfa)', uOptions()), 'bravo');
 	});
 
-	it('section nested direct', function () {
-		deepEqual(MSTMassage('# alfa\n## bravo\ncharlie\n# delta\n## bravo\necho', '$input.markdown.section(bravo)', uOptions()), 'charlie');
+	it('content nested direct', function () {
+		deepEqual(MSTMassage('# alfa\n## bravo\ncharlie\n# delta\n## bravo\necho', '$input.markdown.content(bravo)', uOptions()), 'charlie');
 	});
 
-	it.skip('section nested', function () {
-		deepEqual(MSTMassage('# alfa\n## bravo\ncharlie\n# delta\n## bravo\necho', '$input.markdown.section(delta).section(bravo)', uOptions()), 'echo');
+	it.skip('content nested', function () {
+		deepEqual(MSTMassage('# alfa\n## bravo\ncharlie\n# delta\n## bravo\necho', '$input.markdown.content(delta).content(bravo)', uOptions()), 'echo');
 	});
 
 	it('items', function () {
@@ -265,13 +265,13 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 	});
 
 	it('string operation on tree', function () {
-		deepEqual(MSTMassage('alfa\n# bravo\ncharlie\ndelta', '$input.markdown.section(bravo).split(\n)', uOptions()), JSON.stringify(['charlie', 'delta']));
+		deepEqual(MSTMassage('alfa\n# bravo\ncharlie\ndelta', '$input.markdown.content(bravo).split(\n)', uOptions()), JSON.stringify(['charlie', 'delta']));
 	});
 
 	context('litmus', function () {
 
 		it('cards', function () {
-			deepEqual(MSTMassage('Alfa: Bravo Charlie; Delta: Echo Foxtrot\n# golf\nhotel\nindigo\n\njuliet\nkilo\n# llama\nmike\n', '$input.markdown.section(golf).paragraphs.capture(/(.*)\n(.*)/).print($2;$1;;nancy-$input.lines.first.split(;).first.split(: ).last.lowercase.split( ).join(-))', uOptions()), JSON.stringify([
+			deepEqual(MSTMassage('Alfa: Bravo Charlie; Delta: Echo Foxtrot\n# golf\nhotel\nindigo\n\njuliet\nkilo\n# llama\nmike\n', '$input.markdown.content(golf).paragraphs.capture(/(.*)\n(.*)/).print($2;$1;;nancy-$input.lines.first.split(;).first.split(: ).last.lowercase.split( ).join(-))', uOptions()), JSON.stringify([
 				'indigo;hotel;;nancy-bravo-charlie',
 				'kilo;juliet;;nancy-bravo-charlie',
 				]));

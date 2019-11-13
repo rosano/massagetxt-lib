@@ -547,9 +547,9 @@ const mod = {
 			MSTOperationInputTypes: 'MarkdownTree',
 			MSTOperationCallback: mod._MSTOperations.MSTMarkdownSections,
 		}, {
-			MSTOperationPattern: /^section\(([^]+)\)$/,
+			MSTOperationPattern: /^content\(([^]+)\)$/,
 			MSTOperationInputTypes: 'MarkdownTree,String',
-			MSTOperationCallback: mod._MSTOperations.MSTMarkdownSection,
+			MSTOperationCallback: mod._MSTOperations.MSTMarkdownContent,
 		}, {
 			MSTOperationPattern: /^items$/,
 			MSTOperationInputTypes: 'MarkdownTree',
@@ -1103,7 +1103,7 @@ const mod = {
 			});
 		},
 		
-		MSTMarkdownSection (param1, param2) {
+		MSTMarkdownContent (param1, param2) {
 			if (!mod.__MSTIsMarkdownTree(param1)) {
 				throw new Error('MSTErrorInputNotValid');
 			}
