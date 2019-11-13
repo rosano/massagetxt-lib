@@ -55,27 +55,7 @@ const mod = {
 			};
 
 			const callback = function (inputData, callbackOptions = {}) {
-				const operation = matchingOperations.concat({
-					MSTOperationPattern: /^.*\(([^]+)\)$/,
-					MSTOperationInputTypes: 'Array',
-					MSTOperationCallback (param1, param2) {
-						if (!Array.isArray(param1)) {
-							throw new Error('MSTErrorInputNotValid');
-						}
-
-						return param1.map(function (e) {
-							const operation = matchingOperations.filter(function (op) {
-								return mod._MSTMassageInputTypes(op.MSTOperationInputTypes).shift() === mod._MSTMassageType(e);
-							}).shift();
-
-							if (!operation) {
-								throw new Error('MSTErrorIdentifierNotValid');
-							}
-
-							return applyOperation(operation, e, param2)
-						});
-					},
-				}).filter(function (e) {
+				const operation = matchingOperations.filter(function (e) {
 					if (!e.MSTOperationInputTypes) {
 						return true;
 					}
@@ -92,6 +72,12 @@ const mod = {
 
 					return false;
 				}).shift();
+
+				if (!operation && Array.isArray(inputData) && matchingOperations[0]) {
+					return inputData.map(function (e) {
+						return applyOperation(...[matchingOperations[0], e].concat(operationString.match(matchingOperations[0].MSTOperationPattern).slice(1)));
+					});
+				}
 
 				if (!operation) {
 					throw new Error('MSTErrorIdentifierNotValid');
