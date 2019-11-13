@@ -144,35 +144,39 @@ const mod = {
 			};
 
 			if (mod.__MSTIsGroup(operationInput)) {
-				const inputData = operationInput.MSTGroupValue;
-
-				const isJoin = operations.length === 1 && operationString.match(/^join/) && operationString.match(operations[0].MSTOperationPattern);
-
-				if (isJoin && !Array.isArray(Object.values(inputData)[0])) {
-					return callback(Object.values(inputData));
-				}
-
-				operationInput.MSTGroupValue = Object.keys(inputData).reduce(function (coll, item) {
-					if (isJoin || !Array.isArray(coll[item])) {
-						coll[item] = callback(coll[item], {
-							MSTOptionGroupKey: item,
-						});
-					} else {
-						coll[item] = coll[item].map(function (e) {
-							return callback(e, {
-								MSTOptionGroupKey: item,
-							});
-						});
-					}
-
-					return coll;
-				}, inputData);
-
-				return operationInput;
+				return mod.___MSTOperationFunctionReturnValue_Group(operationInput, operationString, operations, callback)
 			}
 
 			return callback(operationInput);
 		};
+	},
+
+	___MSTOperationFunctionReturnValue_Group (operationInput, operationString, operations, callback) {
+		const inputData = operationInput.MSTGroupValue;
+
+		const isJoin = operations.length === 1 && operationString.match(/^join/) && operationString.match(operations[0].MSTOperationPattern);
+
+		if (isJoin && !Array.isArray(Object.values(inputData)[0])) {
+			return callback(Object.values(inputData));
+		}
+
+		operationInput.MSTGroupValue = Object.keys(inputData).reduce(function (coll, item) {
+			if (isJoin || !Array.isArray(coll[item])) {
+				coll[item] = callback(coll[item], {
+					MSTOptionGroupKey: item,
+				});
+			} else {
+				coll[item] = coll[item].map(function (e) {
+					return callback(e, {
+						MSTOptionGroupKey: item,
+					});
+				});
+			}
+
+			return coll;
+		}, inputData);
+
+		return operationInput;
 	},
 
 	__MSTIsMarkdownParser (inputData) {
