@@ -104,14 +104,13 @@ const mod = {
 				const match = operationString.match(operation.MSTOperationPattern);
 
 				return operation.MSTOperationCallback(inputData, (function() {
-					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'Regex') {
+					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'Regex') {
 						return new RegExp(match[1], match[2]);
 					}
 
-					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'MarkdownParser') {
+					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'MarkdownParser') {
 						return options.MSTOptionMarkdownParser;
 					}
-
 
 					if (typeof match.index === 'undefined') {
 						return;
