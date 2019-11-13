@@ -310,12 +310,6 @@ const mod = {
 						};
 					}
 
-					if (options.MSTOptionIsRecursive && state.isVariable && !mod.___MSTMassageIsVariable(Array.from(coll).pop().join('').concat(item))) {
-						return {
-							delegateStart: index,
-						};
-					}
-
 					if (!options.MSTOptionIsRecursive && state.isVariable && !mod.___MSTMassageIsVariable(Array.from(coll).pop().join('').concat(item))) {
 						return {
 							delegateStart: index,
