@@ -65,6 +65,10 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 		it('postpend', function () {
 			deepEqual(MSTMassage('alfa', '$input.postpend(bravo)'), 'alfabravo');
 		});
+
+		it('lowercase', function () {
+			deepEqual(MSTMassage('ALFA', '$input.lowercase'), 'alfa');
+		});
 	
 	});
 

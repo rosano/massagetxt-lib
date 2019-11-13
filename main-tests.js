@@ -355,6 +355,10 @@ describe('__MSTMassageOperations', function test__MSTMassageOperations() {
 			MSTOperationPattern: /^\$?input$/,
 			MSTOperationCallback: mainModule._MSTOperations._MSTBypass,
 		}, {
+			MSTOperationPattern: /^lowercase$/,
+			MSTOperationInputTypes: 'String',
+			MSTOperationCallback: mainModule._MSTOperations.MSTStringLowercase,
+		}, {
 			MSTOperationPattern: /^split\(([^]+)\)$/,
 			MSTOperationInputTypes: 'String,String',
 			MSTOperationCallback: mainModule._MSTOperations.MSTStringSplit,

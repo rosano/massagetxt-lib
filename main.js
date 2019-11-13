@@ -451,6 +451,10 @@ const mod = {
 			MSTOperationPattern: /^\$?input$/,
 			MSTOperationCallback: mod._MSTOperations._MSTBypass,
 		}, {
+			MSTOperationPattern: /^lowercase$/,
+			MSTOperationInputTypes: 'String',
+			MSTOperationCallback: mod._MSTOperations.MSTStringLowercase,
+		}, {
 			MSTOperationPattern: /^split\(([^]+)\)$/,
 			MSTOperationInputTypes: 'String,String',
 			MSTOperationCallback: mod._MSTOperations.MSTStringSplit,
