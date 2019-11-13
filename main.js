@@ -49,26 +49,29 @@ const mod = {
 			throw new Error('MSTErrorIdentifierNotValid');
 		}
 
-		return function (operationInput) {
-			const callback = function (operationInput, callbackContext = {}) {
+		return function singularCallback (operationInput, callbackContext = {}) {
+				if (mod.__MSTIsGroup(operationInput)) {
+					return mod.___MSTOperationFunctionReturnValue_Group(operationInput, operationString, matchingOperations, singularCallback)
+				}
+				
 				const operation = matchingOperations.filter(function (e) {
 					if (!e.MSTOperationInputTypes) {
 						return true;
 					}
 
-					const param1 = mod._MSTMassageInputTypes(e.MSTOperationInputTypes).shift();
+					const param1Type = mod._MSTMassageInputTypes(e.MSTOperationInputTypes)[0];
 					
-					if (param1 === mod._MSTMassageType(operationInput)) {
+					if (mod._MSTMassageType(operationInput) === param1Type) {
 						return true;
 					}
 					
-					if (mod._MSTMassageType(operationInput) === 'MarkdownTree' && param1 === 'String') {
+					if (mod._MSTMassageType(operationInput) === 'MarkdownTree' && param1Type === 'String') {
 						return true;
 					}
 
 					return false;
 				}).shift();
-
+				
 				if (!operation && Array.isArray(operationInput) && matchingOperations[0]) {
 					return operationInput.map(function (e) {
 						return matchingOperations[0].MSTOperationCallback(...[e].concat(operationString.match(matchingOperations[0].MSTOperationPattern).slice(1)));
@@ -120,23 +123,18 @@ const mod = {
 
 					return outputData;
 				})()));
-			};
 
-			if (mod.__MSTIsGroup(operationInput)) {
-				return mod.___MSTOperationFunctionReturnValue_Group(operationInput, operationString, matchingOperations, callback)
-			}
-
-			return callback(operationInput);
+			return singularCallback(operationInput);
 		};
 	},
 
-	___MSTOperationFunctionReturnValue_Group (operationInput, operationString, matchingOperations, callback) {
+	___MSTOperationFunctionReturnValue_Group (operationInput, operationString, matchingOperations, singularCallback) {
 		const inputData = operationInput.MSTGroupValue;
 
 		const isJoin = matchingOperations.length === 1 && operationString.match(/^join/) && operationString.match(matchingOperations[0].MSTOperationPattern);
 
 		if (isJoin && !Array.isArray(Object.values(inputData)[0])) {
-			return callback(Object.values(inputData));
+			return singularCallback(Object.values(inputData));
 		}
 
 		operationInput.MSTGroupValue = Object.keys(inputData).reduce(function (coll, item) {
@@ -144,10 +142,10 @@ const mod = {
 			callbackContext[operationInput.MSTGroupKey] = item;
 
 			if (isJoin || !Array.isArray(coll[item])) {
-				coll[item] = callback(coll[item], callbackContext);
+				coll[item] = singularCallback(coll[item], callbackContext);
 			} else {
 				coll[item] = coll[item].map(function (e) {
-					return callback(e, callbackContext);
+					return singularCallback(e, callbackContext);
 				});
 			}
 
