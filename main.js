@@ -50,10 +50,6 @@ const mod = {
 		}
 
 		return function (operationInput) {
-			const applyOperation = function (operation) {
-				return operation.MSTOperationCallback.call(...[null].concat(Array.from(arguments).slice(1)));
-			};
-
 			const callback = function (operationInput, callbackContext = {}) {
 				const operation = matchingOperations.filter(function (e) {
 					if (!e.MSTOperationInputTypes) {
@@ -75,7 +71,7 @@ const mod = {
 
 				if (!operation && Array.isArray(operationInput) && matchingOperations[0]) {
 					return operationInput.map(function (e) {
-						return applyOperation(...[matchingOperations[0], e].concat(operationString.match(matchingOperations[0].MSTOperationPattern).slice(1)));
+						return matchingOperations[0].MSTOperationCallback(...[e].concat(operationString.match(matchingOperations[0].MSTOperationPattern).slice(1)));
 					});
 				}
 
@@ -87,10 +83,9 @@ const mod = {
 					operationInput = operationInput.MSTMarkdownTreeSource;
 				}
 
-
 				const match = operationString.match(operation.MSTOperationPattern);
 
-				return applyOperation(...[operation, operationInput].concat((function() {
+				return operation.MSTOperationCallback(...[operationInput].concat((function() {
 					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'Regex') {
 						return new RegExp(match[1], match[2]);
 					}
