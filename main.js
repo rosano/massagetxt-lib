@@ -32,7 +32,7 @@ const mod = {
 		}
 
 		return mod.___MSTMassageOperationStrings(massageInput).map(function (operationString) {
-			return mod.__MSTOperationFunction(operationString, options)
+			return mod.__MSTOperationFunction(operationString, options);
 		});
 	},
 
@@ -50,79 +50,79 @@ const mod = {
 		}
 
 		return function singularCallback (operationInput, callbackContext = {}) {
-				if (mod.__MSTIsGroup(operationInput)) {
-					return mod.___MSTOperationFunctionReturnValue_Group(operationInput, operationString, matchingOperations, singularCallback)
-				}
+			if (mod.__MSTIsGroup(operationInput)) {
+				return mod.___MSTOperationFunctionReturnValue_Group(operationInput, operationString, matchingOperations, singularCallback);
+			}
 				
-				const operation = matchingOperations.filter(function (e) {
-					if (!e.MSTOperationInputTypes) {
-						return true;
-					}
+			const operation = matchingOperations.filter(function (e) {
+				if (!e.MSTOperationInputTypes) {
+					return true;
+				}
 
-					const param1Type = mod._MSTMassageInputTypes(e.MSTOperationInputTypes)[0];
+				const param1Type = mod._MSTMassageInputTypes(e.MSTOperationInputTypes)[0];
 					
-					if (mod._MSTMassageType(operationInput) === param1Type) {
-						return true;
-					}
+				if (mod._MSTMassageType(operationInput) === param1Type) {
+					return true;
+				}
 					
-					if (mod._MSTMassageType(operationInput) === 'MarkdownTree' && param1Type === 'String') {
-						return true;
-					}
+				if (mod._MSTMassageType(operationInput) === 'MarkdownTree' && param1Type === 'String') {
+					return true;
+				}
 
-					return false;
-				}).shift();
+				return false;
+			}).shift();
 				
-				if (!operation && Array.isArray(operationInput) && matchingOperations[0]) {
-					return operationInput.map(function (e) {
-						return matchingOperations[0].MSTOperationCallback(...[e].concat(operationString.match(matchingOperations[0].MSTOperationPattern).slice(1)));
-					});
+			if (!operation && Array.isArray(operationInput) && matchingOperations[0]) {
+				return operationInput.map(function (e) {
+					return matchingOperations[0].MSTOperationCallback(...[e].concat(operationString.match(matchingOperations[0].MSTOperationPattern).slice(1)));
+				});
+			}
+
+			if (!operation) {
+				throw new Error('MSTErrorIdentifierNotValid');
+			}
+
+			if (mod.__MSTIsMarkdownTree(operationInput) && mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').shift() === 'String') {
+				operationInput = operationInput.MSTMarkdownTreeSource;
+			}
+
+			const match = operationString.match(operation.MSTOperationPattern);
+
+			return operation.MSTOperationCallback(...[operationInput].concat((function() {
+				if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'Regex') {
+					return new RegExp(match[1], match[2]);
 				}
 
-				if (!operation) {
-					throw new Error('MSTErrorIdentifierNotValid');
+				if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'MarkdownParser') {
+					return options.MSTOptionMarkdownParser;
 				}
 
-				if (mod.__MSTIsMarkdownTree(operationInput) && mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').shift() === 'String') {
-					operationInput = operationInput.MSTMarkdownTreeSource;
+				if (typeof match.index === 'undefined') {
+					return;
 				}
-
-				const match = operationString.match(operation.MSTOperationPattern);
-
-				return operation.MSTOperationCallback(...[operationInput].concat((function() {
-					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'Regex') {
-						return new RegExp(match[1], match[2]);
-					}
-
-					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'MarkdownParser') {
-						return options.MSTOptionMarkdownParser;
-					}
-
-					if (typeof match.index === 'undefined') {
-						return;
-					}
 					
-					let outputData = match[1];
+				let outputData = match[1];
 
-					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'String') {
-						const context = Object.assign({}, options.MSTOptionContext);
+				if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'String') {
+					const context = Object.assign({}, options.MSTOptionContext);
 
-						Object.assign(context, callbackContext);
+					Object.assign(context, callbackContext);
 
-						if (mod._MSTMassageType(operationInput) === 'Object') {
-							Object.assign(context, operationInput);
-						}
-
-						outputData = mod._MSTOperations.__MSTPrintSubExpressions(context, outputData).reverse().reduce(function (coll, item) {
-							return [
-								coll.slice(0, item.index),
-								item.replace,
-								coll.slice(item.index + item.length),
-							].join('');
-						}, outputData);
+					if (mod._MSTMassageType(operationInput) === 'Object') {
+						Object.assign(context, operationInput);
 					}
 
-					return outputData;
-				})()));
+					outputData = mod._MSTOperations.__MSTPrintSubExpressions(context, outputData).reverse().reduce(function (coll, item) {
+						return [
+							coll.slice(0, item.index),
+							item.replace,
+							coll.slice(item.index + item.length),
+						].join('');
+					}, outputData);
+				}
+
+				return outputData;
+			})()));
 
 			return singularCallback(operationInput);
 		};
@@ -196,13 +196,13 @@ const mod = {
 
 				if (state.delegateStart && index >= state.delegateStart) {
 					return coll;
-				};
+				}
 
 				state = ({
 					'$': function () {
 						if (state.nestStart) {
 							return state;
-						};
+						}
 
 						if (!index && !mod.___MSTMassageIsVariable(`${ item }${ original[index + 1] || '' }`)) {
 							throw new Error('MSTSyntaxErrorNoStartingVariable');
@@ -218,7 +218,7 @@ const mod = {
 					'.': function () {
 						if (state.nestStart) {
 							return state;
-						};
+						}
 
 						coll.push([]);
 
@@ -229,7 +229,7 @@ const mod = {
 					'\\': function () {
 						if (state.isRegex) {
 							return state;
-						};
+						}
 
 						return Object.assign(state, {
 							isEscaped: true,
@@ -238,13 +238,13 @@ const mod = {
 					'(': function () {
 						if (state.nestStart) {
 							return state;
-						};
+						}
 
 						if (state.isEscaped) {
 							delete state.isEscaped;
 
 							return state;
-						};
+						}
 
 						const nestStart = index + 1;
 
@@ -276,21 +276,21 @@ const mod = {
 					')': function () {
 						if (state.nestStart && index > state.nestEnd) {
 							return {};
-						};
+						}
 
 						if (state.nestStart) {
 							return state;
-						};
+						}
 
 						if (state.delegateStart) {
 							return state;
-						};
+						}
 
 						if (state.isEscaped) {
 							delete state.isEscaped;
 
 							return state;
-						};
+						}
 
 						return {
 							delegateStart: index,
@@ -314,19 +314,19 @@ const mod = {
 						return {
 							delegateStart: index,
 						};
-					};
+					}
 
 					if (options.MSTOptionIsRecursive && state.isVariable && !mod.___MSTMassageIsVariable(Array.from(coll).pop().join('').concat(item))) {
 						return {
 							delegateStart: index,
 						};
-					};
+					}
 
 					if (!options.MSTOptionIsRecursive && state.isVariable && !mod.___MSTMassageIsVariable(Array.from(coll).pop().join('').concat(item))) {
 						return {
 							delegateStart: index,
 						};
-					};
+					}
 
 					if (!state.isVariable && state.isIdentifier && !mod.___MSTMassageIsIdentifier(Array.from(coll).pop().join('').concat(item))) {
 						coll.push([]);
@@ -334,20 +334,20 @@ const mod = {
 						return {
 							delegateStart: index,
 						};
-					};
+					}
 
 					if (!options.MSTOptionIsRecursive && !state.isVariable && !state.isIdentifier && !state.nestStart && !state.isBracket) {
 						return {
 							delegateStart: index,
 						};
-					};
+					}
 
 					return state;
 				})();
 
 				if (!Array.isArray(Array.from(coll).pop())) {
 					coll.push([]);
-				};
+				}
 
 				if ((function() {
 					if (state.isIdentifier && item === '.') {
@@ -362,14 +362,14 @@ const mod = {
 				})()) {
 					Array.from(coll).pop().push(item);
 					lastIndex = index;
-				};
+				}
 
 				return coll;
-		}, []).map(function (e) {
-			return e.join('');
-		}).filter(function (e) {
-			return !!e;
-		}),
+			}, []).map(function (e) {
+				return e.join('');
+			}).filter(function (e) {
+				return !!e;
+			}),
 			lastIndex,
 		};
 	},
@@ -918,7 +918,7 @@ const mod = {
 			return param2.split('').reduce(function (coll, item, index, original) {
 				if (state.delegateStart && index >= state.delegateStart) {
 					return coll;
-				};
+				}
 
 				if (state.expressionEnd && index > state.expressionEnd) {
 					state = {};
@@ -928,7 +928,7 @@ const mod = {
 					'$': function () {
 						if (state.expressionEnd) {
 							return state;
-						};
+						}
 
 						const object = mod.____MSTMassageOperationStrings(original.slice(index).join(''));
 
@@ -939,7 +939,7 @@ const mod = {
 					':': function () {
 						if (state.expressionEnd) {
 							return state;
-						};
+						}
 
 						if (!state.isIdentifier) {
 							throw new Error('MSTSyntaxErrorNoIdentifier');
@@ -959,26 +959,26 @@ const mod = {
 				}[item] || function () {
 					if (state.isValue && !state.expressionEnd && item !== ' ') {
 						throw new Error('MSTSyntaxErrorNoStartingVariable');
-					};
+					}
 
 					if (state.isIdentifier && !mod.___MSTMassageIsIdentifier(Array.from(coll).pop().join('').concat(item))) {
 						return {
 							delegateStart: index,
 						};
-					};
+					}
 
 					if (!Object.keys(state).length) {
 						return {
 							isIdentifier: true,
-						}
-					};
+						};
+					}
 
 					return state;
 				})();
 
 				if (!Array.isArray(Array.from(coll).pop())) {
 					coll.push([]);
-				};
+				}
 
 				if ((function() {
 					if (state.delegateStart && index >= state.delegateStart) {
@@ -1005,7 +1005,7 @@ const mod = {
 				})()) {
 					Array.from(coll).pop().push(item);
 					lastIndex = index;
-				};
+				}
 
 				return coll;
 			}, []).map(function (e) {
@@ -1023,7 +1023,7 @@ const mod = {
 
 				if (typeof param1[original[index + 1].split('.')[0].slice(1)] === 'undefined') {
 					return coll;
-				};
+				}
 
 
 				coll[item] = mod.MSTMassage(param1[original[index + 1].split('.')[0].slice(1)].toString(), ['$input'].concat(original[index + 1].split('.').slice(1)).join('.'), {
@@ -1066,7 +1066,7 @@ const mod = {
 					return;
 				}
 
-				return i
+				return i;
 			}).filter(function (e) {
 				return typeof e !== 'undefined';
 			}).map(function (e) {
@@ -1078,7 +1078,7 @@ const mod = {
 					replace: mod.MSTMassage((param1[object.operationStrings[0].slice(1)] || '').toString(), ['$input'].concat(object.operationStrings.slice(1)).filter(function (e) {
 						return !!e;
 					}).join('.')),
-				}
+				};
 			});
 		},
 		

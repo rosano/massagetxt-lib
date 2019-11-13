@@ -96,7 +96,7 @@ describe('___MSTMassageOperationStrings', function test___MSTMassageOperationStr
 
 			it('throws if no closing brace', function () {
 				throws(function () {
-					mainModule.___MSTMassageOperationStrings('$alfa.bravo(charlie')
+					mainModule.___MSTMassageOperationStrings('$alfa.bravo(charlie');
 				}, /MSTSyntaxErrorNoClosingParenthesis/);
 			});
 			
