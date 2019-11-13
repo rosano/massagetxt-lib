@@ -123,8 +123,6 @@ const mod = {
 
 				return outputData;
 			})()));
-
-			return singularCallback(operationInput);
 		};
 	},
 
