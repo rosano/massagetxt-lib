@@ -18,8 +18,8 @@ const mod = {
 		}, param1));
 	},
 
-	_MSTMassageOperations (originalInput, options = {}) {
-		if (typeof originalInput !== 'string') {
+	_MSTMassageOperations (massageInput, options = {}) {
+		if (typeof massageInput !== 'string') {
 			throw new Error('MSTErrorInputNotValid');
 		}
 
@@ -31,7 +31,7 @@ const mod = {
 			throw new Error('MSTErrorInputNotValid');
 		}
 
-		return mod.___MSTMassageOperationStrings(originalInput).map(function (operationString) {
+		return mod.___MSTMassageOperationStrings(massageInput).map(function (operationString) {
 			const operations = mod.__MSTMassageOperations().concat(options.MSTOptionMarkdownParser ? mod.__MSTMassageOperationsMarkdown() : []).filter(function (e) {
 				return operationString.match(e.MSTOperationPattern);
 			});
