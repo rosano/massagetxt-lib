@@ -32,143 +32,147 @@ const mod = {
 		}
 
 		return mod.___MSTMassageOperationStrings(massageInput).map(function (operationString) {
-			const operations = mod.__MSTMassageOperations().concat(options.MSTOptionMarkdownParser ? mod.__MSTMassageOperationsMarkdown() : []).filter(function (e) {
-				return operationString.match(e.MSTOperationPattern);
-			});
+			return mod.__MSTOperationFunction(operationString, options)
+		});
+	},
 
-			if (!operations.length && operationString === 'markdown') {
-				throw new Error('MSTErrorMarkdownParserNotSet');
-			}
+	__MSTOperationFunction (operationString, options) {
+		const operations = mod.__MSTMassageOperations().concat(options.MSTOptionMarkdownParser ? mod.__MSTMassageOperationsMarkdown() : []).filter(function (e) {
+			return operationString.match(e.MSTOperationPattern);
+		});
 
-			if (!operations.length) {
-				throw new Error('MSTErrorIdentifierNotValid');
-			}
+		if (!operations.length && operationString === 'markdown') {
+			throw new Error('MSTErrorMarkdownParserNotSet');
+		}
 
-			return function (operationInput) {
-				const applyOperation = function (operation) {
-					return operation.MSTOperationCallback.call(...[null].concat(Array.from(arguments).slice(1)));
-				};
+		if (!operations.length) {
+			throw new Error('MSTErrorIdentifierNotValid');
+		}
 
-				const callback = function (inputData, callbackOptions = {}) {
-					const operation = operations.concat({
-						MSTOperationPattern: /^.*\(([^]+)\)$/,
-						MSTOperationInputTypes: 'Array',
-						MSTOperationCallback (param1, param2) {
-							if (!Array.isArray(param1)) {
-								throw new Error('MSTErrorInputNotValid');
+		return function (operationInput) {
+			const applyOperation = function (operation) {
+				return operation.MSTOperationCallback.call(...[null].concat(Array.from(arguments).slice(1)));
+			};
+
+			const callback = function (inputData, callbackOptions = {}) {
+				const operation = operations.concat({
+					MSTOperationPattern: /^.*\(([^]+)\)$/,
+					MSTOperationInputTypes: 'Array',
+					MSTOperationCallback (param1, param2) {
+						if (!Array.isArray(param1)) {
+							throw new Error('MSTErrorInputNotValid');
+						}
+
+						return param1.map(function (e) {
+							const operation = operations.filter(function (op) {
+								return mod._MSTMassageInputTypes(op.MSTOperationInputTypes).shift() === mod._MSTMassageType(e);
+							}).shift();
+
+							if (!operation) {
+								throw new Error('MSTErrorIdentifierNotValid');
 							}
 
-							return param1.map(function (e) {
-								const operation = operations.filter(function (op) {
-									return mod._MSTMassageInputTypes(op.MSTOperationInputTypes).shift() === mod._MSTMassageType(e);
-								}).shift();
-
-								if (!operation) {
-									throw new Error('MSTErrorIdentifierNotValid');
-								}
-
-								return applyOperation(operation, e, param2)
-							});
-						},
-					}).filter(function (e) {
-						if (!e.MSTOperationInputTypes) {
-							return true;
-						}
-
-						const param1 = mod._MSTMassageInputTypes(e.MSTOperationInputTypes).shift();
-						
-						if (param1 === mod._MSTMassageType(inputData)) {
-							return true;
-						}
-						
-						if (mod._MSTMassageType(inputData) === 'MarkdownTree' && param1 === 'String') {
-							return true;
-						}
-
-						return false;
-					}).shift();
-
-					if (!operation) {
-						throw new Error('MSTErrorIdentifierNotValid');
+							return applyOperation(operation, e, param2)
+						});
+					},
+				}).filter(function (e) {
+					if (!e.MSTOperationInputTypes) {
+						return true;
 					}
 
-					if (mod.__MSTIsMarkdownTree(inputData) && mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').shift() === 'String') {
-						inputData = inputData.MSTMarkdownTreeSource;
+					const param1 = mod._MSTMassageInputTypes(e.MSTOperationInputTypes).shift();
+					
+					if (param1 === mod._MSTMassageType(inputData)) {
+						return true;
+					}
+					
+					if (mod._MSTMassageType(inputData) === 'MarkdownTree' && param1 === 'String') {
+						return true;
 					}
 
-					const match = operationString.match(operation.MSTOperationPattern);
+					return false;
+				}).shift();
 
-					return operation.MSTOperationCallback(inputData, (function() {
-						if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'Regex') {
-							return new RegExp(match[1], match[2]);
-						}
-
-						if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'MarkdownParser') {
-							return options.MSTOptionMarkdownParser;
-						}
-
-
-						if (typeof match.index === 'undefined') {
-							return;
-						}
-						
-						let outputData = match[1];
-
-						if (mod.__MSTIsGroup(operationInput) && mod._MSTMassageType(inputData) === 'String') {
-							outputData = outputData.split(`$${ operationInput.MSTGroupKey }`).join(callbackOptions.MSTOptionGroupKey);
-						}
-
-						if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'String') {
-							const context = Object.assign({}, options.MSTOptionContext);
-
-							if (mod._MSTMassageType(inputData) === 'Object') {
-								Object.assign(context, inputData);
-							}
-
-							outputData = mod._MSTOperations.__MSTPrintSubExpressions(context, outputData).reverse().reduce(function (coll, item) {
-								return [
-									coll.slice(0, item.index),
-									item.replace,
-									coll.slice(item.index + item.length),
-								].join('');
-							}, outputData);
-						}
-
-						return outputData;
-					})());
-				};
-
-				if (mod.__MSTIsGroup(operationInput)) {
-					const inputData = operationInput.MSTGroupValue;
-
-					const isJoin = operations.length === 1 && operationString.match(/^join/) && operationString.match(operations[0].MSTOperationPattern);
-
-					if (isJoin && !Array.isArray(Object.values(inputData)[0])) {
-						return callback(Object.values(inputData));
-					}
-
-					operationInput.MSTGroupValue = Object.keys(inputData).reduce(function (coll, item) {
-						if (isJoin || !Array.isArray(coll[item])) {
-							coll[item] = callback(coll[item], {
-								MSTOptionGroupKey: item,
-							});
-						} else {
-							coll[item] = coll[item].map(function (e) {
-								return callback(e, {
-									MSTOptionGroupKey: item,
-								});
-							});
-						}
-
-						return coll;
-					}, inputData);
-
-					return operationInput;
+				if (!operation) {
+					throw new Error('MSTErrorIdentifierNotValid');
 				}
 
-				return callback(operationInput);
+				if (mod.__MSTIsMarkdownTree(inputData) && mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').shift() === 'String') {
+					inputData = inputData.MSTMarkdownTreeSource;
+				}
+
+				const match = operationString.match(operation.MSTOperationPattern);
+
+				return operation.MSTOperationCallback(inputData, (function() {
+					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'Regex') {
+						return new RegExp(match[1], match[2]);
+					}
+
+					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').pop() === 'MarkdownParser') {
+						return options.MSTOptionMarkdownParser;
+					}
+
+
+					if (typeof match.index === 'undefined') {
+						return;
+					}
+					
+					let outputData = match[1];
+
+					if (mod.__MSTIsGroup(operationInput) && mod._MSTMassageType(inputData) === 'String') {
+						outputData = outputData.split(`$${ operationInput.MSTGroupKey }`).join(callbackOptions.MSTOptionGroupKey);
+					}
+
+					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'String') {
+						const context = Object.assign({}, options.MSTOptionContext);
+
+						if (mod._MSTMassageType(inputData) === 'Object') {
+							Object.assign(context, inputData);
+						}
+
+						outputData = mod._MSTOperations.__MSTPrintSubExpressions(context, outputData).reverse().reduce(function (coll, item) {
+							return [
+								coll.slice(0, item.index),
+								item.replace,
+								coll.slice(item.index + item.length),
+							].join('');
+						}, outputData);
+					}
+
+					return outputData;
+				})());
 			};
-		});
+
+			if (mod.__MSTIsGroup(operationInput)) {
+				const inputData = operationInput.MSTGroupValue;
+
+				const isJoin = operations.length === 1 && operationString.match(/^join/) && operationString.match(operations[0].MSTOperationPattern);
+
+				if (isJoin && !Array.isArray(Object.values(inputData)[0])) {
+					return callback(Object.values(inputData));
+				}
+
+				operationInput.MSTGroupValue = Object.keys(inputData).reduce(function (coll, item) {
+					if (isJoin || !Array.isArray(coll[item])) {
+						coll[item] = callback(coll[item], {
+							MSTOptionGroupKey: item,
+						});
+					} else {
+						coll[item] = coll[item].map(function (e) {
+							return callback(e, {
+								MSTOptionGroupKey: item,
+							});
+						});
+					}
+
+					return coll;
+				}, inputData);
+
+				return operationInput;
+			}
+
+			return callback(operationInput);
+		};
 	},
 
 	__MSTIsMarkdownParser (inputData) {
