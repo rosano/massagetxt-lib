@@ -54,7 +54,7 @@ const mod = {
 				return operation.MSTOperationCallback.call(...[null].concat(Array.from(arguments).slice(1)));
 			};
 
-			const callback = function (inputData, callbackOptions = {}) {
+			const callback = function (operationInput, callbackContext = {}) {
 				const operation = matchingOperations.filter(function (e) {
 					if (!e.MSTOperationInputTypes) {
 						return true;
@@ -62,19 +62,19 @@ const mod = {
 
 					const param1 = mod._MSTMassageInputTypes(e.MSTOperationInputTypes).shift();
 					
-					if (param1 === mod._MSTMassageType(inputData)) {
+					if (param1 === mod._MSTMassageType(operationInput)) {
 						return true;
 					}
 					
-					if (mod._MSTMassageType(inputData) === 'MarkdownTree' && param1 === 'String') {
+					if (mod._MSTMassageType(operationInput) === 'MarkdownTree' && param1 === 'String') {
 						return true;
 					}
 
 					return false;
 				}).shift();
 
-				if (!operation && Array.isArray(inputData) && matchingOperations[0]) {
-					return inputData.map(function (e) {
+				if (!operation && Array.isArray(operationInput) && matchingOperations[0]) {
+					return operationInput.map(function (e) {
 						return applyOperation(...[matchingOperations[0], e].concat(operationString.match(matchingOperations[0].MSTOperationPattern).slice(1)));
 					});
 				}
@@ -83,13 +83,14 @@ const mod = {
 					throw new Error('MSTErrorIdentifierNotValid');
 				}
 
-				if (mod.__MSTIsMarkdownTree(inputData) && mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').shift() === 'String') {
-					inputData = inputData.MSTMarkdownTreeSource;
+				if (mod.__MSTIsMarkdownTree(operationInput) && mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').shift() === 'String') {
+					operationInput = operationInput.MSTMarkdownTreeSource;
 				}
+
 
 				const match = operationString.match(operation.MSTOperationPattern);
 
-				return operation.MSTOperationCallback(inputData, (function() {
+				return applyOperation(...[operation, operationInput].concat((function() {
 					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'Regex') {
 						return new RegExp(match[1], match[2]);
 					}
@@ -104,15 +105,13 @@ const mod = {
 					
 					let outputData = match[1];
 
-					if (mod.__MSTIsGroup(operationInput) && mod._MSTMassageType(inputData) === 'String') {
-						outputData = outputData.split(`$${ operationInput.MSTGroupKey }`).join(callbackOptions.MSTOptionGroupKey);
-					}
-
 					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'String') {
 						const context = Object.assign({}, options.MSTOptionContext);
 
-						if (mod._MSTMassageType(inputData) === 'Object') {
-							Object.assign(context, inputData);
+						Object.assign(context, callbackContext);
+
+						if (mod._MSTMassageType(operationInput) === 'Object') {
+							Object.assign(context, operationInput);
 						}
 
 						outputData = mod._MSTOperations.__MSTPrintSubExpressions(context, outputData).reverse().reduce(function (coll, item) {
@@ -125,7 +124,7 @@ const mod = {
 					}
 
 					return outputData;
-				})());
+				})()));
 			};
 
 			if (mod.__MSTIsGroup(operationInput)) {
@@ -146,15 +145,14 @@ const mod = {
 		}
 
 		operationInput.MSTGroupValue = Object.keys(inputData).reduce(function (coll, item) {
+			const callbackContext = {};
+			callbackContext[operationInput.MSTGroupKey] = item;
+
 			if (isJoin || !Array.isArray(coll[item])) {
-				coll[item] = callback(coll[item], {
-					MSTOptionGroupKey: item,
-				});
+				coll[item] = callback(coll[item], callbackContext);
 			} else {
 				coll[item] = coll[item].map(function (e) {
-					return callback(e, {
-						MSTOptionGroupKey: item,
-					});
+					return callback(e, callbackContext);
 				});
 			}
 
