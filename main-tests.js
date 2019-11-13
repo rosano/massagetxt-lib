@@ -1110,7 +1110,7 @@ describe('MSTObjectPrint', function testMSTObjectPrint () {
 		deepEqual(mainModule._MSTOperations.MSTObjectPrint({ alfa: 'bravo' }, 'charlie $alfa'), 'charlie bravo');
 	});
 	
-	it('prints expression', function () {
+	it('prints subexpression', function () {
 		deepEqual(mainModule._MSTOperations.MSTObjectPrint({ alfa: 'bravo' }, 'charlie $alfa.prepend(delta)'), 'charlie deltabravo');
 	});
 

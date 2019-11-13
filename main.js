@@ -13,13 +13,15 @@ const mod = {
 			throw new Error('MSTErrorInputNotValid');
 		}
 
-		return mod._MSTMassageTerminate(mod._MSTMassageOperations(param2, param3).reduce(function (coll, item) {
+		return mod._MSTMassageTerminate(mod._MSTMassageOperations(param2, Object.assign(param3, {
+			MSTOptionMassageInput: param1,
+		})).reduce(function (coll, item) {
 			return item(coll);
 		}, param1));
 	},
 
-	_MSTMassageOperations (massageInput, options = {}) {
-		if (typeof massageInput !== 'string') {
+	_MSTMassageOperations (param1, options = {}) {
+		if (typeof param1 !== 'string') {
 			throw new Error('MSTErrorInputNotValid');
 		}
 
@@ -31,99 +33,93 @@ const mod = {
 			throw new Error('MSTErrorInputNotValid');
 		}
 
-		return mod.___MSTMassageOperationStrings(massageInput).map(function (operationString) {
-			return mod.__MSTOperationFunction(operationString, options);
-		});
-	},
+		return mod.___MSTMassageOperationStrings(param1).map(function (operationString) {
+			const matchingOperations = mod.__MSTMassageOperations().concat(options.MSTOptionMarkdownParser ? mod.__MSTMassageOperationsMarkdown() : []).filter(function (e) {
+				return operationString.match(e.MSTOperationPattern);
+			});
 
-	__MSTOperationFunction (operationString, options) {
-		const matchingOperations = mod.__MSTMassageOperations().concat(options.MSTOptionMarkdownParser ? mod.__MSTMassageOperationsMarkdown() : []).filter(function (e) {
-			return operationString.match(e.MSTOperationPattern);
-		});
-
-		if (!matchingOperations.length && operationString === 'markdown') {
-			throw new Error('MSTErrorMarkdownParserNotSet');
-		}
-
-		if (!matchingOperations.length) {
-			throw new Error('MSTErrorIdentifierNotValid');
-		}
-
-		return function singularCallback (operationInput, callbackContext = {}) {
-			if (mod.__MSTIsGroup(operationInput)) {
-				return mod.___MSTOperationFunctionReturnValue_Group(operationInput, operationString, matchingOperations, singularCallback);
-			}
-				
-			const operation = matchingOperations.filter(function (e) {
-				if (!e.MSTOperationInputTypes) {
-					return true;
-				}
-
-				const param1Type = mod._MSTMassageInputTypes(e.MSTOperationInputTypes)[0];
-					
-				if (mod._MSTMassageType(operationInput) === param1Type) {
-					return true;
-				}
-					
-				if (mod._MSTMassageType(operationInput) === 'MarkdownTree' && param1Type === 'String') {
-					return true;
-				}
-
-				return false;
-			}).shift();
-				
-			if (!operation && Array.isArray(operationInput) && matchingOperations[0]) {
-				return operationInput.map(function (e) {
-					return matchingOperations[0].MSTOperationCallback(...[e].concat(operationString.match(matchingOperations[0].MSTOperationPattern).slice(1)));
-				});
+			if (!matchingOperations.length && operationString === 'markdown') {
+				throw new Error('MSTErrorMarkdownParserNotSet');
 			}
 
-			if (!operation) {
+			if (!matchingOperations.length) {
 				throw new Error('MSTErrorIdentifierNotValid');
 			}
 
-			if (mod.__MSTIsMarkdownTree(operationInput) && mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').shift() === 'String') {
-				operationInput = operationInput.MSTMarkdownTreeSource;
-			}
-
-			const match = operationString.match(operation.MSTOperationPattern);
-
-			return operation.MSTOperationCallback(...[operationInput].concat((function() {
-				if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'Regex') {
-					return new RegExp(match[1], match[2]);
-				}
-
-				if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'MarkdownParser') {
-					return options.MSTOptionMarkdownParser;
-				}
-
-				if (typeof match.index === 'undefined') {
-					return;
+			return function singularCallback (operationInput, callbackContext = {}) {
+				if (mod.__MSTIsGroup(operationInput)) {
+					return mod.___MSTOperationFunctionReturnValue_Group(operationInput, operationString, matchingOperations, singularCallback);
 				}
 					
-				let outputData = match[1];
-
-				if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'String') {
-					const context = Object.assign({}, options.MSTOptionContext);
-
-					Object.assign(context, callbackContext);
-
-					if (mod._MSTMassageType(operationInput) === 'Object') {
-						Object.assign(context, operationInput);
+				const operation = matchingOperations.filter(function (e) {
+					if (!e.MSTOperationInputTypes) {
+						return true;
 					}
 
-					outputData = mod._MSTOperations.__MSTPrintSubExpressions(context, outputData).reverse().reduce(function (coll, item) {
-						return [
-							coll.slice(0, item.index),
-							item.replace,
-							coll.slice(item.index + item.length),
-						].join('');
-					}, outputData);
+					const param1Type = mod._MSTMassageInputTypes(e.MSTOperationInputTypes)[0];
+						
+					if (mod._MSTMassageType(operationInput) === param1Type) {
+						return true;
+					}
+						
+					if (mod._MSTMassageType(operationInput) === 'MarkdownTree' && param1Type === 'String') {
+						return true;
+					}
+
+					return false;
+				}).shift();
+					
+				if (!operation && Array.isArray(operationInput) && matchingOperations[0]) {
+					return operationInput.map(singularCallback);
 				}
 
-				return outputData;
-			})()));
-		};
+				if (!operation) {
+					throw new Error('MSTErrorIdentifierNotValid');
+				}
+
+				if (mod.__MSTIsMarkdownTree(operationInput) && mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').shift() === 'String') {
+					operationInput = operationInput.MSTMarkdownTreeSource;
+				}
+
+				const match = operationString.match(operation.MSTOperationPattern);
+
+				return operation.MSTOperationCallback(...[operationInput].concat((function () {
+					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'Regex') {
+						return new RegExp(match[1], match[2]);
+					}
+
+					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'MarkdownParser') {
+						return options.MSTOptionMarkdownParser;
+					}
+
+					if (typeof match.index === 'undefined') {
+						return;
+					}
+						
+					let outputData = match[1];
+
+					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'String') {
+						const context = Object.assign(Object.assign({
+							input: options.MSTOptionMassageInput,
+						}, options.MSTOptionContext), callbackContext);
+
+						if (mod._MSTMassageType(operationInput) === 'Object') {
+							Object.assign(context, operationInput);
+						}
+
+						outputData = mod._MSTOperations.__MSTPrintSubExpressions(context, outputData).reverse().reduce(function (coll, item) {
+							return [
+								coll.slice(0, item.index),
+								item.replace,
+								coll.slice(item.index + item.length),
+							].join('');
+						}, outputData);
+					}
+
+					return outputData;
+				})()));
+			};
+		});
 	},
 
 	___MSTOperationFunctionReturnValue_Group (operationInput, operationString, matchingOperations, singularCallback) {
