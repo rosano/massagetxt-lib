@@ -37,15 +37,15 @@ const mod = {
 	},
 
 	__MSTOperationFunction (operationString, options) {
-		const operations = mod.__MSTMassageOperations().concat(options.MSTOptionMarkdownParser ? mod.__MSTMassageOperationsMarkdown() : []).filter(function (e) {
+		const matchingOperations = mod.__MSTMassageOperations().concat(options.MSTOptionMarkdownParser ? mod.__MSTMassageOperationsMarkdown() : []).filter(function (e) {
 			return operationString.match(e.MSTOperationPattern);
 		});
 
-		if (!operations.length && operationString === 'markdown') {
+		if (!matchingOperations.length && operationString === 'markdown') {
 			throw new Error('MSTErrorMarkdownParserNotSet');
 		}
 
-		if (!operations.length) {
+		if (!matchingOperations.length) {
 			throw new Error('MSTErrorIdentifierNotValid');
 		}
 
@@ -55,7 +55,7 @@ const mod = {
 			};
 
 			const callback = function (inputData, callbackOptions = {}) {
-				const operation = operations.concat({
+				const operation = matchingOperations.concat({
 					MSTOperationPattern: /^.*\(([^]+)\)$/,
 					MSTOperationInputTypes: 'Array',
 					MSTOperationCallback (param1, param2) {
@@ -64,7 +64,7 @@ const mod = {
 						}
 
 						return param1.map(function (e) {
-							const operation = operations.filter(function (op) {
+							const operation = matchingOperations.filter(function (op) {
 								return mod._MSTMassageInputTypes(op.MSTOperationInputTypes).shift() === mod._MSTMassageType(e);
 							}).shift();
 
@@ -144,17 +144,17 @@ const mod = {
 			};
 
 			if (mod.__MSTIsGroup(operationInput)) {
-				return mod.___MSTOperationFunctionReturnValue_Group(operationInput, operationString, operations, callback)
+				return mod.___MSTOperationFunctionReturnValue_Group(operationInput, operationString, matchingOperations, callback)
 			}
 
 			return callback(operationInput);
 		};
 	},
 
-	___MSTOperationFunctionReturnValue_Group (operationInput, operationString, operations, callback) {
+	___MSTOperationFunctionReturnValue_Group (operationInput, operationString, matchingOperations, callback) {
 		const inputData = operationInput.MSTGroupValue;
 
-		const isJoin = operations.length === 1 && operationString.match(/^join/) && operationString.match(operations[0].MSTOperationPattern);
+		const isJoin = matchingOperations.length === 1 && operationString.match(/^join/) && operationString.match(matchingOperations[0].MSTOperationPattern);
 
 		if (isJoin && !Array.isArray(Object.values(inputData)[0])) {
 			return callback(Object.values(inputData));
