@@ -505,6 +505,24 @@ describe('_MSTBypass', function test_MSTBypass () {
 
 });
 
+describe('MSTStringLowercase', function testMSTStringLowercase () {
+	
+	it('throws if not string', function() {
+		throws(function() {
+			mainModule._MSTOperations.MSTStringLowercase(null);
+		}, /MSTErrorInputNotValid/);
+	});
+
+	it('returns string', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringLowercase(''), '');
+	});
+
+	it('converts to lower case', function () {
+		deepEqual(mainModule._MSTOperations.MSTStringLowercase('ALFA'), 'alfa');
+	});
+
+});
+
 describe('MSTStringSplit', function testMSTStringSplit () {
 	
 	it('throws if param1 not string', function() {

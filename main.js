@@ -593,6 +593,14 @@ const mod = {
 			return inputData;
 		},
 		
+		MSTStringLowercase (inputData) {
+			if (typeof inputData !== 'string') {
+				throw new Error('MSTErrorInputNotValid');
+			}
+
+			return inputData.toLowerCase();
+		},
+		
 		MSTStringSplit (param1, param2) {
 			if (typeof param1 !== 'string') {
 				throw new Error('MSTErrorInputNotValid');
