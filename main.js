@@ -13,6 +13,10 @@ const mod = {
 			throw new Error('MSTErrorInputNotValid');
 		}
 
+		if (typeof param3.MSTOptionTrace !== 'undefined' && typeof param3.MSTOptionTrace !== 'function') {
+			throw new Error('MSTErrorInputNotValid');
+		}
+
 		return mod._MSTMassageTerminate(mod._MSTMassageOperations(param2, Object.assign(param3, {
 			MSTOptionMassageInput: param1,
 		})).reduce(function (coll, item) {
@@ -82,6 +86,13 @@ const mod = {
 				}
 
 				const match = operationString.match(operation.MSTOperationPattern);
+
+				if (options.MSTOptionTrace)
+					options.MSTOptionTrace({
+						MSTTraceOperation: operationString,
+						MSTTraceInput: operationInput,
+						MSTTraceArguments: match.slice(1),
+					});
 
 				return operation.MSTOperationCallback(...[operationInput].concat((function () {
 					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'Regex') {

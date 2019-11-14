@@ -36,6 +36,72 @@ describe('MSTMassage', function testMSTMassage() {
 		}, /MSTErrorIdentifierNotValid/);
 	});
 
+	context('MSTOptionTrace', function () {
+
+		it('throws if not function', function() {
+			throws(function() {
+				mainModule.MSTMassage('alfa', '$input', {
+					MSTOptionTrace: null,
+				});
+			}, /MSTErrorInputNotValid/);
+		});
+
+		it('includes operation', function () {
+			let item = [];
+			
+			mainModule.MSTMassage('alfa', '$input', {
+				MSTOptionTrace (inputData) { item.push(inputData) },
+			});
+
+			deepEqual(item, [{
+				MSTTraceOperation: '$input',
+				MSTTraceInput: 'alfa',
+				MSTTraceArguments: [],
+			}]);
+		});
+
+		it('includes input', function () {
+			let item = [];
+			
+			mainModule.MSTMassage('alfa', '$input.lines', {
+				MSTOptionTrace (inputData) { item.push(inputData) },
+			});
+
+			deepEqual(item, [{
+				MSTTraceOperation: '$input',
+				MSTTraceInput: 'alfa',
+				MSTTraceArguments: [],
+			}, {
+				MSTTraceOperation: 'lines',
+				MSTTraceInput: 'alfa',
+				MSTTraceArguments: [],
+			}]);
+		});
+
+		it('includes arguments', function () {
+			let item = [];
+			
+			mainModule.MSTMassage('alfa', '$input.lines.join(-)', {
+				MSTOptionTrace (inputData) { item.push(inputData) },
+			});
+
+			deepEqual(item, [{
+				MSTTraceOperation: '$input',
+				MSTTraceInput: 'alfa',
+				MSTTraceArguments: [],
+			}, {
+				MSTTraceOperation: 'lines',
+				MSTTraceInput: 'alfa',
+				MSTTraceArguments: [],
+			}, {
+				MSTTraceOperation: 'join(-)',
+				MSTTraceInput: ['alfa'],
+				MSTTraceArguments: ['-'],
+			}]);
+		});
+	
+	});
+
 });
 
 describe('___MSTMassageOperationStrings', function test___MSTMassageOperationStrings() {
