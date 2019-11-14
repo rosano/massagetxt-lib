@@ -1015,7 +1015,6 @@ const mod = {
 					return true;
 				})()) {
 					Array.from(coll).pop().push(item);
-					lastIndex = index;
 				}
 
 				return coll;
