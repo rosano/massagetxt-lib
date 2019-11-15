@@ -37,7 +37,10 @@ const mod = {
 			throw new Error('MSTErrorInputNotValid');
 		}
 
-		return mod.___MSTMassageOperationStrings(param1).map(function (operationString) {
+		return mod.___MSTMassageOperationStrings(param1).map(function (operationString, operationIndex) {
+			if (options.MSTOptionTrace)
+				options.MSTOptionTrace(operationIndex, 'MSTTraceOperation', operationString);
+			
 			const matchingOperations = mod.__MSTMassageOperations().concat(options.MSTOptionMarkdownParser ? mod.__MSTMassageOperationsMarkdown() : []).filter(function (e) {
 				return operationString.match(e.MSTOperationPattern);
 			});
@@ -51,6 +54,9 @@ const mod = {
 			}
 
 			return function singularCallback (operationInput, callbackContext = {}) {
+				if (options.MSTOptionTrace)
+					options.MSTOptionTrace(operationIndex, 'MSTTraceInput', operationInput);
+
 				if (mod.__MSTIsGroup(operationInput)) {
 					return mod.___MSTOperationFunctionReturnValue_Group(operationInput, operationString, matchingOperations, singularCallback);
 				}
@@ -87,14 +93,7 @@ const mod = {
 
 				const match = operationString.match(operation.MSTOperationPattern);
 
-				if (options.MSTOptionTrace)
-					options.MSTOptionTrace({
-						MSTTraceOperation: operationString,
-						MSTTraceInput: operationInput,
-						MSTTraceArguments: match.slice(1),
-					});
-
-				return operation.MSTOperationCallback(...[operationInput].concat((function () {
+				const operationArguments = [].concat((function () {
 					if (mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '')[1] === 'Regex') {
 						return new RegExp(match[1], match[2]);
 					}
@@ -128,7 +127,12 @@ const mod = {
 					}
 
 					return outputData;
-				})()));
+				})() || []);
+
+				if (options.MSTOptionTrace && operationArguments.length)
+					options.MSTOptionTrace(operationIndex, 'MSTTraceArguments', operationArguments);
+
+				return operation.MSTOperationCallback(...[operationInput].concat(operationArguments));
 			};
 		});
 	},

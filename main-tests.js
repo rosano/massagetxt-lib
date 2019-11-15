@@ -50,54 +50,46 @@ describe('MSTMassage', function testMSTMassage() {
 			let item = [];
 			
 			mainModule.MSTMassage('alfa', '$input', {
-				MSTOptionTrace (inputData) { item.push(inputData) },
+				MSTOptionTrace () { item.push(Array.from(arguments)) },
 			});
 
-			deepEqual(item, [{
-				MSTTraceOperation: '$input',
-				MSTTraceInput: 'alfa',
-				MSTTraceArguments: [],
-			}]);
+			deepEqual(item, [
+				[0, 'MSTTraceOperation', '$input'],
+				[0, 'MSTTraceInput', 'alfa'],
+				]);
 		});
 
 		it('includes input', function () {
 			let item = [];
 			
 			mainModule.MSTMassage('alfa', '$input.lines', {
-				MSTOptionTrace (inputData) { item.push(inputData) },
+				MSTOptionTrace () { item.push(Array.from(arguments)) },
 			});
 
-			deepEqual(item, [{
-				MSTTraceOperation: '$input',
-				MSTTraceInput: 'alfa',
-				MSTTraceArguments: [],
-			}, {
-				MSTTraceOperation: 'lines',
-				MSTTraceInput: 'alfa',
-				MSTTraceArguments: [],
-			}]);
+			deepEqual(item, [
+				[0, 'MSTTraceOperation', '$input'],
+				[1, 'MSTTraceOperation', 'lines'],
+				[0, 'MSTTraceInput', 'alfa'],
+				[1, 'MSTTraceInput', 'alfa'],
+				]);
 		});
 
 		it('includes arguments', function () {
 			let item = [];
 			
 			mainModule.MSTMassage('alfa', '$input.lines.join(-)', {
-				MSTOptionTrace (inputData) { item.push(inputData) },
+				MSTOptionTrace () { item.push(Array.from(arguments)) },
 			});
 
-			deepEqual(item, [{
-				MSTTraceOperation: '$input',
-				MSTTraceInput: 'alfa',
-				MSTTraceArguments: [],
-			}, {
-				MSTTraceOperation: 'lines',
-				MSTTraceInput: 'alfa',
-				MSTTraceArguments: [],
-			}, {
-				MSTTraceOperation: 'join(-)',
-				MSTTraceInput: ['alfa'],
-				MSTTraceArguments: ['-'],
-			}]);
+			deepEqual(item, [
+				[0, 'MSTTraceOperation', '$input'],
+				[1, 'MSTTraceOperation', 'lines'],
+				[2, 'MSTTraceOperation', 'join(-)'],
+				[0, 'MSTTraceInput', 'alfa'],
+				[1, 'MSTTraceInput', 'alfa'],
+				[2, 'MSTTraceInput', ['alfa']],
+				[2, 'MSTTraceArguments', ['-']],
+				]);
 		});
 	
 	});
