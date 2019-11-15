@@ -91,6 +91,31 @@ describe('MSTMassage', function testMSTMassage() {
 				[2, 'MSTTraceArguments', ['-']],
 				]);
 		});
+
+		context('markdown', function () {
+			
+			const uParser = require('unified')().use(require('remark-parse')).parse;
+
+			it('includes arguments', function () {
+				let item = [];
+				
+				mainModule.MSTMassage('alfa', '$input.markdown.paragraphs', {
+					MSTOptionMarkdownParser: uParser,
+					MSTOptionTrace () { item.push(Array.from(arguments)) },
+				});
+
+				deepEqual(JSON.stringify(item), JSON.stringify([
+					[0, 'MSTTraceOperation', '$input'],
+					[1, 'MSTTraceOperation', 'markdown'],
+					[2, 'MSTTraceOperation', 'paragraphs'],
+					[0, 'MSTTraceInput', 'alfa'],
+					[1, 'MSTTraceInput', 'alfa'],
+					[1, 'MSTTraceArguments', [uParser]],
+					[2, 'MSTTraceInput', 'alfa'],
+					]));
+			});
+		
+		});
 	
 	});
 

@@ -54,9 +54,6 @@ const mod = {
 			}
 
 			return function singularCallback (operationInput, callbackContext = {}) {
-				if (options.MSTOptionTrace)
-					options.MSTOptionTrace(operationIndex, 'MSTTraceInput', operationInput);
-
 				if (mod.__MSTIsGroup(operationInput)) {
 					return mod.___MSTOperationFunctionReturnValue_Group(operationInput, operationString, matchingOperations, singularCallback);
 				}
@@ -90,6 +87,15 @@ const mod = {
 				if (mod.__MSTIsMarkdownTree(operationInput) && mod._MSTMassageInputTypes(operation.MSTOperationInputTypes || '').shift() === 'String') {
 					operationInput = operationInput.MSTMarkdownTreeSource;
 				}
+
+				if (options.MSTOptionTrace)
+					options.MSTOptionTrace(operationIndex, 'MSTTraceInput', (function(e) {
+						if (mod.__MSTIsMarkdownTree(e)) {
+							return e.MSTMarkdownTreeSource
+						}
+
+						return e;
+					})(operationInput));
 
 				const match = operationString.match(operation.MSTOperationPattern);
 
