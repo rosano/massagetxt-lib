@@ -232,6 +232,10 @@ describe('___MSTMassageOperationStrings', function test___MSTMassageOperationStr
 
 	context('case', function () {
 		
+		it('parses escaped line break', function() {
+			deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo.charlie(\\n)'), ['$alfa', 'bravo', 'charlie(\\n)']);
+		});
+		
 		it('parses key value syntax', function() {
 			deepEqual(mainModule.___MSTMassageOperationStrings('$alfa.bravo(/(\\w+)/).charlie(delta: $1, echo: $1)'), ['$alfa', 'bravo(/(\\w+)/)', 'charlie(delta: $1, echo: $1)']);
 		});

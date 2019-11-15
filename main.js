@@ -236,6 +236,10 @@ const mod = {
 							return state;
 						}
 
+						if (!['(', ')', '$'].includes(coll[index + 1])) {
+							return state;
+						}
+
 						return Object.assign(state, {
 							isEscaped: true,
 						});
