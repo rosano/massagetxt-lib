@@ -271,7 +271,7 @@ describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
 	context('litmus', function () {
 
 		it('cards', function () {
-			deepEqual(MSTMassage('Alfa: Bravo Charlie; Delta: Echo Foxtrot\n# golf\nhotel\nindigo\n\njuliet\nkilo\n# llama\nmike\n', '$input.markdown.content(golf).paragraphs.capture(/(.*)\n(.*)/).print($2;$1;;nancy-$input.lines.first.split(;).first.split(: ).last.lowercase.split( ).join(-))', uOptions()), JSON.stringify([
+			deepEqual(MSTMassage('Alfa: Bravo Charlie; Delta: Echo Foxtrot\n# golf\nhotel\nindigo\n\njuliet\nkilo\n# lima\nmike\n', '$input.markdown.content(golf).paragraphs.capture(/(.*)\n(.*)/).print($2;$1;;nancy-$input.lines.first.split(;).first.split(: ).last.lowercase.split( ).join(-))', uOptions()), JSON.stringify([
 				'indigo;hotel;;nancy-bravo-charlie',
 				'kilo;juliet;;nancy-bravo-charlie',
 				]));
