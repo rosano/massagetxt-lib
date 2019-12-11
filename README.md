@@ -1,4 +1,4 @@
-<a href="#"><img src="https://massagetxt.s3.amazonaws.com/public/logo.svg" width="64"></a>
+<a href="https://massagetxt.com"><img src="https://massagetxt.com/identity.svg" width="64"></a>
 
 # MassageTXT
 
