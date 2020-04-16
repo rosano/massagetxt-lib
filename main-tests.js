@@ -818,7 +818,7 @@ describe('MSTArrayLast', function test_MSTArrayLast () {
 
 });
 
-describe('MSTArrayAccess', function test_MSTArrayAccess () {
+describe('MSTArray_Access', function test_MSTArrayAccess () {
 
 	it('throws if param1 not array', function() {
 		throws(function() {
@@ -1035,7 +1035,7 @@ describe('MSTArrayGroup', function test_MSTArrayGroup () {
 
 });
 
-describe('MSTObjectAccess', function test_MSTObjectAccess () {
+describe('MSTObject_Access', function test_MSTObjectAccess () {
 
 	it('throws if param1 not object', function() {
 		throws(function() {
