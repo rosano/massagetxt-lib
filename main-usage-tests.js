@@ -2,7 +2,7 @@ const { throws, deepEqual } = require('assert');
 
 const { MSTMassage } = require('./main.js');
 
-describe('MSTMassage_Usage', function testMSTMassage_Usage() {
+describe('MSTMassage_Usage', function test_MSTMassage_Usage() {
 
 	it('param1 empty', function () {
 		deepEqual(MSTMassage('', '$input'), '');
@@ -190,7 +190,7 @@ describe('MSTMassage_Usage', function testMSTMassage_Usage() {
 
 });
 
-describe('MSTMassage_Markdown', function testMSTMassage_Markdown() {
+describe('MSTMassage_Markdown', function test_MSTMassage_Markdown() {
 	
 	const uParser = require('unified')().use(require('remark-parse')).parse;
 

@@ -2,7 +2,7 @@ const { throws, deepEqual } = require('assert');
 
 const mainModule = require('./main.js');
 
-describe('MSTMassage', function testMSTMassage() {
+describe('MSTMassage', function test_MSTMassage() {
 
 	it('throws if param1 not string', function() {
 		throws(function() {
@@ -596,7 +596,7 @@ describe('_MSTBypass', function test_MSTBypass () {
 
 });
 
-describe('MSTStringLowercase', function testMSTStringLowercase () {
+describe('MSTStringLowercase', function test_MSTStringLowercase () {
 	
 	it('throws if not string', function() {
 		throws(function() {
@@ -614,7 +614,7 @@ describe('MSTStringLowercase', function testMSTStringLowercase () {
 
 });
 
-describe('MSTStringSplit', function testMSTStringSplit () {
+describe('MSTStringSplit', function test_MSTStringSplit () {
 	
 	it('throws if param1 not string', function() {
 		throws(function() {
@@ -638,7 +638,7 @@ describe('MSTStringSplit', function testMSTStringSplit () {
 
 });
 
-describe('MSTStringLines', function testMSTStringLines () {
+describe('MSTStringLines', function test_MSTStringLines () {
 	
 	it('throws if not string', function() {
 		throws(function() {
@@ -660,7 +660,7 @@ describe('MSTStringLines', function testMSTStringLines () {
 
 });
 
-describe('MSTStringPrepend', function testMSTStringPrepend () {
+describe('MSTStringPrepend', function test_MSTStringPrepend () {
 	
 	it('throws if param1 not string', function() {
 		throws(function() {
@@ -684,7 +684,7 @@ describe('MSTStringPrepend', function testMSTStringPrepend () {
 
 });
 
-describe('MSTStringPostpend', function testMSTStringPostpend () {
+describe('MSTStringPostpend', function test_MSTStringPostpend () {
 	
 	it('throws if param1 not string', function() {
 		throws(function() {
@@ -708,7 +708,7 @@ describe('MSTStringPostpend', function testMSTStringPostpend () {
 
 });
 
-describe('MSTStringConform', function testMSTStringConform () {
+describe('MSTStringConform', function test_MSTStringConform () {
 
 	it('throws if param1 not string', function() {
 		throws(function() {
@@ -732,7 +732,7 @@ describe('MSTStringConform', function testMSTStringConform () {
 
 });
 
-describe('MSTStringCapture', function testMSTStringCapture () {
+describe('MSTStringCapture', function test_MSTStringCapture () {
 
 	it('throws if param1 not string', function() {
 		throws(function() {
@@ -760,7 +760,7 @@ describe('MSTStringCapture', function testMSTStringCapture () {
 
 });
 
-describe('MSTStringMarkdown', function testMSTStringMarkdown () {
+describe('MSTStringMarkdown', function test_MSTStringMarkdown () {
 
 	it('throws if param1 not string', function() {
 		throws(function() {
@@ -782,7 +782,7 @@ describe('MSTStringMarkdown', function testMSTStringMarkdown () {
 	
 });
 
-describe('MSTArrayFirst', function testMSTArrayFirst () {
+describe('MSTArrayFirst', function test_MSTArrayFirst () {
 
 	it('throws if not array', function() {
 		throws(function() {
@@ -800,7 +800,7 @@ describe('MSTArrayFirst', function testMSTArrayFirst () {
 
 });
 
-describe('MSTArrayLast', function testMSTArrayLast () {
+describe('MSTArrayLast', function test_MSTArrayLast () {
 
 	it('throws if not array', function() {
 		throws(function() {
@@ -818,7 +818,7 @@ describe('MSTArrayLast', function testMSTArrayLast () {
 
 });
 
-describe('MSTArrayAccess', function testMSTArrayAccess () {
+describe('MSTArrayAccess', function test_MSTArrayAccess () {
 
 	it('throws if param1 not array', function() {
 		throws(function() {
@@ -836,7 +836,7 @@ describe('MSTArrayAccess', function testMSTArrayAccess () {
 
 });
 
-describe('MSTArrayReverse', function testMSTArrayReverse () {
+describe('MSTArrayReverse', function test_MSTArrayReverse () {
 
 	it('throws if not array', function() {
 		throws(function() {
@@ -854,7 +854,7 @@ describe('MSTArrayReverse', function testMSTArrayReverse () {
 
 });
 
-describe('MSTArrayUnique', function testMSTArrayUnique () {
+describe('MSTArrayUnique', function test_MSTArrayUnique () {
 
 	it('throws if not array', function() {
 		throws(function() {
@@ -872,7 +872,7 @@ describe('MSTArrayUnique', function testMSTArrayUnique () {
 
 });
 
-describe('MSTArrayConform', function testMSTArrayConform () {
+describe('MSTArrayConform', function test_MSTArrayConform () {
 
 	it('throws if param1 not array', function() {
 		throws(function() {
@@ -900,7 +900,7 @@ describe('MSTArrayConform', function testMSTArrayConform () {
 
 });
 
-describe('MSTArrayCapture', function testMSTArrayCapture () {
+describe('MSTArrayCapture', function test_MSTArrayCapture () {
 
 	it('throws if param1 not array', function() {
 		throws(function() {
@@ -932,7 +932,7 @@ describe('MSTArrayCapture', function testMSTArrayCapture () {
 
 });
 
-describe('MSTArrayRemap', function testMSTArrayRemap () {
+describe('MSTArrayRemap', function test_MSTArrayRemap () {
 
 	it('throws if param1 not array', function() {
 		throws(function() {
@@ -956,7 +956,7 @@ describe('MSTArrayRemap', function testMSTArrayRemap () {
 
 });
 
-describe('MSTArrayPrint', function testMSTArrayPrint () {
+describe('MSTArrayPrint', function test_MSTArrayPrint () {
 
 	it('throws if param1 not array', function() {
 		throws(function() {
@@ -980,7 +980,7 @@ describe('MSTArrayPrint', function testMSTArrayPrint () {
 
 });
 
-describe('MSTArrayJoin', function testMSTArrayJoin () {
+describe('MSTArrayJoin', function test_MSTArrayJoin () {
 
 	it('throws if param1 not array', function() {
 		throws(function() {
@@ -1004,7 +1004,7 @@ describe('MSTArrayJoin', function testMSTArrayJoin () {
 
 });
 
-describe('MSTArrayGroup', function testMSTArrayGroup () {
+describe('MSTArrayGroup', function test_MSTArrayGroup () {
 
 	it('throws if param1 not array', function() {
 		throws(function() {
@@ -1035,7 +1035,7 @@ describe('MSTArrayGroup', function testMSTArrayGroup () {
 
 });
 
-describe('MSTObjectAccess', function testMSTObjectAccess () {
+describe('MSTObjectAccess', function test_MSTObjectAccess () {
 
 	it('throws if param1 not object', function() {
 		throws(function() {
@@ -1049,7 +1049,7 @@ describe('MSTObjectAccess', function testMSTObjectAccess () {
 
 });
 
-describe('MSTObjectRemap', function testMSTObjectRemap () {
+describe('MSTObjectRemap', function test_MSTObjectRemap () {
 
 	it('throws if param1 not object', function() {
 		throws(function() {
@@ -1197,7 +1197,7 @@ describe('__MSTObjectRemap', function test__MSTObjectRemap () {
 	
 });
 
-describe('MSTObjectPrint', function testMSTObjectPrint () {
+describe('MSTObjectPrint', function test_MSTObjectPrint () {
 
 	it('throws if param1 not object', function() {
 		throws(function() {
@@ -1231,7 +1231,7 @@ const uTree = function (inputData) {
 	return mainModule._MSTOperations.MSTStringMarkdown(inputData, uParser);
 };
 
-describe('MSTMarkdownSections', function testMSTMarkdownSections () {
+describe('MSTMarkdownSections', function test_MSTMarkdownSections () {
 
 	const uSources = function (inputData) {
 		return mainModule._MSTOperations.MSTMarkdownSections(uTree(inputData)).map(function (e) {
@@ -1279,7 +1279,7 @@ describe('MSTMarkdownSections', function testMSTMarkdownSections () {
 	
 });
 
-describe('MSTMarkdownContent', function testMSTMarkdownSection () {
+describe('MSTMarkdownContent', function test_MSTMarkdownSection () {
 
 	const uSource = function (param1, param2) {
 		return mainModule._MSTOperations.MSTMarkdownContent(uTree(param1), param2);
@@ -1311,7 +1311,7 @@ describe('MSTMarkdownContent', function testMSTMarkdownSection () {
 	
 });
 
-describe('MSTMarkdownItems', function testMSTMarkdownItems () {
+describe('MSTMarkdownItems', function test_MSTMarkdownItems () {
 
 	it('throws if not MarkdownTree', function() {
 		throws(function() {
@@ -1338,7 +1338,7 @@ describe('MSTMarkdownItems', function testMSTMarkdownItems () {
 });
 
 
-describe('MSTMarkdownParagraphs', function testMSTMarkdownParagraphs () {
+describe('MSTMarkdownParagraphs', function test_MSTMarkdownParagraphs () {
 
 	it('throws if not MarkdownTree', function() {
 		throws(function() {
