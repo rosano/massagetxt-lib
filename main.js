@@ -1049,7 +1049,6 @@ const mod = {
 					return coll;
 				}
 
-
 				coll[item] = mod.MSTMassage(param1[original[index + 1].split('.')[0].slice(1)].toString(), ['$input'].concat(original[index + 1].split('.').slice(1)).join('.'), {
 					MSTOptionContext: param1,
 				});

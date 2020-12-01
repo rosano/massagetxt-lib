@@ -1337,7 +1337,6 @@ describe('MSTMarkdownItems', function test_MSTMarkdownItems () {
 	
 });
 
-
 describe('MSTMarkdownParagraphs', function test_MSTMarkdownParagraphs () {
 
 	it('throws if not MarkdownTree', function() {
