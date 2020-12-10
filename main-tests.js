@@ -50,7 +50,7 @@ describe('MSTMassage', function test_MSTMassage() {
 			let item = [];
 			
 			mainModule.MSTMassage('alfa', '$input', {
-				MSTOptionTrace () { item.push(Array.from(arguments)) },
+				MSTOptionTrace () { item.push(...arguments) },
 			});
 
 			deepEqual(item, [
@@ -63,7 +63,7 @@ describe('MSTMassage', function test_MSTMassage() {
 			let item = [];
 			
 			mainModule.MSTMassage('alfa', '$input.lines', {
-				MSTOptionTrace () { item.push(Array.from(arguments)) },
+				MSTOptionTrace () { item.push(...arguments) },
 			});
 
 			deepEqual(item, [
@@ -78,7 +78,7 @@ describe('MSTMassage', function test_MSTMassage() {
 			let item = [];
 			
 			mainModule.MSTMassage('alfa', '$input.lines.join(-)', {
-				MSTOptionTrace () { item.push(Array.from(arguments)) },
+				MSTOptionTrace () { item.push(...arguments) },
 			});
 
 			deepEqual(item, [
@@ -101,7 +101,7 @@ describe('MSTMassage', function test_MSTMassage() {
 				
 				mainModule.MSTMassage('alfa', '$input.markdown.paragraphs', {
 					MSTOptionMarkdownParser: uParser,
-					MSTOptionTrace () { item.push(Array.from(arguments)) },
+					MSTOptionTrace () { item.push(...arguments) },
 				});
 
 				deepEqual(JSON.stringify(item), JSON.stringify([
