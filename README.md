@@ -1,6 +1,6 @@
 <a href="https://massagetxt.rosano.ca"><img alt="Project logo" src="https://static.rosano.ca/massagetxt/identity.svg" width="64" /></a>
 
-# MassageTXT
+# [MassageTXT](https://massagetxt.rosano.ca)
 
 _Convert between text and structured data without programming_
 
