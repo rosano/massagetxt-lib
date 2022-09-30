@@ -10,8 +10,6 @@
 
     "//": "MARKDOWN",
     "unified": "latest",
-    "remark-parse": "latest",
-
-    "//": "I sacrifice myself for the commas of others"  
+    "remark-parse": "latest"  
   }
 }
