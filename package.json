@@ -5,10 +5,10 @@
     "test": "olsk-spec"
   },
   "devDependencies": {
-    "// SPEC": null,
+    "//": "SPEC",
     "OLSKSpec": "olsk/OLSKSpec",
 
-    "// MARKDOWN": null,
+    "//": "MARKDOWN",
     "unified": "latest",
     "remark-parse": "latest",
 
